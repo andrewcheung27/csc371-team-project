@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -50,6 +52,16 @@ public class PlayerMovement : MonoBehaviour
     public float slopeLimit = 50f; // Maximum angle (in degrees) that is considered walkable
     private List<Collision> collisions = new List<Collision>();
 
+    [Header("Object Interaction")]
+    public InputAction interactAction;
+    public float interactionSphereRadius = 0.8f;  // size of sphere to check for interactable objects
+    public float interactionDistance = 0.4f;  // sphere center's offset from origin
+
+    void Awake()
+    {
+        interactAction = InputSystem.actions.FindAction("Interact");
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -59,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleJump();
+        HandleInteractions();
     }
 
     void FixedUpdate()
@@ -355,4 +368,26 @@ public class PlayerMovement : MonoBehaviour
         isWallSliding = false;
     }
 
+    void HandleInteractions()
+    {
+        RaycastHit hit;
+
+        // if (Physics.CapsuleCast(start, end, interactionCapsuleRadius, Vector3.forward, out hit, interactionDistance))
+        if (Physics.SphereCast(transform.position, interactionSphereRadius, transform.forward, out hit, interactionDistance))
+        {
+            ButtonController buttonController;
+            if (hit.collider.gameObject.TryGetComponent<ButtonController>(out buttonController)) {
+                buttonController.SetActivatable();
+                if (interactAction.WasPressedThisFrame()) {
+                    buttonController.Activate();
+                }
+            }
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position + transform.forward * interactionDistance, interactionSphereRadius);
+    }
 }
