@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -50,6 +51,17 @@ public class PlayerMovement : MonoBehaviour
     public float slopeLimit = 50f; // Maximum angle (in degrees) that is considered walkable
     private List<Collision> collisions = new List<Collision>();
 
+    [Header("Object Interaction")]
+    public bool doObjectInteraction = false;  // toggle object interaction because it can be expensive
+    public InputAction interactAction;
+    public float interactionRadius = 0.5f;  // radius of sphere for interactions
+    public float interactionOffset = 0.5f;  // sphere offset from origin
+
+    void Awake()
+    {
+        interactAction = InputSystem.actions.FindAction("Interact");
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -59,6 +71,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleJump();
+
+        if (doObjectInteraction)
+        {
+            HandleInteractions();
+        }
     }
 
     void FixedUpdate()
@@ -355,4 +372,20 @@ public class PlayerMovement : MonoBehaviour
         isWallSliding = false;
     }
 
+    void HandleInteractions()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * interactionOffset), interactionRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            ButtonController buttonController;
+            if (hitCollider.gameObject.TryGetComponent<ButtonController>(out buttonController))
+            {
+                buttonController.SetActivatable();
+                if (interactAction.WasPressedThisFrame())
+                {
+                    buttonController.Activate();
+                }
+            }
+        }
+    }
 }
