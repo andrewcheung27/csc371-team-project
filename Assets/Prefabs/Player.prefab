@@ -172,13 +172,13 @@ MonoBehaviour:
   wallJumpHorizontalBoost: 10
   wallLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   isWallSliding: 0
   groundCheck: {fileID: 9021636119267571449}
   groundCheckRadius: 0.5
   groundMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 4294967295
   isGrounded: 0
   slopeLimit: 50
   doObjectInteraction: 0
