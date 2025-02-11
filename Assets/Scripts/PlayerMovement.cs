@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -53,9 +52,10 @@ public class PlayerMovement : MonoBehaviour
     private List<Collision> collisions = new List<Collision>();
 
     [Header("Object Interaction")]
+    public bool doObjectInteraction = false;  // toggle object interaction because it can be expensive
     public InputAction interactAction;
-    public float interactionSphereRadius = 0.8f;  // size of sphere to check for interactable objects
-    public float interactionDistance = 0.4f;  // sphere center's offset from origin
+    public float interactionRadius = 0.5f;  // radius of sphere for interactions
+    public float interactionOffset = 0.5f;  // sphere offset from origin
 
     void Awake()
     {
@@ -71,7 +71,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleJump();
-        HandleInteractions();
+
+        if (doObjectInteraction)
+        {
+            HandleInteractions();
+        }
     }
 
     void FixedUpdate()
@@ -370,24 +374,18 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleInteractions()
     {
-        RaycastHit hit;
-
-        // if (Physics.CapsuleCast(start, end, interactionCapsuleRadius, Vector3.forward, out hit, interactionDistance))
-        if (Physics.SphereCast(transform.position, interactionSphereRadius, transform.forward, out hit, interactionDistance))
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * interactionOffset), interactionRadius);
+        foreach (var hitCollider in hitColliders)
         {
             ButtonController buttonController;
-            if (hit.collider.gameObject.TryGetComponent<ButtonController>(out buttonController)) {
+            if (hitCollider.gameObject.TryGetComponent<ButtonController>(out buttonController))
+            {
                 buttonController.SetActivatable();
-                if (interactAction.WasPressedThisFrame()) {
+                if (interactAction.WasPressedThisFrame())
+                {
                     buttonController.Activate();
                 }
             }
         }
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position + transform.forward * interactionDistance, interactionSphereRadius);
     }
 }
