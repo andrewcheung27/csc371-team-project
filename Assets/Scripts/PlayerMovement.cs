@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Object Interaction")]
     public bool doObjectInteraction = false;  // toggle object interaction because it can be expensive
-    public InputAction interactAction;
+    private InputAction interactAction;
     public float interactionRadius = 0.5f;  // radius of sphere for interactions
     public float interactionOffset = 0.5f;  // sphere offset from origin
 
