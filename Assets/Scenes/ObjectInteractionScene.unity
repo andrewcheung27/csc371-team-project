@@ -1357,26 +1357,18 @@ MonoBehaviour:
   wallJumpHorizontalBoost: 10
   wallLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   isWallSliding: 0
   groundCheck: {fileID: 2121192383}
   groundCheckRadius: 0.5
   groundMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 4294967295
   isGrounded: 0
   slopeLimit: 50
-  interactAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e63c5590-8f88-4f4d-93e5-b6a70b86e426
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  interactionSphereRadius: 0.8
-  interactionDistance: 0.4
+  doObjectInteraction: 0
+  interactionRadius: 0.5
+  interactionOffset: 0.5
 --- !u!136 &620466264
 CapsuleCollider:
   m_ObjectHideFlags: 0
