@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
     public Button respawnButton;  // button to respawn player after dying
+
+    [Header ("Player Spawning")]
+    private GameObject player;
+    public GameObject playerPrefab;
+    public GameObject mainCamera;  // need this reference to make the camera follow the player after we spawn them in
+    public List<GameObject> spawnPoints;
+    public int spawnPointIndex = 0;  // current spawn point, as an index in list of spawnPoints
 
     void Awake()
     {
@@ -60,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void UpdateHealthText()
@@ -106,13 +114,23 @@ public class GameManager : MonoBehaviour
         // disable respawn button
         respawnButton.gameObject.SetActive(false);
 
-        // TODO: spawn player at starting location (or checkpoint)
+        // spawn player at current spawn point
+        player = Instantiate(playerPrefab, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
+        // make camera follow the player
+        mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = player.transform;
     }
 
     void EndGame()
     {
         // turn off Update()
         Time.timeScale = 0;
+
+        // remove camera's player to follow
+        mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = null;
+        // destroy player
+        if (player != null) {
+            Destroy(player);
+        }
 
         // show respawn button
         respawnButton.gameObject.SetActive(true);

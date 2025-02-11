@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform player;  // Reference to the player's transform
     public float distanceFromPlayerX = 20f;  // Fixed distance on the X-axis
@@ -12,6 +12,10 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+        if (player == null) {
+            return;
+        }
+
         // Calculate the target position to follow the player along the Z-axis, fixed on X and Y
         float targetX = player.position.x + distanceFromPlayerX;
         float targetY = player.position.y + heightAbovePlayer;  // Slightly above the player
