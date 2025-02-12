@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score.ToString();
     }
 
-    void AddToHealth(int n)
+    public void AddToHealth(int n)
     {
         // update health with min and max restrictions
         health = Mathf.Clamp(minHealth, health + n, maxHealth);

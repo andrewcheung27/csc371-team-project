@@ -11,7 +11,7 @@ public class HunterAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Attack(collision.gameObject);
+            Attack();
         }
     }
 
@@ -19,27 +19,27 @@ public class HunterAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && Time.time >= lastAttackTime + attackCooldown)
         {
-            Attack(collision.gameObject);
+            Attack();
         }
     }
 
-    void Attack(GameObject player)
+    void Attack()
     {
         lastAttackTime = Time.time;
 
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        if (playerHealth != null)
+        // Apply damage using GameManager
+        if (GameManager.instance != null)
         {
-            playerHealth.TakeDamage(damage);
-        
+            GameManager.instance.AddToHealth(-damage); // Reduce player health
+            //Debug.Log($"Hunter attacked player. New Health: {GameManager.instance.health}");
         }
         else
         {
-            Debug.LogError("No PlayerHealth script found on player!");
+            Debug.LogError("GameManager instance not found!");
         }
     }
-
 }
+
 
 // Make sure the enemy has a Collider with "Is Trigger" **disabled** (solid Collider)
 // Ensure the player has a Collider with "Is Trigger" **disabled**
