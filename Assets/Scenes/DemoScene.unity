@@ -1261,7 +1261,7 @@ MonoBehaviour:
   groundCheckRadius: 0.5
   groundMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   isGrounded: 0
   slopeLimit: 50
   doObjectInteraction: 0
