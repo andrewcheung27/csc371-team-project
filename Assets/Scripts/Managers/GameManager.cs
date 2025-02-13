@@ -25,11 +25,15 @@ public class GameManager : MonoBehaviour
     public Button respawnButton;  // button to respawn player after dying
 
     [Header ("Player Spawning")]
-    private GameObject player;
-    public GameObject playerPrefab;
-    public GameObject mainCamera;  // need this reference to make the camera follow the player after we spawn them in
+    public GameObject player;  // game object with PlayerMovement component
+    // private GameObject player;
+    // public GameObject playerPrefab;
+    // public GameObject mainCamera;  // need this reference to make the camera follow the player after we spawn them in
     public List<GameObject> spawnPoints;
     public int spawnPointIndex = 0;  // current spawn point, as an index in list of spawnPoints
+
+    [Header ("Boundaries")]
+    public float minHeightBeforeDeath = -16f;  // die when player is lower than this height
 
     void Awake()
     {
@@ -68,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-
+        CheckBoundaries();
     }
 
     void UpdateHealthText()
@@ -81,6 +85,12 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score.ToString();
     }
 
+    void KillPlayer()
+    {
+        score = Mathf.Max(score - deathPenalty, minScore);  // penalty for dying
+        EndGame();
+    }
+
     public void AddToHealth(int n)
     {
         // update health with min and max restrictions
@@ -91,9 +101,15 @@ public class GameManager : MonoBehaviour
 
         // end game if out of health
         if (health <= minHealth) {
-            score = Mathf.Max(score - deathPenalty, minScore);  // penalty for dying
-            EndGame();
+            KillPlayer();
             return;
+        }
+    }
+
+    void CheckBoundaries()
+    {
+        if (player.transform.position.y < minHeightBeforeDeath) {
+            KillPlayer();
         }
     }
 
@@ -115,9 +131,12 @@ public class GameManager : MonoBehaviour
         respawnButton.gameObject.SetActive(false);
 
         // spawn player at current spawn point
-        player = Instantiate(playerPrefab, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
-        // make camera follow the player
-        mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = player.transform;
+        player.transform.position = spawnPoints[spawnPointIndex].transform.position;
+
+        // // spawn player at current spawn point
+        // player = Instantiate(playerPrefab, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
+        // // make camera follow the player
+        // mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = player.transform;
     }
 
     void EndGame()
@@ -126,11 +145,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
 
         // remove camera's player to follow
-        mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = null;
-        // destroy player
-        if (player != null) {
-            Destroy(player);
-        }
+        // mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = null;
+        // // destroy player
+        // if (player != null) {
+        //     Destroy(player);
+        // }
 
         // show respawn button
         respawnButton.gameObject.SetActive(true);
