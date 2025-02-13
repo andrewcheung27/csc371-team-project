@@ -132,24 +132,12 @@ public class GameManager : MonoBehaviour
 
         // spawn player at current spawn point
         player.transform.position = spawnPoints[spawnPointIndex].transform.position;
-
-        // // spawn player at current spawn point
-        // player = Instantiate(playerPrefab, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
-        // // make camera follow the player
-        // mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = player.transform;
     }
 
     void EndGame()
     {
         // turn off Update()
         Time.timeScale = 0;
-
-        // remove camera's player to follow
-        // mainCamera.gameObject.GetComponent<ThirdPersonCamera>().player = null;
-        // // destroy player
-        // if (player != null) {
-        //     Destroy(player);
-        // }
 
         // show respawn button
         respawnButton.gameObject.SetActive(true);
