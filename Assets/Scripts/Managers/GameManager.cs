@@ -26,9 +26,6 @@ public class GameManager : MonoBehaviour
 
     [Header ("Player Spawning")]
     public GameObject player;  // game object with PlayerMovement component
-    // private GameObject player;
-    // public GameObject playerPrefab;
-    // public GameObject mainCamera;  // need this reference to make the camera follow the player after we spawn them in
     public List<GameObject> spawnPoints;
     public int spawnPointIndex = 0;  // current spawn point, as an index in list of spawnPoints
 
@@ -43,6 +40,7 @@ public class GameManager : MonoBehaviour
         }
         else {
             Destroy(gameObject);
+            return;
         }
 
         // enforce minimum health and score

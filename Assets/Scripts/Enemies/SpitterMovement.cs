@@ -3,6 +3,7 @@ using UnityEngine;
 public class SpitterMovement : MonoBehaviour
 {
     public Transform player; // Reference to the player
+    public bool canMove = false;
     public float moveSpeed = 3f; // Movement speed
     public float stopDistance = 5f; // Distance at which it stops moving
 
@@ -26,6 +27,8 @@ public class SpitterMovement : MonoBehaviour
     void Update()
     {
         if (player == null) return;
+
+        if (!canMove) return;
 
         // Calculate distance to player
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
