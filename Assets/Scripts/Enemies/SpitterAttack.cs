@@ -4,6 +4,8 @@ public class SpitterAttack : MonoBehaviour
 {
     public GameObject projectilePrefab; // Assign the projectile prefab in the Inspector
     public Transform firePoint; // Where the projectile will be spawned
+    public bool shootAtPlayer = false;  // whether to shoot at player or shoot at attackDirection
+    public Vector3 attackDirection;
     public float attackRange = 5f; // Maximum attack distance
     public float attackCooldown = 2f; // Time between attacks
     public float projectileSpeed = 20f; // Speed of the projectile
@@ -41,14 +43,20 @@ public class SpitterAttack : MonoBehaviour
         // Instantiate the projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
-        // Get direction to the player
-        Vector3 direction = (player.position - firePoint.position).normalized;
+        // Get direction to attack
+        Vector3 currentAttackDirection;
+        if (shootAtPlayer) {
+            currentAttackDirection = (player.position - firePoint.position).normalized;
+        }
+        else {
+            currentAttackDirection = attackDirection;
+        }
 
         // Assign velocity to projectile
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.linearVelocity = direction * projectileSpeed;
+            rb.linearVelocity = currentAttackDirection * projectileSpeed;
         }
 
     }
