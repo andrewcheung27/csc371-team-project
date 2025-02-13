@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5432252440510973222}
   - component: {fileID: 952301925865249869}
   - component: {fileID: -8640726567477325499}
+  - component: {fileID: 7099534924972204632}
   m_Layer: 0
   m_Name: Hunter
   m_TagString: Enemy
@@ -138,7 +139,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 2
   m_CollisionDetection: 0
 --- !u!114 &952301925865249869
 MonoBehaviour:
@@ -153,10 +154,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 2
-  dashSpeed: 20
+  moveSpeed: 150
+  dashSpeed: 500
   dashDuration: 0.5
   dashCooldown: 2
+  visionRange: 20
 --- !u!114 &-8640726567477325499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,3 +173,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   attackCooldown: 1.5
+--- !u!114 &7099534924972204632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3335486283827784095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31961efc5703b41bab2fca97d72d7a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  score: 300
