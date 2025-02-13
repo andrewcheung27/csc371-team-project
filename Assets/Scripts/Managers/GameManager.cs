@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [Header ("Game")]
     public static GameManager instance;
+    private bool gameRunning = false;
 
     [Header ("Health")]
     private int minHealth = 0;  // at this health or lower, game over
@@ -70,7 +72,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        CheckBoundaries();
+        if (gameRunning) {
+            CheckBoundaries();
+        }
     }
 
     void UpdateHealthText()
@@ -85,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     void KillPlayer()
     {
-        score = Mathf.Max(score - deathPenalty, minScore);  // penalty for dying
+        AddToScore(-1 * deathPenalty);  // penalty for dying
         EndGame();
     }
 
@@ -104,6 +108,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddToScore(int n) {
+        score = Mathf.Max(score + n, minScore);
+        UpdateScoreText();
+    }
+
     void CheckBoundaries()
     {
         if (player.transform.position.y < minHeightBeforeDeath) {
@@ -113,8 +122,9 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        // turn on Update() to start the game
+        // start the game
         Time.timeScale = 1;
+        gameRunning = true;
 
         // reset health for respawning
         health = startingHealth;
@@ -134,8 +144,9 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        // turn off Update()
+        // stop game
         Time.timeScale = 0;
+        gameRunning = false;
 
         // show respawn button
         respawnButton.gameObject.SetActive(true);
