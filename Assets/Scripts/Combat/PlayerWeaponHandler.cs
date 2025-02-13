@@ -5,11 +5,15 @@ using UnityEngine.InputSystem;
 public class PlayerWeaponHandler : MonoBehaviour
 {
     public Transform weaponHolder; // Empty GameObject where weapon will be attached
+    public float shootingCooldown = 0.5f; // Time between shots
     private Weapon currentWeapon;
     private bool hasWeapon = false;
     private bool isAiming = false;
     private Vector3 lastMoveDirection = Vector3.forward; // Direction player last moved in
     private PlayerMovement playerMovement;
+    private float shootingTimer = 0f;
+    private float moveDirection;
+
 
     void Start()
     {
@@ -26,6 +30,14 @@ public class PlayerWeaponHandler : MonoBehaviour
         }
 
         CheckAimingInput();
+        if (shootingTimer > 0) shootingTimer -= Time.deltaTime;
+
+        moveDirection = Input.GetAxis("Horizontal");
+
+        if (Mathf.Abs(moveDirection) > 0.1f)
+        {
+            lastMoveDirection = new Vector3(0, 0, Mathf.Sign(moveDirection));
+        }
     }
 
     public void PickUpWeapon(GameObject weaponPrefab)
@@ -59,10 +71,11 @@ public class PlayerWeaponHandler : MonoBehaviour
 
     void HandleShooting()
     {
-        if (Input.GetMouseButtonDown(0)) // Fire when attack button is pressed
+        if (shootingTimer <= 0f && Input.GetMouseButtonDown(0)) // Fire when attack button is pressed
         {
             Vector3 shootDirection = GetShootDirection();
             currentWeapon.Shoot(shootDirection);
+            shootingTimer = shootingCooldown;
         }
     }
 
@@ -87,13 +100,6 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
         Vector3 direction = Vector3.zero;
 
-        // Check if the player is moving
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
-        {
-            direction = new Vector3(0, 0, Mathf.Sign(Input.GetAxis("Horizontal"))); // Move along Z-axis
-            lastMoveDirection = direction; // Update last move direction
-        }
-
         // If aiming, fire towards mouse direction
         if (isAiming)
         {
@@ -117,7 +123,6 @@ public class PlayerWeaponHandler : MonoBehaviour
 
     void MoveGunAroundPlayer()
     {
-        float moveDirection = Input.GetAxis("Horizontal"); // Get player's movement direction
 
         // If player is moving, force the gun to stay in front or behind
         if (Mathf.Abs(moveDirection) > 0.1f) // Threshold to prevent jittering
@@ -168,6 +173,17 @@ public class PlayerWeaponHandler : MonoBehaviour
         {
             isAiming = false;
             if (playerMovement != null) playerMovement.enabled = true; // Re-enable movement after aiming
+
+            Vector3 weaponForward = weaponHolder.forward;
+            float zComponent = weaponForward.z;
+            Vector3 snapDirection = zComponent > 0 ? Vector3.forward : Vector3.back;
+
+            // Snap weapon to the closest Z direction
+            weaponHolder.rotation = Quaternion.LookRotation(snapDirection);
+            Vector3 forcedWeaponPosition = transform.position + new Vector3(0, 0, snapDirection.z * 1.5f);
+            weaponHolder.position = forcedWeaponPosition;
+
+            lastMoveDirection = snapDirection;
         }
     }
 }
