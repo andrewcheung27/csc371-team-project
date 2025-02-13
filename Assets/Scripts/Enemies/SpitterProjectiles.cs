@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpitterProjectile : MonoBehaviour
 {
-    public int damage = 2; // Damage per hit
+    public int damage = 1; // Adjusted damage per hit to 1
     public float destroyAfterSeconds = 5f; // Destroy projectile after time
     private bool hasHit = false; // Prevents multiple hits
 
@@ -17,18 +17,25 @@ public class SpitterProjectile : MonoBehaviour
         {
             hasHit = true; // Prevents multiple trigger calls
 
-            // Disable the Collider so it can't register more triggers
-            GetComponent<Collider>().enabled = false;
-
-            // Apply damage
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            // Disable Collider immediately to prevent additional triggers
+            Collider projectileCollider = GetComponent<Collider>();
+            if (projectileCollider != null)
             {
-                playerHealth.TakeDamage(damage);
-                Debug.Log("Player hit by SpitterProjectile.");
+                projectileCollider.enabled = false;
             }
 
-            // Schedule the projectile to be destroyed very soon
+            // Apply damage using GameManager
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.AddToHealth(-damage); // Reduce health
+                //Debug.Log($"Player hit by SpitterProjectile. New Health: {GameManager.instance.health}");
+            }
+            else
+            {
+                //Debug.LogError("GameManager instance not found!");
+            }
+
+            // Destroy projectile shortly after impact
             Invoke(nameof(DestroyProjectile), 0.01f);
         }
     }
@@ -38,5 +45,6 @@ public class SpitterProjectile : MonoBehaviour
         Destroy(gameObject);
     }
 }
+
 
 // Having issue where player takes 2 damage instead of 1 with projectiles
