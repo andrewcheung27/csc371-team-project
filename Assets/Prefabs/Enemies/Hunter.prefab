@@ -154,8 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 2
-  dashSpeed: 20
+  moveSpeed: 150
+  dashSpeed: 500
   dashDuration: 0.5
   dashCooldown: 2
   visionRange: 20

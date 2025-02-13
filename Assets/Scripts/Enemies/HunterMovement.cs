@@ -11,6 +11,7 @@ public class HunterMovement : MonoBehaviour
     public float visionRange = 20f;  // how close the player must be to move towards the player
 
     private bool isDashing = false;
+    private Rigidbody rb;
 
     void Start()
     {
@@ -20,11 +21,13 @@ public class HunterMovement : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
+        rb = GetComponent<Rigidbody>();
+
         // Start the dash loop
         StartCoroutine(DashRoutine());
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (player == null) return;
 
@@ -46,9 +49,16 @@ public class HunterMovement : MonoBehaviour
             return;
         }
 
+        // move towards player
         Vector3 direction = hunterToPlayer.normalized;
-        float currentSpeed = isDashing ? dashSpeed : moveSpeed;
-        transform.position += direction * currentSpeed * Time.deltaTime;
+        float yVelocity = rb.linearVelocity.y;  // save y velocity so we don't change it
+        rb.linearVelocity = new Vector3(direction.x, 0f, direction.z) * moveSpeed * Time.fixedDeltaTime;
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, yVelocity, rb.linearVelocity.z);
+
+        // do dash ability by adding force
+        if (isDashing) {
+            rb.AddForce(new Vector3(direction.x, 0f, direction.z) * dashSpeed);
+        }
 
         // Rotate to face the player
         transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
