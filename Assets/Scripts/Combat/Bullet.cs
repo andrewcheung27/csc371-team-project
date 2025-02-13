@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int damage = 2;
     private Vector3 moveDirection;
     private float speed;
 
@@ -20,6 +21,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Enemy")) {
+            if (other.gameObject.TryGetComponent(out EnemyHealth enemyHealth)) {
+                enemyHealth.AddToHealth(-1 * damage);
+            }
+        }
         Destroy(gameObject); // Destroy bullet on collision
     }
 }
