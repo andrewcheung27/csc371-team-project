@@ -7,17 +7,21 @@ public class SpitterMovement : MonoBehaviour
     public float stopDistance = 5f; // Distance at which it stops moving
 
     void Start()
+{
+    if (player == null)
     {
-        // Find the player in the scene
-        if (player == null)
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                player = playerObj.transform;
-            }
+            player = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("SpitterMovement: No GameObject with tag 'Player' found in scene!");
         }
     }
+}
+
 
     void Update()
     {
