@@ -26,7 +26,11 @@ public class Bullet : MonoBehaviour
                 enemyHealth.AddToHealth(-1 * damage);
             }
         }
-        Destroy(gameObject); // Destroy bullet on collision
+
+        // Destroy bullet on collision, unless it collides with the gun
+        if (!other.gameObject.CompareTag("Gun")) {
+            Destroy(gameObject);
+        }
     }
 }
 
