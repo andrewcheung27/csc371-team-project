@@ -12,33 +12,25 @@ public class SpitterProjectile : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
+{
+    // Check if the projectile hit an object tagged "Player"
+    if (!hasHit && other.CompareTag("Player"))
     {
-        if (!hasHit && other.CompareTag("Player"))
+        hasHit = true; // Prevent multiple trigger calls
+
+        // Apply damage using GameManager
+        if (GameManager.instance != null)
         {
-            hasHit = true; // Prevents multiple trigger calls
-
-            // Disable Collider immediately to prevent additional triggers
-            Collider projectileCollider = GetComponent<Collider>();
-            if (projectileCollider != null)
-            {
-                projectileCollider.enabled = false;
-            }
-
-            // Apply damage using GameManager
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.AddToHealth(-damage); // Reduce health
-                //Debug.Log($"Player hit by SpitterProjectile. New Health: {GameManager.instance.health}");
-            }
-            else
-            {
-                //Debug.LogError("GameManager instance not found!");
-            }
-
-            // Destroy projectile shortly after impact
-            Invoke(nameof(DestroyProjectile), 0.01f);
+            GameManager.instance.AddToHealth(-damage); // Reduce health
+            Debug.Log($"Player hit by SpitterProjectile. New Health: {GameManager.instance.health}");
         }
+
+        // Destroy the projectile immediately
+        Destroy(gameObject);
     }
+}
+
+
 
     private void DestroyProjectile()
     {
