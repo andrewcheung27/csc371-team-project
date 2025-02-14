@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
     public Button respawnButton;  // button to respawn player after dying
+    public GameObject damageEffect;  // UI Panel that shows when player takes damage
+    public float damageEffectDuration = 0.5f;  // how long damage effect lasts
 
     [Header ("Player Spawning")]
     public GameObject player;  // game object with PlayerMovement component
@@ -106,6 +108,11 @@ public class GameManager : MonoBehaviour
             KillPlayer();
             return;
         }
+
+        // damage effect
+        if (n < 0) {
+            StartCoroutine(DamageEffectRoutine());
+        }
     }
 
     public void AddToScore(int n) {
@@ -150,5 +157,18 @@ public class GameManager : MonoBehaviour
 
         // show respawn button
         respawnButton.gameObject.SetActive(true);
+    }
+
+    IEnumerator<WaitForSeconds> DamageEffectRoutine()
+    {
+        if (damageEffect != null) {
+            damageEffect.gameObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(damageEffectDuration);
+
+        if (damageEffect != null) {
+            damageEffect.gameObject.SetActive(false);
+        }
     }
 }
