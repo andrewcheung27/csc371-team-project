@@ -4,6 +4,7 @@ public class HunterAttack : MonoBehaviour
 {
     public int damage = 1; // Damage per hit
     public float attackCooldown = 1.5f; // Time between attacks
+    public float movePauseAfterAttack = 1.0f;
 
     private float lastAttackTime = 0f;
 
@@ -30,8 +31,13 @@ public class HunterAttack : MonoBehaviour
         // Apply damage using GameManager
         if (GameManager.instance != null)
         {
-            GameManager.instance.AddToHealth(-damage); // Reduce player health
-            //Debug.Log($"Hunter attacked player. New Health: {GameManager.instance.health}");
+            // Reduce player health
+            GameManager.instance.AddToHealth(-damage);
+
+            // pause movement after attacking
+            if (TryGetComponent(out HunterMovement hunterMovement)) {
+                hunterMovement.PauseMovement(movePauseAfterAttack);
+            }
         }
         else
         {

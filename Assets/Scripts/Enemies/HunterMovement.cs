@@ -13,6 +13,7 @@ public class HunterMovement : MonoBehaviour
     public float dashDuration = .5f; // How long the dash lasts
     public float dashCooldown = 2f; // Time between dashes
     private bool isDashing = false;
+    private bool canMove = true;
 
     [Header ("Other Options")]
     public float visionRange = 20f;  // how close the player must be to move towards the player
@@ -53,6 +54,11 @@ public class HunterMovement : MonoBehaviour
 
     void MoveTowardsPlayer()
     {
+        if (!canMove) {
+            return;
+        }
+
+        // must be within movement boundaries
         if (!(zBoundaryMin <= player.transform.position.z 
             && player.transform.position.z <= zBoundaryMax 
             && yBoundaryMin <= player.transform.position.y
@@ -97,5 +103,18 @@ public class HunterMovement : MonoBehaviour
             yield return new WaitForSeconds(dashDuration); // Dash duration
             isDashing = false;
         }
+    }
+
+    // pause movement for some number of seconds
+    IEnumerator PauseMovementRoutine(float seconds)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(seconds);
+        canMove = true;
+    }
+
+    // public method for PauseMovementRoutine()
+    public void PauseMovement(float seconds) {
+        StartCoroutine(PauseMovementRoutine(seconds));
     }
 }
