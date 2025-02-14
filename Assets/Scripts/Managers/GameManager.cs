@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // make sure there is only one GameManager instance
+        // this is a singleton class
         if (instance == null) {
             instance = this;
         }
@@ -58,11 +58,10 @@ public class GameManager : MonoBehaviour
         // save starting health for respawn
         startingHealth = health;
 
-        // turn off Update() for title screen
-        Time.timeScale = 0;
-
         // respawn button listener
-        respawnButton.onClick.AddListener(StartGame);
+        if (respawnButton != null) {
+            respawnButton.onClick.AddListener(StartGame);
+        }
     }
 
     void Start()
@@ -81,12 +80,16 @@ public class GameManager : MonoBehaviour
 
     void UpdateHealthText()
     {
-        healthText.text = "Health: " + health.ToString();
+        if (healthText != null) {
+            healthText.text = "Health: " + health.ToString();
+        }
     }
 
     void UpdateScoreText()
     {
-        scoreText.text = "Score: " + score.ToString();
+        if (scoreText != null) {
+            scoreText.text = "Score: " + score.ToString();
+        }
     }
 
     void KillPlayer()
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     void CheckBoundaries()
     {
-        if (player.transform.position.y < minHeightBeforeDeath) {
+        if (player != null && player.transform.position.y < minHeightBeforeDeath) {
             KillPlayer();
         }
     }
@@ -137,16 +140,24 @@ public class GameManager : MonoBehaviour
         health = startingHealth;
 
         // health and score UI elements
-        UpdateHealthText();
-        UpdateScoreText();
-        healthText.gameObject.SetActive(true);
-        scoreText.gameObject.SetActive(true);
+        if (healthText != null) {
+            UpdateHealthText();
+            healthText.gameObject.SetActive(true);
+        }
+        if (scoreText != null) {
+            UpdateScoreText();
+            scoreText.gameObject.SetActive(true);
+        }
 
         // disable respawn button
-        respawnButton.gameObject.SetActive(false);
+        if (respawnButton != null) {
+            respawnButton.gameObject.SetActive(false);
+        }
 
         // spawn player at current spawn point
-        player.transform.position = spawnPoints[spawnPointIndex].transform.position;
+        if (player != null) {
+            player.transform.position = spawnPoints[spawnPointIndex].transform.position;
+        }
     }
 
     void EndGame()
@@ -156,7 +167,9 @@ public class GameManager : MonoBehaviour
         gameRunning = false;
 
         // show respawn button
-        respawnButton.gameObject.SetActive(true);
+        if (respawnButton != null) {
+            respawnButton.gameObject.SetActive(true);
+        }
     }
 
     IEnumerator<WaitForSeconds> DamageEffectRoutine()
