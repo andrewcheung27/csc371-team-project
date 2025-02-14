@@ -1,17 +1,34 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class HunterMovement : MonoBehaviour
 {
     public GameObject player; // Reference to the player
+    private Rigidbody rb;
+
+    [Header ("Movement")]
     public float moveSpeed = 2f; // Normal movement speed
     public float dashSpeed = 20f; // Speed during dash
     public float dashDuration = .5f; // How long the dash lasts
     public float dashCooldown = 2f; // Time between dashes
-    public float visionRange = 20f;  // how close the player must be to move towards the player
-
     private bool isDashing = false;
-    private Rigidbody rb;
+
+    [Header ("Other Options")]
+    public float visionRange = 20f;  // how close the player must be to move towards the player
+    // can't move if player is beyond these boundaries on z axis
+    public float zBoundaryMin = Mathf.NegativeInfinity;
+    public float zBoundaryMax = Mathf.Infinity;
+    // can't move if player is beyond these boundaries on y axis
+    public float yBoundaryMin = Mathf.NegativeInfinity;
+    public float yBoundaryMax = Mathf.Infinity;
+
+    void Awake()
+    {
+        if (zBoundaryMin > zBoundaryMax || yBoundaryMin > yBoundaryMax) {
+            throw new Exception("Boundary min values must not be greater than max values");
+        }
+    }
 
     void Start()
     {
@@ -36,6 +53,13 @@ public class HunterMovement : MonoBehaviour
 
     void MoveTowardsPlayer()
     {
+        if (!(zBoundaryMin <= player.transform.position.z 
+            && player.transform.position.z <= zBoundaryMax 
+            && yBoundaryMin <= player.transform.position.y
+            && player.transform.position.y <= yBoundaryMax)) {
+                return;
+        }
+
         Vector3 hunterToPlayer = player.transform.position - transform.position;
 
         // raycast towards player
