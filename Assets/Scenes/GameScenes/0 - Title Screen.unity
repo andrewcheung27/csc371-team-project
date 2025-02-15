@@ -682,6 +682,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6998207511161948417, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: nextSceneName
+      value: 1 - Freezer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6998207511161948417, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: startGameButton
       value: 
       objectReference: {fileID: 666548118}

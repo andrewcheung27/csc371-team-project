@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     [Header ("Player Spawning")]
     public GameObject player;  // game object with PlayerMovement component
-    public List<GameObject> spawnPoints;
+    public List<Transform> spawnPoints;
     public int spawnPointIndex = 0;  // current spawn point, as an index in list of spawnPoints
 
     [Header ("Boundaries")]
@@ -156,7 +156,13 @@ public class GameManager : MonoBehaviour
 
         // spawn player at current spawn point
         if (player != null) {
+            // set position
             player.transform.position = spawnPoints[spawnPointIndex].transform.position;
+
+            // reset velocity
+            if (player.TryGetComponent(out Rigidbody rb)) {
+                rb.linearVelocity = Vector3.zero;
+            }
         }
     }
 
@@ -182,6 +188,14 @@ public class GameManager : MonoBehaviour
 
         if (damageEffect != null) {
             damageEffect.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetSpawnPoint(Transform newSpawnPoint) {
+        // add a spawn point to the end of the list and set it as the current spawn point
+        if (spawnPoints[spawnPoints.Count - 1] != newSpawnPoint) {
+            spawnPoints.Add(newSpawnPoint);
+            spawnPointIndex = spawnPoints.Count - 1;
         }
     }
 }
