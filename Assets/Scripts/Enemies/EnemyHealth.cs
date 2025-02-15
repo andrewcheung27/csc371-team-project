@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     public void AddToHealth(int n) {
         health += n;
 
-        if (health < minHealth) {
+        if (health <= minHealth) {
             Die();
         }
     }
