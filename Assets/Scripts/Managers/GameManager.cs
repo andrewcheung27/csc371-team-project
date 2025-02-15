@@ -25,10 +25,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
     public Button respawnButton;  // button to respawn player after dying
+    public GameObject damageEffect;  // UI Panel that shows when player takes damage
+    public float damageEffectDuration = 0.5f;  // how long damage effect lasts
 
     [Header ("Player Spawning")]
     public GameObject player;  // game object with PlayerMovement component
-    public List<GameObject> spawnPoints;
+    public List<Transform> spawnPoints;
     public int spawnPointIndex = 0;  // current spawn point, as an index in list of spawnPoints
 
     [Header ("Boundaries")]
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // make sure there is only one GameManager instance
+        // this is a singleton class
         if (instance == null) {
             instance = this;
         }
@@ -56,11 +58,10 @@ public class GameManager : MonoBehaviour
         // save starting health for respawn
         startingHealth = health;
 
-        // turn off Update() for title screen
-        Time.timeScale = 0;
-
         // respawn button listener
-        respawnButton.onClick.AddListener(StartGame);
+        if (respawnButton != null) {
+            respawnButton.onClick.AddListener(StartGame);
+        }
     }
 
     void Start()
@@ -79,12 +80,16 @@ public class GameManager : MonoBehaviour
 
     void UpdateHealthText()
     {
-        healthText.text = "Health: " + health.ToString();
+        if (healthText != null) {
+            healthText.text = "Health: " + health.ToString();
+        }
     }
 
     void UpdateScoreText()
     {
-        scoreText.text = "Score: " + score.ToString();
+        if (scoreText != null) {
+            scoreText.text = "Score: " + score.ToString();
+        }
     }
 
     void KillPlayer()
@@ -106,6 +111,11 @@ public class GameManager : MonoBehaviour
             KillPlayer();
             return;
         }
+
+        // damage effect
+        if (n < 0) {
+            StartCoroutine(DamageEffectRoutine());
+        }
     }
 
     public void AddToScore(int n) {
@@ -115,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     void CheckBoundaries()
     {
-        if (player.transform.position.y < minHeightBeforeDeath) {
+        if (player != null && player.transform.position.y < minHeightBeforeDeath) {
             KillPlayer();
         }
     }
@@ -130,16 +140,30 @@ public class GameManager : MonoBehaviour
         health = startingHealth;
 
         // health and score UI elements
-        UpdateHealthText();
-        UpdateScoreText();
-        healthText.gameObject.SetActive(true);
-        scoreText.gameObject.SetActive(true);
+        if (healthText != null) {
+            UpdateHealthText();
+            healthText.gameObject.SetActive(true);
+        }
+        if (scoreText != null) {
+            UpdateScoreText();
+            scoreText.gameObject.SetActive(true);
+        }
 
         // disable respawn button
-        respawnButton.gameObject.SetActive(false);
+        if (respawnButton != null) {
+            respawnButton.gameObject.SetActive(false);
+        }
 
         // spawn player at current spawn point
-        player.transform.position = spawnPoints[spawnPointIndex].transform.position;
+        if (player != null) {
+            // set position
+            player.transform.position = spawnPoints[spawnPointIndex].transform.position;
+
+            // reset velocity
+            if (player.TryGetComponent(out Rigidbody rb)) {
+                rb.linearVelocity = Vector3.zero;
+            }
+        }
     }
 
     void EndGame()
@@ -149,6 +173,29 @@ public class GameManager : MonoBehaviour
         gameRunning = false;
 
         // show respawn button
-        respawnButton.gameObject.SetActive(true);
+        if (respawnButton != null) {
+            respawnButton.gameObject.SetActive(true);
+        }
+    }
+
+    IEnumerator<WaitForSeconds> DamageEffectRoutine()
+    {
+        if (damageEffect != null) {
+            damageEffect.gameObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(damageEffectDuration);
+
+        if (damageEffect != null) {
+            damageEffect.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetSpawnPoint(Transform newSpawnPoint) {
+        // add a spawn point to the end of the list and set it as the current spawn point
+        if (spawnPoints[spawnPoints.Count - 1] != newSpawnPoint) {
+            spawnPoints.Add(newSpawnPoint);
+            spawnPointIndex = spawnPoints.Count - 1;
+        }
     }
 }

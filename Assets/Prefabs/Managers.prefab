@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3954012340085735668}
   - component: {fileID: -601480403009586158}
+  - component: {fileID: 6998207511161948417}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -44,3 +45,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d159b7dbde9435188ab6db0e4a75e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 3
+  maxHealth: 3
+  score: 0
+  deathPenalty: 100
+  healthText: {fileID: 0}
+  scoreText: {fileID: 0}
+  respawnButton: {fileID: 0}
+  damageEffect: {fileID: 0}
+  damageEffectDuration: 0.5
+  player: {fileID: 0}
+  spawnPoints: []
+  spawnPointIndex: 0
+  minHeightBeforeDeath: -16
+--- !u!114 &6998207511161948417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205422591119166137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0efe9e89b0443fa90ed7aecd22bf41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startGameButton: {fileID: 0}

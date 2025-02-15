@@ -27,8 +27,8 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        // Destroy bullet on collision, unless it collides with the gun
-        if (!other.gameObject.CompareTag("Gun")) {
+        // destroy this object if it hit an Enemy or Wall
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Wall")) {
             Destroy(gameObject);
         }
     }

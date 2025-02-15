@@ -19,6 +19,7 @@ public class EnemyManager : MonoBehaviour
 
     void Awake()
     {
+        // this is a singleton class
         if (instance == null)
         {
             instance = this;
@@ -26,6 +27,7 @@ public class EnemyManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
