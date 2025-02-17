@@ -79,3 +79,6 @@ crashlytics-build.properties
 
 # Visual Studio Code cache directory
 .vscode/
+
+# icloud files
+*.icloud
