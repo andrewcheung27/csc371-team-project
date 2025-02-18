@@ -4,7 +4,6 @@ public class HunterAttack : MonoBehaviour
 {
     public int damage = 1; // Damage per hit
     public float attackCooldown = 1.5f; // Time between attacks
-
     private float lastAttackTime = 0f;
 
     private void OnCollisionEnter(Collision collision) // Attacks when first colliding with the player

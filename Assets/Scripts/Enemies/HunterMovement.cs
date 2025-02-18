@@ -1,33 +1,34 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 
 public class HunterMovement : MonoBehaviour
 {
     public GameObject player; // Reference to the player
-    public float moveSpeed = 2f; // Normal movement speed
-    public float dashSpeed = 20f; // Speed during dash
-    public float dashDuration = .5f; // How long the dash lasts
-    public float dashCooldown = 2f; // Time between dashes
-    public float visionRange = 20f;  // how close the player must be to move towards the player
+    public float moveSpeed = 3.5f;
+    public float dashSpeed = 10f;
+    public float dashDuration = 0.5f;
+    public float dashCooldown = 2f;
+    public float visionRange = 20f;
 
     private bool isDashing = false;
-    private Rigidbody rb;
+    private NavMeshAgent navMeshAgent;
 
     void Start()
     {
-        // Find the player in the scene (assuming the player has the tag "Player")
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
-        rb = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.speed = moveSpeed;
+        navMeshAgent.stoppingDistance = 0f;
 
-        // Start the dash loop
         StartCoroutine(DashRoutine());
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (player == null) return;
 
@@ -36,41 +37,48 @@ public class HunterMovement : MonoBehaviour
 
     void MoveTowardsPlayer()
     {
-        Vector3 hunterToPlayer = player.transform.position - transform.position;
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        float distanceToPlayer = directionToPlayer.magnitude;
 
-        // raycast towards player
-        if (!Physics.Raycast(transform.position, hunterToPlayer, out RaycastHit hit, visionRange)) {
+        // Check if player is within vision range
+        if (distanceToPlayer > visionRange)
+        {
+            navMeshAgent.ResetPath();
             return;
         }
 
-        // don't move if raycast hits a wall
-        // TODO: maybe need to change this to checking if raycast doesn't hit Player or Gun
-        if (hit.collider.gameObject.CompareTag("Wall")) {
+        // Perform raycast to check line of sight
+        if (Physics.Raycast(transform.position + Vector3.up * 1f, directionToPlayer.normalized, out RaycastHit hit, visionRange))
+        {
+            // Check if the ray hits the player
+            if (hit.collider.gameObject != player)
+            {
+                // Something is blocking vision (e.g., a wall), so stop pursuing
+                navMeshAgent.ResetPath();
+                return;
+            }
+        }
+        else
+        {
+            // If nothing was hit, treat it as a blocked path (optional safeguard)
+            navMeshAgent.ResetPath();
             return;
         }
 
-        // move towards player
-        Vector3 direction = hunterToPlayer.normalized;
-        float yVelocity = rb.linearVelocity.y;  // save y velocity so we don't change it
-        rb.linearVelocity = new Vector3(direction.x, 0f, direction.z) * moveSpeed * Time.fixedDeltaTime;
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, yVelocity, rb.linearVelocity.z);
+        // If vision is clear, pursue the player
+        navMeshAgent.SetDestination(player.transform.position);
 
-        // do dash ability by adding force
-        if (isDashing) {
-            rb.AddForce(new Vector3(direction.x, 0f, direction.z) * dashSpeed);
-        }
-
-        // Rotate to face the player
-        transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
+        // Adjust speed if dashing
+        navMeshAgent.speed = isDashing ? dashSpeed : moveSpeed;
     }
 
     IEnumerator DashRoutine()
     {
         while (true)
         {
-            yield return new WaitForSeconds(dashCooldown); // Wait before dashing
+            yield return new WaitForSeconds(dashCooldown);
             isDashing = true;
-            yield return new WaitForSeconds(dashDuration); // Dash duration
+            yield return new WaitForSeconds(dashDuration);
             isDashing = false;
         }
     }
