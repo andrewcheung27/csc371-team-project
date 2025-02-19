@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 952301925865249869}
   - component: {fileID: -8640726567477325499}
   - component: {fileID: 7099534924972204632}
+  - component: {fileID: 8941174655876997702}
   m_Layer: 0
   m_Name: Hunter
   m_TagString: Enemy
@@ -154,11 +155,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 150
+  moveSpeed: 10
   dashSpeed: 500
   dashDuration: 0.5
   dashCooldown: 2
   visionRange: 20
+  zBoundaryMin: -Infinity
+  zBoundaryMax: Infinity
+  yBoundaryMin: -Infinity
+  yBoundaryMax: Infinity
 --- !u!114 &-8640726567477325499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   attackCooldown: 1.5
+  movePauseAfterAttack: 1
 --- !u!114 &7099534924972204632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +193,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   score: 300
+--- !u!195 &8941174655876997702
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3335486283827784095}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
