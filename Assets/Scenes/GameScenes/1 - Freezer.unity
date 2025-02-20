@@ -3596,7 +3596,7 @@ PrefabInstance:
       objectReference: {fileID: 5315317968808627307}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: spawnPointIndex
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: spawnPoints.Array.size
@@ -4340,6 +4340,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ground (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 5829634651801724332, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: e2f6cd4c0161849009cc833fb0683c31, type: 2}
     - target: {fileID: 6277289926554958064, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_LocalScale.z
       value: 30
