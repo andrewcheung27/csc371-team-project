@@ -106,15 +106,15 @@ public class GameManager : MonoBehaviour
         // update UI
         UpdateHealthText();
 
+        // damage effect
+        if (n < 0) {
+            StartCoroutine(DamageEffectRoutine());
+        }
+
         // end game if out of health
         if (health <= minHealth) {
             KillPlayer();
             return;
-        }
-
-        // damage effect
-        if (n < 0) {
-            StartCoroutine(DamageEffectRoutine());
         }
     }
 
@@ -152,6 +152,11 @@ public class GameManager : MonoBehaviour
         // disable respawn button
         if (respawnButton != null) {
             respawnButton.gameObject.SetActive(false);
+        }
+
+        // disable damage effect
+        if (damageEffect != null) {
+            damageEffect.gameObject.SetActive(false);
         }
 
         // spawn player at current spawn point
