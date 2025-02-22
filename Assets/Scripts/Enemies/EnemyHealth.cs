@@ -20,6 +20,8 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         GameManager.instance.AddToScore(score);
+        GameManager.instance.ShowScorePopup(transform.position, score);
+
         Destroy(gameObject);
     }
 }
