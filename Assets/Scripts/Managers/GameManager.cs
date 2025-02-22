@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     private int minScore = 0;  // can't go below this score
     public int score = 0;  // current score
     public int deathPenalty = 100;  // how many points you lose for dying
+    public GameObject scorePopUpPrefab;  // prefab for a Canvas with a TextMeshProUGUI child to show points when an enemy is killed
+    public float scorePopUpDuration = 2f;  // how many seconds until score pop up disappears
 
     [Header ("Timer")]
     private float timer = 0;
@@ -135,6 +137,20 @@ public class GameManager : MonoBehaviour
             KillPlayer();
             return;
         }
+    }
+
+    // show a message like "+100" for a certain amount of time.
+    // based on: https://www.youtube.com/watch?v=KOt85IoD__4
+    public void ShowScorePopup(Vector3 position, int amount)
+    {
+        // instantiate and set text
+        GameObject popup = Instantiate(scorePopUpPrefab, position, Quaternion.identity);
+        if (popup.transform.GetChild(0).TryGetComponent(out TextMeshProUGUI popupText)) {
+            popupText.text = "+" + amount.ToString();
+        }
+
+        // destroy pop-up after a certain amount of time
+        Destroy(popup, scorePopUpDuration);
     }
 
     public void AddToScore(int n) {
