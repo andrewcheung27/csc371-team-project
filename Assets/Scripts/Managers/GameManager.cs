@@ -21,9 +21,13 @@ public class GameManager : MonoBehaviour
     public int score = 0;  // current score
     public int deathPenalty = 100;  // how many points you lose for dying
 
+    [Header ("Timer")]
+    private float timer = 0;
+
     [Header ("UI")]
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
     public Button respawnButton;  // button to respawn player after dying
     public GameObject damageEffect;  // UI Panel that shows when player takes damage
     public float damageEffectDuration = 0.5f;  // how long damage effect lasts
@@ -75,6 +79,8 @@ public class GameManager : MonoBehaviour
     {
         if (gameRunning) {
             CheckBoundaries();
+
+            UpdateTimer();
         }
     }
 
@@ -90,6 +96,19 @@ public class GameManager : MonoBehaviour
         if (scoreText != null) {
             scoreText.text = "Score: " + score.ToString();
         }
+    }
+
+    void UpdateTimerText()
+    {
+        if (timerText != null) {
+            timerText.text = Mathf.Floor(timer).ToString();
+        }
+    }
+
+    void UpdateTimer()
+    {
+        timer += Time.deltaTime;
+        UpdateTimerText();
     }
 
     void KillPlayer()
@@ -139,7 +158,7 @@ public class GameManager : MonoBehaviour
         // reset health for respawning
         health = startingHealth;
 
-        // health and score UI elements
+        // UI elements
         if (healthText != null) {
             UpdateHealthText();
             healthText.gameObject.SetActive(true);
@@ -147,6 +166,10 @@ public class GameManager : MonoBehaviour
         if (scoreText != null) {
             UpdateScoreText();
             scoreText.gameObject.SetActive(true);
+        }
+        if (timerText != null) {
+            UpdateTimerText();
+            timerText.gameObject.SetActive(true);
         }
 
         // disable respawn button
