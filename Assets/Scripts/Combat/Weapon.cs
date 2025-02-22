@@ -14,5 +14,7 @@ public class Weapon : MonoBehaviour
         {
             bulletScript.SetDirection(direction, bulletSpeed);
         }
+
+        AudioManager.instance.PlayerShoot();
     }
 }
