@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6375419660769712558}
   - component: {fileID: 1257253058090086344}
   - component: {fileID: 9124216888853268018}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpitterStationary
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1545129915372680688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
