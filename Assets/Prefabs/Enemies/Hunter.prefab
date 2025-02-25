@@ -154,16 +154,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee76c1648e3d45e3be10154d29f63ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  moveSpeed: 10
-  dashSpeed: 500
-  dashDuration: 0.5
-  dashCooldown: 2
-  visionRange: 20
-  zBoundaryMin: -Infinity
-  zBoundaryMax: Infinity
-  yBoundaryMin: -Infinity
-  yBoundaryMax: Infinity
+  raycastDistance: 20
+  followSpeed: 6
+  normalAcceleration: 8
+  dashSpeed: 15
+  dashAcceleration: 50
+  dashChargeTime: 2
+  dashDistanceThreshold: 3
+  dashCooldown: 5
+  stuckCheckTime: 1
+  stuckThreshold: 0.1
 --- !u!114 &-8640726567477325499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,10 +202,10 @@ NavMeshAgent:
   m_GameObject: {fileID: 3335486283827784095}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.1
-  m_Speed: 3.5
-  m_Acceleration: 5
-  avoidancePriority: 50
+  m_Radius: 0.2
+  m_Speed: 6
+  m_Acceleration: 10
+  avoidancePriority: 30
   m_AngularSpeed: 120
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
