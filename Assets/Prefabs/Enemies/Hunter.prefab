@@ -160,7 +160,7 @@ MonoBehaviour:
   dashSpeed: 15
   dashAcceleration: 50
   dashChargeTime: 2
-  dashDistanceThreshold: 3
+  dashDistanceThreshold: 10
   dashCooldown: 5
   stuckCheckTime: 1
   stuckThreshold: 0.1

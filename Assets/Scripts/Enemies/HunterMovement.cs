@@ -9,9 +9,11 @@ public class HunterMovement : MonoBehaviour
     public float followSpeed = 3.5f;
     public float normalAcceleration = 8f;
     public float dashSpeed = 10f;
-    public float dashAcceleration = 50f; // Increased acceleration for fast start
+    public float dashAcceleration = 50f; 
     public float dashChargeTime = 2f;
-    public float dashDistanceThreshold = 5f;
+
+    public float dashMinRange = 5f;
+    public float dashMaxRange = 10f;
     public float dashCooldown = 5f;
     public float stuckCheckTime = 1f;
     public float stuckThreshold = 0.1f;
@@ -42,10 +44,14 @@ public class HunterMovement : MonoBehaviour
         {
             FollowPlayerWithSphereCast();
 
-            if (canDash && Vector3.Distance(transform.position, player.position) <= dashDistanceThreshold)
+            float playerDistance = Vector3.Distance(transform.position, player.position);
+
+            if (canDash && playerDistance >= dashMinRange && playerDistance <= dashMaxRange)
             {
                 StartCoroutine(DashAtPlayer());
+                Debug.Log("Dashing at player");
             }
+            Debug.Log("Can dash: " + canDash);
         }
     }
 
