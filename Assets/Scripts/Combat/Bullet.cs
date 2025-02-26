@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
         this.moveDirection = direction.normalized;
         this.speed = speed;
 
-        Destroy(gameObject, 3f); // Destroy bullet after 2 seconds
+        Destroy(gameObject, 3f); // Destroy bullet after 3 seconds
     }
 
     void Update()
@@ -27,10 +27,10 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        // destroy this object if it hit an Enemy or Wall
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Wall")) {
+        // Destroy bullet on impact with an enemy or a wall
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Wall"))
+        {
             Destroy(gameObject);
         }
     }
 }
-
