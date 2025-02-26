@@ -51,7 +51,6 @@ public class HunterMovement : MonoBehaviour
                 StartCoroutine(DashAtPlayer());
                 Debug.Log("Dashing at player");
             }
-            Debug.Log("Can dash: " + canDash);
         }
     }
 
