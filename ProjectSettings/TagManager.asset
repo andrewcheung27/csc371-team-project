@@ -12,12 +12,12 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - NavigationLayer
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Hunter
+  - Player
+  - Spitter
   - 
   - 
   - 
