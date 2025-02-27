@@ -49,7 +49,6 @@ public class HunterMovement : MonoBehaviour
             if (canDash && playerDistance >= dashMinRange && playerDistance <= dashMaxRange)
             {
                 StartCoroutine(DashAtPlayer());
-                Debug.Log("Dashing at player");
             }
         }
     }

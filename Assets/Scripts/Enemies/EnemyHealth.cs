@@ -62,8 +62,6 @@ public class EnemyHealth : MonoBehaviour
             healthbar.UpdateHealthBar(maxHealth, health);
         }
 
-        Debug.Log($"Enemy health updated: {health}/{maxHealth}");
-
         // Ensure enemy dies when health reaches zero
         if (health <= minHealth)
         {
@@ -73,8 +71,6 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Enemy Died!");
-
         GameManager.instance.AddToScore(score);
         GameManager.instance.ShowScorePopup(transform.position, score);
 
