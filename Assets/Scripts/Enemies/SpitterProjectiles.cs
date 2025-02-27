@@ -22,7 +22,6 @@ public class SpitterProjectile : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.AddToHealth(-damage); // Reduce health
-            Debug.Log($"Player hit by SpitterProjectile. New Health: {GameManager.instance.health}");
         }
 
         // Destroy the projectile immediately
