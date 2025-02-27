@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -601480403009586158}
   - component: {fileID: 6998207511161948417}
   - component: {fileID: 6990805685360188830}
+  - component: {fileID: 9194267022577920700}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -50,6 +51,8 @@ MonoBehaviour:
   maxHealth: 3
   score: 0
   deathPenalty: 100
+  scorePopUpPrefab: {fileID: 0}
+  scorePopUpDuration: 2
   healthText: {fileID: 0}
   scoreText: {fileID: 0}
   timerText: {fileID: 0}
@@ -86,4 +89,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafcc76d92ff54c3e97541e77376f65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShootClip: {fileID: 8300000, guid: b11438c0128434874aa91e9f37111c06, type: 3}
+  playerShoot: {fileID: 0}
+--- !u!114 &9194267022577920700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205422591119166137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d19dc849c444d8d86e634f8093d735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueImage: {fileID: 0}
+  dialogueText: {fileID: 0}
+  dialogueTime: 3
