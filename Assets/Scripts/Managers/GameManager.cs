@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public int health = 3;  // current health
     public int maxHealth = 3;  // maximum health
     private int startingHealth;  // keep track of starting health for respawning
+    public HealthBar healthBar;  // health bar UI
 
     [Header ("Score")]
     private int minScore = 0;  // can't go below this score
@@ -67,6 +68,10 @@ public class GameManager : MonoBehaviour
         // respawn button listener
         if (respawnButton != null) {
             respawnButton.onClick.AddListener(StartGame);
+        }
+        if (healthBar == null)
+        {
+            healthBar = FindObjectOfType<HealthBar>();
         }
     }
 
@@ -124,6 +129,10 @@ public class GameManager : MonoBehaviour
         // update health with min and max restrictions
         health = Mathf.Clamp(minHealth, health + n, maxHealth);
 
+        if (healthBar != null) {
+            healthBar.SetHealth(health);
+        }
+
         // update UI
         UpdateHealthText();
 
@@ -174,6 +183,10 @@ public class GameManager : MonoBehaviour
         // reset health for respawning
         health = startingHealth;
 
+        if (healthBar != null) {
+            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(health);
+        }
         // UI elements
         if (healthText != null) {
             UpdateHealthText();
