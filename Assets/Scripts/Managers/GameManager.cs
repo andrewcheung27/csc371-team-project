@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         }
         if (healthBar == null)
         {
-            healthBar = FindObjectOfType<HealthBar>();
+            healthBar = FindFirstObjectByType<HealthBar>();
         }
     }
 
