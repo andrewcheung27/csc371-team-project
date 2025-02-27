@@ -3,9 +3,9 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Health Settings")]
-    public int health = 10;
+    public int health = 10;  // current health
+    public int maxHealth = 10;  // max health
     private int minHealth = 0;
-    private int maxHealth; // Stores max health
 
     [Header("Score Settings")]
     public int score = 100; // Points for killing the enemy
@@ -14,14 +14,10 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private Healthbar healthbar; // Assign the Healthbar script
     [SerializeField] private Transform healthBarCanvas; // Assign the Health Bar Canvas
 
-    private Camera cam; // Camera reference
     private bool isHealthBarVisible = false; // Track if health bar is visible
 
     void Start()
     {
-        maxHealth = health; // Store initial health value
-        cam = Camera.main; // Get reference to the main camera
-
         if (healthbar == null)
         {
             Debug.LogError("EnemyHealth: Healthbar not assigned in Inspector!");
@@ -32,7 +28,15 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            healthBarCanvas.gameObject.SetActive(false); // Initially hide the health bar
+            // show health bar if enemy starts damaged
+            if (health < maxHealth) {
+                healthBarCanvas.gameObject.SetActive(true);
+                healthbar.UpdateHealthBar(maxHealth, health);
+            }
+            // otherwise, hide health bar initially
+            else {
+                healthBarCanvas.gameObject.SetActive(false);
+            }
         }
     }
 
