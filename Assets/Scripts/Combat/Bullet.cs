@@ -28,7 +28,10 @@ public class Bullet : MonoBehaviour
         }
 
         // Destroy bullet on impact with an enemy or a wall
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Wall"))
+        if (other.gameObject.CompareTag("Enemy") 
+            || other.gameObject.CompareTag("Wall") 
+            || other.gameObject.CompareTag("MovingPlatform")
+            || other.gameObject.CompareTag("Ground"))
         {
             Destroy(gameObject);
         }

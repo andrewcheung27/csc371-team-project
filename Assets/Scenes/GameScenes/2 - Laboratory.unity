@@ -447,6 +447,10 @@ PrefabInstance:
       value: MovingHorizontalPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 7321746454034589344, guid: 90593c67cd4c64fd98fb57f35a19bac9, type: 3}
+      propertyPath: speed
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7321746454034589344, guid: 90593c67cd4c64fd98fb57f35a19bac9, type: 3}
       propertyPath: pointA.x
       value: 0
       objectReference: {fileID: 0}
@@ -2340,7 +2344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7688600254447474157, guid: 850c82afaf8744a4482d60b23be84bd0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 92
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7688600254447474157, guid: 850c82afaf8744a4482d60b23be84bd0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2613,7 +2617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6475309489128763885, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 76
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6475309489128763885, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_LocalRotation.w
