@@ -5,7 +5,8 @@ using UnityEngine;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
-    public TextMeshProUGUI dialogueText;
+    public GameObject dialogueImage;  // speech bubble image
+    public TextMeshProUGUI dialogueText;  // text that is a child of the speech bubble image
     public float dialogueTime = 3f;
 
     void Awake()
@@ -22,7 +23,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowDialogue(string dialogue)
     {
-        dialogueText.gameObject.SetActive(true);
+        dialogueImage.SetActive(true);
         dialogueText.text = dialogue;
         StartCoroutine(CloseDialogue());
     }
@@ -30,6 +31,6 @@ public class DialogueManager : MonoBehaviour
     IEnumerator CloseDialogue()
     {
         yield return new WaitForSeconds(dialogueTime);
-        dialogueText.gameObject.SetActive(false);
+        dialogueImage.SetActive(false);
     }
 }
