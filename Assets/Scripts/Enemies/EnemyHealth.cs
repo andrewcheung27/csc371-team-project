@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Score Settings")]
     public int score = 100; // Points for killing the enemy
+    public float scorePopupHeight = 0f;  // how high above the enemy to show score popup when it dies
 
     [Header("Health Bar UI")]
     [SerializeField] private Healthbar healthbar; // Assign the Healthbar script
@@ -76,7 +77,7 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         GameManager.instance.AddToScore(score);
-        GameManager.instance.ShowScorePopup(transform.position, score);
+        GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
 
         // Destroy health bar UI when enemy dies
         if (healthBarCanvas != null)
