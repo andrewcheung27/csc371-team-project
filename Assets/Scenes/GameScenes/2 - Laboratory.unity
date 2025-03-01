@@ -4933,7 +4933,7 @@ PrefabInstance:
       objectReference: {fileID: 5315317968808627307}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: spawnPointIndex
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: scorePopUpPrefab
@@ -4941,7 +4941,7 @@ PrefabInstance:
       objectReference: {fileID: 7233591697932546313, guid: 029640cdabaf4495da3cee1e84fc7307, type: 3}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: spawnPoints.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
@@ -4949,6 +4949,14 @@ PrefabInstance:
       objectReference: {fileID: 1469442672}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: 'spawnPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5740436119286959749}
+    - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: 'spawnPoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: 'spawnPoints.Array.data[3]'
       value: 
       objectReference: {fileID: 5740436119286959749}
     - target: {fileID: 205422591119166137, guid: 48c4e7df884754d468423e41113f447f, type: 3}

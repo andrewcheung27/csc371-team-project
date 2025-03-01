@@ -27,6 +27,7 @@ public class HunterMovement : MonoBehaviour
     private Renderer hunterRenderer;
     private Color normalColor;
     private Color darkColor;
+    public bool disableMovement = false;
 
     void Start()
     {
@@ -36,10 +37,19 @@ public class HunterMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         hunterRenderer = GetComponent<Renderer>();
         normalColor = hunterRenderer.material.color;
+        if (disableMovement)
+        {
+            agent.isStopped = true;
+        }
     }
 
     void Update()
     {
+        if (disableMovement)
+        {
+            agent.isStopped = true;
+            return;
+        }
         if (!isPaused && !isDashing)
         {
             FollowPlayerWithSphereCast();
@@ -51,6 +61,7 @@ public class HunterMovement : MonoBehaviour
                 StartCoroutine(DashAtPlayer());
             }
         }
+    
     }
 
     void FollowPlayerWithSphereCast()
@@ -176,4 +187,5 @@ public class HunterMovement : MonoBehaviour
         agent.isStopped = false;
         isPaused = false;
     }
+
 }
