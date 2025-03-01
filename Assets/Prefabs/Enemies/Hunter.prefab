@@ -317,6 +317,7 @@ MonoBehaviour:
   dashCooldown: 5
   stuckCheckTime: 1
   stuckThreshold: 0.1
+  disableMovement: 0
 --- !u!114 &-8640726567477325499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,10 +360,10 @@ NavMeshAgent:
   m_GameObject: {fileID: 3335486283827784095}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.2
+  m_Radius: 0.1
   m_Speed: 6
   m_Acceleration: 10
-  avoidancePriority: 30
+  avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1

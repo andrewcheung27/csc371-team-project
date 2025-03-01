@@ -14,6 +14,8 @@ public class PlayerWeaponHandler : MonoBehaviour
     private float shootingTimer = 0f;
     private float moveDirection;
 
+    private bool alwaysAim = false; // For testing purposes
+
 
     void Start()
     {
@@ -37,6 +39,11 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (Mathf.Abs(moveDirection) > 0.1f)
         {
             lastMoveDirection = new Vector3(0, 0, Mathf.Sign(moveDirection));
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            alwaysAim = !alwaysAim;
         }
     }
 
@@ -63,7 +70,7 @@ public class PlayerWeaponHandler : MonoBehaviour
 
     void HandleAiming()
     {
-        if (isAiming)
+        if (isAiming || alwaysAim)
         {
             RotateGunToMouse();
         }
@@ -101,7 +108,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         Vector3 direction = Vector3.zero;
 
         // If aiming, fire towards mouse direction
-        if (isAiming)
+        if (isAiming || alwaysAim)
         {
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             Plane plane = new Plane(Vector3.right, transform.position);
@@ -125,7 +132,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
 
         // If player is moving, force the gun to stay in front or behind
-        if (Mathf.Abs(moveDirection) > 0.1f) // Threshold to prevent jittering
+        if (Mathf.Abs(moveDirection) > 0.1f && !alwaysAim) // Threshold to prevent jittering
         {
             float weaponDistance = 1.5f; // Distance from player
             Vector3 forcedWeaponPosition = transform.position + new Vector3(0, 0, Mathf.Sign(moveDirection) * weaponDistance);
@@ -134,7 +141,7 @@ public class PlayerWeaponHandler : MonoBehaviour
             // Make weapon face directly forward along Z-axis
             weaponHolder.rotation = Quaternion.LookRotation(Vector3.forward * Mathf.Sign(moveDirection));
         }
-        else if (isAiming) // If aiming, move gun around player in a circle
+        else if (isAiming || alwaysAim) // If aiming, move gun around player in a circle
         {
             // Continue normal rotation around player if stationary
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -164,26 +171,29 @@ public class PlayerWeaponHandler : MonoBehaviour
 
     void CheckAimingInput()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!alwaysAim)
         {
-            isAiming = true;
-            if (playerMovement != null) playerMovement.enabled = false; // Disable movement while aiming
-        }
-        else if (Input.GetKeyUp(KeyCode.Q))
-        {
-            isAiming = false;
-            if (playerMovement != null) playerMovement.enabled = true; // Re-enable movement after aiming
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                isAiming = true;
+                if (playerMovement != null) playerMovement.enabled = false; // Disable movement while aiming
+            }
+            else if (Input.GetKeyUp(KeyCode.Q))
+            {
+                isAiming = false;
+                if (playerMovement != null) playerMovement.enabled = true; // Re-enable movement after aiming
 
-            Vector3 weaponForward = weaponHolder.forward;
-            float zComponent = weaponForward.z;
-            Vector3 snapDirection = zComponent > 0 ? Vector3.forward : Vector3.back;
+                Vector3 weaponForward = weaponHolder.forward;
+                float zComponent = weaponForward.z;
+                Vector3 snapDirection = zComponent > 0 ? Vector3.forward : Vector3.back;
 
-            // Snap weapon to the closest Z direction
-            weaponHolder.rotation = Quaternion.LookRotation(snapDirection);
-            Vector3 forcedWeaponPosition = transform.position + new Vector3(0, 0, snapDirection.z * 1.5f);
-            weaponHolder.position = forcedWeaponPosition;
+                // Snap weapon to the closest Z direction
+                weaponHolder.rotation = Quaternion.LookRotation(snapDirection);
+                Vector3 forcedWeaponPosition = transform.position + new Vector3(0, 0, snapDirection.z * 1.5f);
+                weaponHolder.position = forcedWeaponPosition;
 
-            lastMoveDirection = snapDirection;
+                lastMoveDirection = snapDirection;
+            }
         }
     }
 }
