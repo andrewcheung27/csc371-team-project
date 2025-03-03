@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour
     [Header ("Game")]
     public static GameManager instance;
     private bool gameRunning = false;
+    private bool easyMode = false;
 
     [Header ("Health")]
     private int minHealth = 0;  // at this health or lower, game over
     public int health = 3;  // current health
     public int maxHealth = 3;  // maximum health
+    public int easyModeMaxHealth = 1000000000;  // maximum health in easy mode
     private int startingHealth;  // keep track of starting health for respawning
     public HealthBar healthBar;  // health bar UI
 
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
     [Header ("UI")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI easyModeText;
     public Button respawnButton;  // button to respawn player after dying
     public GameObject damageEffect;  // UI Panel that shows when player takes damage
     public float damageEffectDuration = 0.5f;  // how long damage effect lasts
@@ -87,12 +90,51 @@ public class GameManager : MonoBehaviour
             CheckBoundaries();
 
             UpdateTimer();
+
+            if (Input.GetKeyDown(KeyCode.Minus)) {
+                ToggleEasyMode();
+            }
         }
     }
 
     public bool GameIsRunning()
     {
         return gameRunning;
+    }
+
+    void ToggleEasyMode()
+    {
+        // turn off easy mode
+        if (easyMode) {
+            health = maxHealth;
+            startingHealth = health;
+            // update health bar
+            if (healthBar != null) {
+                healthBar.SetHealth(health);
+                healthBar.SetMaxHealth(maxHealth);
+            }
+            // update UI
+            if (easyModeText != null) {
+                easyModeText.gameObject.SetActive(false);
+            }
+        }
+
+        // turn on easy mode
+        else {
+            health = easyModeMaxHealth;
+            startingHealth = health;
+            // update health bar
+            if (healthBar != null) {
+                healthBar.SetHealth(health);
+                healthBar.SetMaxHealth(easyModeMaxHealth);
+            }
+            // update UI
+            if (easyModeText != null) {
+                easyModeText.gameObject.SetActive(true);
+            }
+        }
+
+        easyMode = !easyMode;
     }
 
     void UpdateScoreText()
@@ -124,7 +166,7 @@ public class GameManager : MonoBehaviour
     public void AddToHealth(int n)
     {
         // update health with min and max restrictions
-        health = Mathf.Clamp(minHealth, health + n, maxHealth);
+        health = Mathf.Clamp(minHealth, health + n, easyMode ? easyModeMaxHealth : maxHealth);
 
         // update health bar
         if (healthBar != null) {
@@ -183,7 +225,7 @@ public class GameManager : MonoBehaviour
         health = startingHealth;
 
         if (healthBar != null) {
-            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetMaxHealth(easyMode ? easyModeMaxHealth : maxHealth);
             healthBar.SetHealth(health);
         }
         // UI elements
