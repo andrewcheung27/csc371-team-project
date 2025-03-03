@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 2404555643035925300}
   - component: {fileID: 5496835960521246878}
   m_Layer: 5
-  m_Name: Health
+  m_Name: Health (we replaced this with the healthbar on Player)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,7 +709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -80}
+  m_AnchoredPosition: {x: 20, y: -20}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6523411809477972477

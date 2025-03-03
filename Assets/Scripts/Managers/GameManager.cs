@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     private float timer = 0;
 
     [Header ("UI")]
-    public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
     public Button respawnButton;  // button to respawn player after dying
@@ -91,11 +90,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateHealthText()
+    public bool GameIsRunning()
     {
-        if (healthText != null) {
-            healthText.text = "Health: " + health.ToString();
-        }
+        return gameRunning;
     }
 
     void UpdateScoreText()
@@ -129,12 +126,10 @@ public class GameManager : MonoBehaviour
         // update health with min and max restrictions
         health = Mathf.Clamp(minHealth, health + n, maxHealth);
 
+        // update health bar
         if (healthBar != null) {
             healthBar.SetHealth(health);
         }
-
-        // update UI
-        UpdateHealthText();
 
         // damage effect
         if (n < 0) {
@@ -152,6 +147,10 @@ public class GameManager : MonoBehaviour
     // based on: https://www.youtube.com/watch?v=KOt85IoD__4
     public void ShowScorePopup(Vector3 position, int amount)
     {
+        if (!gameRunning) {
+            return;
+        }
+
         // instantiate and set text
         GameObject popup = Instantiate(scorePopUpPrefab, position, Quaternion.identity);
         if (popup.transform.GetChild(0).TryGetComponent(out TextMeshProUGUI popupText)) {
@@ -188,10 +187,6 @@ public class GameManager : MonoBehaviour
             healthBar.SetHealth(health);
         }
         // UI elements
-        if (healthText != null) {
-            UpdateHealthText();
-            healthText.gameObject.SetActive(true);
-        }
         if (scoreText != null) {
             UpdateScoreText();
             scoreText.gameObject.SetActive(true);
