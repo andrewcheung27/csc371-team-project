@@ -14,7 +14,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     private float shootingTimer = 0f;
     private float moveDirection;
 
-    private bool alwaysAim = false; // For testing purposes
+    public bool alwaysAim = true; // For testing purposes
 
 
     void Start()
