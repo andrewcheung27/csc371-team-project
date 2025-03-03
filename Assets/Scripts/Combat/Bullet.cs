@@ -16,7 +16,13 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
+        // move
         transform.position += moveDirection * speed * Time.deltaTime;
+
+        // destroy if game over
+        if (!GameManager.instance.GameIsRunning()) {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

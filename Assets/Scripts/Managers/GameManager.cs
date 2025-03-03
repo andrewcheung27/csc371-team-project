@@ -90,6 +90,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool GameIsRunning()
+    {
+        return gameRunning;
+    }
+
     void UpdateScoreText()
     {
         if (scoreText != null) {
@@ -142,6 +147,10 @@ public class GameManager : MonoBehaviour
     // based on: https://www.youtube.com/watch?v=KOt85IoD__4
     public void ShowScorePopup(Vector3 position, int amount)
     {
+        if (!gameRunning) {
+            return;
+        }
+
         // instantiate and set text
         GameObject popup = Instantiate(scorePopUpPrefab, position, Quaternion.identity);
         if (popup.transform.GetChild(0).TryGetComponent(out TextMeshProUGUI popupText)) {
