@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8950458591962886970}
   - component: {fileID: 6103841101536146066}
   - component: {fileID: 2400953846733410942}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EnemyPlatform
   m_TagString: Ground
   m_Icon: {fileID: 0}

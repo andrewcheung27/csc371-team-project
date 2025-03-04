@@ -15,7 +15,7 @@ public class SlasherClaws : MonoBehaviour
     void Update()
     {
         // this seems to fix weird rotation issues. idk.
-        transform.rotation = relativeRotation;
+        // transform.rotation = relativeRotation;
     }
 
     void OnTriggerEnter(Collider other)
