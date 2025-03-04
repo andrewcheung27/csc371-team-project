@@ -3,6 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage = 2;
+    public float destroyAfterSeconds = 2f;  // destroy Bullet after this many seconds
     private Vector3 moveDirection;
     private float speed;
     private EnemyHealth enemyHealth;
@@ -12,7 +13,7 @@ public class Bullet : MonoBehaviour
         this.moveDirection = direction.normalized;
         this.speed = speed;
 
-        Destroy(gameObject, 3f); // Destroy bullet after 3 seconds
+        Destroy(gameObject, destroyAfterSeconds);
     }
 
     void Update()
