@@ -787,7 +787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5617c02a6cfcd40d39bc1d6c44283e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastDistance: 35
+  raycastDistance: 40
   followSpeed: 3.5
   normalAcceleration: 8
   stuckCheckTime: 1

@@ -12,15 +12,19 @@ public class SlasherMovement : MonoBehaviour
     public float stuckThreshold = 0.1f;
 
     private NavMeshAgent agent;
-    private Transform player;
+    private GameObject player;
     private bool isPaused = false;
     public bool disableMovement = false;
     private SlasherAnimator slasherAnimator;
     public float stopMovingHeightDiff = 10f;  // stop moving if the y-coord difference between slasher and the player is greater than this
+    LayerMask layerMask;
 
     void Awake()
     {
         slasherAnimator = GetComponent<SlasherAnimator>();
+
+        // only look for raycast hits on these layers
+        layerMask = LayerMask.GetMask("Player", "NavigationLayer");
     }
 
     void Start()
@@ -28,7 +32,7 @@ public class SlasherMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = followSpeed;
         agent.acceleration = normalAcceleration; // Set default acceleration
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         if (disableMovement)
         {
             agent.isStopped = true;
@@ -51,37 +55,38 @@ public class SlasherMovement : MonoBehaviour
         agent.isStopped = false;
         if (!isPaused)
         {
-            FollowPlayerWithSphereCast();
+            FollowPlayer();
         }
     }
 
-    void FollowPlayerWithSphereCast()
+    void FollowPlayer()
     {
-        float playerHeightDiff = Mathf.Abs(player.position.y - transform.position.y);
+        float playerHeightDiff = Mathf.Abs(player.transform.position.y - transform.position.y);
         if (playerHeightDiff > stopMovingHeightDiff) {
             return;
         }
 
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        Vector3 sphereCastOrigin = transform.position + Vector3.up * 1.0f;
+        Vector3 rayCastOrigin = transform.position + new Vector3(0, 6f, 0);
+        Vector3 directionToPlayer = (player.transform.position - rayCastOrigin).normalized;
 
-        RaycastHit[] hits = Physics.SphereCastAll(sphereCastOrigin, 1f, directionToPlayer, raycastDistance);
-
-        foreach (RaycastHit hit in hits) {
+        if (Physics.Raycast(rayCastOrigin, directionToPlayer, out RaycastHit hit, raycastDistance, layerMask)) {
+            // Debug.Log("hit: " + hit.collider.gameObject.name);
+            // Debug.DrawLine(rayCastOrigin, hit.point, Color.red, 1f);
             if (hit.collider.CompareTag("Player"))
             {
-                agent.SetDestination(player.position);
+                agent.SetDestination(player.transform.position);
                 slasherAnimator.Walk();
                 return;
             }
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= raycastDistance)
         {
             if (playerHeightDiff < 5f)
             {
-                agent.SetDestination(player.position);
+                agent.SetDestination(player.transform.position);
+                slasherAnimator.Walk();
                 return;
             }
         }

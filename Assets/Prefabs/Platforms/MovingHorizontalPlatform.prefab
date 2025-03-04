@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8875528276146589567}
   - component: {fileID: 5529374844275470391}
   - component: {fileID: 7321746454034589344}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MovingHorizontalPlatform
   m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
