@@ -1,45 +1,53 @@
+using System.Collections;
 using UnityEngine;
 
 public class SlasherAttack : MonoBehaviour
 {
-    Animator animator;
+    private SlasherAnimator slasherAnimator;
+    public GameObject slasherClaw;
+    private Collider slasherClawCollider;
+    private GameObject player;
     public int damage = 3;
-
-    [Header ("Animation Names")]
-    string attackAnimationName = "Attack";
+    public float attackRange = 3f;
+    public float attackDamageDelay = 1f;
 
     void Awake()
     {
-        animator = GetComponent<Animator>();
+        slasherAnimator = GetComponent<SlasherAnimator>();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        slasherClawCollider = slasherClaw.GetComponent<Collider>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            animator.Play(attackAnimationName);
+        if ((player.transform.position - transform.position).magnitude < attackRange) {
+            if (slasherAnimator.Attack()) {
+                StartCoroutine(EnableAttackCollider());
+            }
         }
-    }
-
-    bool IsAttacking()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName(attackAnimationName);
     }
 
     public void HandleTrigger(Collider other, string triggerSource)
     {
-        if (IsAttacking() && triggerSource == "Claws") {
-            Debug.Log("Claws collided with: " + other.gameObject.name);
+        // damage player if they collided with the Claws
+        if (slasherAnimator.InAttackAnimation() && triggerSource == "Claws") {
             if (other.gameObject.CompareTag("Player")) {
                 GameManager.instance.AddToHealth(-damage);
             }
-        }
-        else {
-            Debug.Log("Body collided with: " + other.gameObject.name);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
         HandleTrigger(other, "");
+    }
+
+    IEnumerator EnableAttackCollider()
+    {
+        yield return new WaitForSeconds(attackDamageDelay);
+
+        slasherClawCollider.gameObject.SetActive(true);
     }
 }

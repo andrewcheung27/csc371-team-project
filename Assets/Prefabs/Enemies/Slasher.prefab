@@ -389,7 +389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2022688683165339544
 Transform:
   m_ObjectHideFlags: 0
@@ -398,13 +398,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239144726486299985}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: -0, z: 0.367}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1539481679264539993}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
 --- !u!65 &1431109659887026974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -424,8 +424,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9419148, y: 0.7922327, z: 0.92584896}
-  m_Center: {x: 0.23436916, y: 0.44280925, z: 0.5658834}
+  m_Size: {x: 1.6170214, y: 1, z: 0.90006936}
+  m_Center: {x: 0.26126677, y: 0.44280922, z: 0.55299777}
 --- !u!114 &5176756774030150222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,6 +666,7 @@ GameObject:
   - component: {fileID: 4283839323446751604}
   - component: {fileID: 8949098538185829064}
   - component: {fileID: 7723662777223435646}
+  - component: {fileID: 7626577522001656662}
   m_Layer: 9
   m_Name: Slasher
   m_TagString: Enemy
@@ -681,7 +682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2168068442106150883}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9063079, z: 0, w: 0.42261827}
+  m_LocalRotation: {x: 0, y: 0.9659258, z: 0, w: 0.2588191}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
@@ -694,7 +695,7 @@ Transform:
   - {fileID: 3691899367763380354}
   - {fileID: 4652074562994493774}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 130, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 150, z: 0}
 --- !u!95 &4141650761350226287
 Animator:
   serializedVersion: 7
@@ -747,7 +748,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcd66d5ad853460e998501ad0096cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slasherClaw: {fileID: 1239144726486299985}
   damage: 3
+  attackRange: 6.5
+  attackDamageDelay: 1.4
 --- !u!136 &2077107255691460600
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -783,8 +787,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5617c02a6cfcd40d39bc1d6c44283e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastDistance: 20
-  followSpeed: 1.5
+  raycastDistance: 35
+  followSpeed: 2.5
   normalAcceleration: 8
   stuckCheckTime: 1
   stuckThreshold: 0.1
@@ -838,6 +842,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 114
   m_CollisionDetection: 0
+--- !u!114 &7626577522001656662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168068442106150883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a52c4bd162e6b4efd8e98100b6f86c19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slasherClaw: {fileID: 1239144726486299985}
+  idleAnimation: Idle
+  attackAnimation: Attack
+  walkLeftAnimation: Walk Left
+  walkRightAnimation: Walk Right
 --- !u!1 &2513138530070425341
 GameObject:
   m_ObjectHideFlags: 0

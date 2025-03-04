@@ -15,6 +15,12 @@ public class SlasherMovement : MonoBehaviour
     private Transform player;
     private bool isPaused = false;
     public bool disableMovement = false;
+    private SlasherAnimator slasherAnimator;
+
+    void Awake()
+    {
+        slasherAnimator = GetComponent<SlasherAnimator>();
+    }
 
     void Start()
     {
@@ -35,27 +41,43 @@ public class SlasherMovement : MonoBehaviour
             agent.isStopped = true;
             return;
         }
+
+        if (slasherAnimator.InAttackAnimation()) {
+            agent.isStopped = true;
+            return;
+        }
+
+        agent.isStopped = false;
         if (!isPaused)
         {
-            Debug.Log("follow player");
             FollowPlayerWithSphereCast();
         }
-    
     }
 
     void FollowPlayerWithSphereCast()
     {
-        RaycastHit hit;
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         Vector3 sphereCastOrigin = transform.position + Vector3.up * 1.0f;
 
-        bool playerDetected = Physics.SphereCast(sphereCastOrigin, 1f, directionToPlayer, out hit, raycastDistance);
+        RaycastHit[] hits = Physics.SphereCastAll(sphereCastOrigin, 1f, directionToPlayer, raycastDistance);
 
-        if (playerDetected && hit.collider.CompareTag("Player"))
-        {
-            Debug.Log("set destination to player");
-            agent.SetDestination(player.position);
-            return;
+        foreach (RaycastHit hit in hits) {
+            if (hit.collider.CompareTag("Player"))
+            {
+                agent.SetDestination(player.position);
+
+                // animate walking
+                if (!slasherAnimator.InWalkAnimation()) {
+                    if (player.position.z < transform.position.z) {
+                        slasherAnimator.WalkLeft();
+                    }
+                    else {
+                        slasherAnimator.WalkRight();
+                    }
+                }
+
+                return;
+            }
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
