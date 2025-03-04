@@ -9,8 +9,7 @@ public class SlasherAnimator : MonoBehaviour
     [Header ("Animation Names")]
     public string idleAnimation = "Idle";
     public string attackAnimation = "Attack";
-    public string walkLeftAnimation = "Walk Left";
-    public string walkRightAnimation = "Walk Right";
+    public string walkAnimation = "Walk";
 
     void Start()
     {
@@ -26,8 +25,7 @@ public class SlasherAnimator : MonoBehaviour
 
     public bool InWalkAnimation()
     {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName(walkLeftAnimation) 
-            || animator.GetCurrentAnimatorStateInfo(0).IsName(walkRightAnimation);
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(walkAnimation);
     }
 
     // returns true if it attacked, false otherwise
@@ -44,17 +42,10 @@ public class SlasherAnimator : MonoBehaviour
         return false;
     }
 
-    public void WalkLeft()
+    public void Walk()
     {
         if (!InAttackAnimation() && !InWalkAnimation()) {
-            animator.Play(walkLeftAnimation);
-        }
-    }
-
-    public void WalkRight()
-    {
-        if (!InAttackAnimation() && !InWalkAnimation()) {
-            animator.Play(walkRightAnimation);
+            animator.Play(walkAnimation);
         }
     }
 }

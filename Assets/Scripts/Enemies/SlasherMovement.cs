@@ -16,6 +16,7 @@ public class SlasherMovement : MonoBehaviour
     private bool isPaused = false;
     public bool disableMovement = false;
     private SlasherAnimator slasherAnimator;
+    public float stopMovingHeightDiff = 10f;  // stop moving if the y-coord difference between slasher and the player is greater than this
 
     void Awake()
     {
@@ -56,6 +57,11 @@ public class SlasherMovement : MonoBehaviour
 
     void FollowPlayerWithSphereCast()
     {
+        float playerHeightDiff = Mathf.Abs(player.position.y - transform.position.y);
+        if (playerHeightDiff > stopMovingHeightDiff) {
+            return;
+        }
+
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         Vector3 sphereCastOrigin = transform.position + Vector3.up * 1.0f;
 
@@ -65,17 +71,7 @@ public class SlasherMovement : MonoBehaviour
             if (hit.collider.CompareTag("Player"))
             {
                 agent.SetDestination(player.position);
-
-                // animate walking
-                if (!slasherAnimator.InWalkAnimation()) {
-                    if (player.position.z < transform.position.z) {
-                        slasherAnimator.WalkLeft();
-                    }
-                    else {
-                        slasherAnimator.WalkRight();
-                    }
-                }
-
+                slasherAnimator.Walk();
                 return;
             }
         }
@@ -83,7 +79,6 @@ public class SlasherMovement : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= raycastDistance)
         {
-            float playerHeightDiff = Mathf.Abs(player.position.y - transform.position.y);
             if (playerHeightDiff < 5f)
             {
                 agent.SetDestination(player.position);

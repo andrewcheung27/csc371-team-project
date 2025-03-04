@@ -788,11 +788,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastDistance: 35
-  followSpeed: 2.5
+  followSpeed: 3.5
   normalAcceleration: 8
   stuckCheckTime: 1
   stuckThreshold: 0.1
   disableMovement: 0
+  stopMovingHeightDiff: 7
 --- !u!195 &8949098538185829064
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -857,8 +858,7 @@ MonoBehaviour:
   slasherClaw: {fileID: 1239144726486299985}
   idleAnimation: Idle
   attackAnimation: Attack
-  walkLeftAnimation: Walk Left
-  walkRightAnimation: Walk Right
+  walkAnimation: Walk
 --- !u!1 &2513138530070425341
 GameObject:
   m_ObjectHideFlags: 0
