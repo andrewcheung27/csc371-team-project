@@ -5,6 +5,7 @@ public class Bullet : MonoBehaviour
     public int damage = 2;
     private Vector3 moveDirection;
     private float speed;
+    private EnemyHealth enemyHealth;
 
     public void SetDirection(Vector3 direction, float speed)
     {
@@ -28,7 +29,8 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy")) {
-            if (other.gameObject.TryGetComponent(out EnemyHealth enemyHealth)) {
+            // the other object or its parent should have an EnemyHealth component
+            if (other.gameObject.TryGetComponent(out enemyHealth) || other.gameObject.transform.parent.TryGetComponent(out enemyHealth)) {
                 enemyHealth.AddToHealth(-1 * damage);
             }
         }
