@@ -8,9 +8,11 @@ public class MiniBossMovement : MonoBehaviour
     public float stoppingDistance = 1.5f;
     public Animator animator;
     public UnityEngine.AI.NavMeshAgent agent;
-    
+
     private bool isHit = false;
-    
+    private float hitCooldownTime = 3f;  // Cooldown time in seconds (adjust as needed)
+    private float lastHitTime = 0f;  // Keeps track of the last time the animation was triggered
+
     void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -18,41 +20,47 @@ public class MiniBossMovement : MonoBehaviour
 
     void Update()
     {
-        if (isHit) return; // Prevent movement while hit animation is playing
+        // Don't allow movement if the hit animation is playing or during cooldown
+        if (isHit) return;  
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        
+
         if (distanceToPlayer <= detectionRange)
         {
             agent.SetDestination(player.position);
-            
         }
 
         float speed = agent.velocity.magnitude;
-        animator.SetFloat("Speed", speed);
-    
+        animator.SetFloat("Speed", speed);  // Set the walking animation based on speed
     }
 
     public void TakeDamage()
     {
+        // Ensure cooldown is respected
+        if (Time.time - lastHitTime < hitCooldownTime) return; // Don't trigger animation again until cooldown
+
         isHit = true;
-        agent.isStopped = true;
-        
-        if (animator.GetBool("isWalking"))
+        agent.isStopped = true;  // Stop movement during hit animation
+
+        // Trigger appropriate hit animation based on whether the boss is moving or idle
+        if (animator.GetFloat("Speed") > 0.1f)  // If moving
         {
-            animator.SetTrigger("hitWhileWalking");
+            animator.SetTrigger("WalkHit");  // Trigger walking hit animation
         }
-        else
+        else  // If idle
         {
-            animator.SetTrigger("hitWhileIdle");
+            animator.SetTrigger("Hit");  // Trigger idle hit animation
         }
-        
-        Invoke("ResetHit", 0.5f); // Delay before allowing movement again
+
+        lastHitTime = Time.time;  // Update the last hit time
+
+        // Start cooldown to allow movement and prevent further hits from triggering animation
+        Invoke("ResetHit", 1f); // 1 second before the boss can move again after animation
     }
 
     void ResetHit()
     {
         isHit = false;
-        agent.isStopped = false;
+        agent.isStopped = false;  // Allow movement again after hit animation
     }
 }
