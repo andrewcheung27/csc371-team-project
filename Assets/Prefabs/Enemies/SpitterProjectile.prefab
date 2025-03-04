@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8031550716762534398}
   - component: {fileID: 5159610669228267433}
   - component: {fileID: 6879490264887501858}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpitterProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
