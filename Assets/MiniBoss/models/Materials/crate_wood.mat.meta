@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 42074176a7ff7d54287008cae2ef51c1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 16469
+  packageName: Alien insect character
+  packageVersion: 1.0
+  assetPath: Assets/Insect/models/Materials/crate_wood.mat
+  uploadId: 5017
