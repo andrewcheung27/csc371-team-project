@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [Header ("Health")]
     private int minHealth = 0;  // at this health or lower, game over
     public int health = 3;  // current health
-    public int maxHealth = 3;  // maximum health
+    public int maxHealth = 8;  // maximum health
     public int easyModeMaxHealth = 1000000000;  // maximum health in easy mode
     private int startingHealth;  // keep track of starting health for respawning
     public HealthBar healthBar;  // health bar UI
