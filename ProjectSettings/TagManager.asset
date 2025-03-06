@@ -8,18 +8,19 @@ TagManager:
   - Wall
   - Enemy
   - Gun
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - NavigationLayer
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Hunter
+  - Player
+  - Spitter
+  - Slasher
+  - EnemyProjectile
   - 
   - 
   - 

@@ -9,21 +9,30 @@ public class GameManager : MonoBehaviour
     [Header ("Game")]
     public static GameManager instance;
     private bool gameRunning = false;
+    private bool easyMode = false;
 
     [Header ("Health")]
     private int minHealth = 0;  // at this health or lower, game over
     public int health = 3;  // current health
     public int maxHealth = 3;  // maximum health
+    public int easyModeMaxHealth = 1000000000;  // maximum health in easy mode
     private int startingHealth;  // keep track of starting health for respawning
+    public HealthBar healthBar;  // health bar UI
 
     [Header ("Score")]
     private int minScore = 0;  // can't go below this score
     public int score = 0;  // current score
     public int deathPenalty = 100;  // how many points you lose for dying
+    public GameObject scorePopUpPrefab;  // prefab for a Canvas with a TextMeshProUGUI child to show points when an enemy is killed
+    public float scorePopUpDuration = 2f;  // how many seconds until score pop up disappears
+
+    [Header ("Timer")]
+    private float timer = 0;
 
     [Header ("UI")]
-    public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI easyModeText;
     public Button respawnButton;  // button to respawn player after dying
     public GameObject damageEffect;  // UI Panel that shows when player takes damage
     public float damageEffectDuration = 0.5f;  // how long damage effect lasts
@@ -62,6 +71,10 @@ public class GameManager : MonoBehaviour
         if (respawnButton != null) {
             respawnButton.onClick.AddListener(StartGame);
         }
+        if (healthBar == null)
+        {
+            healthBar = FindFirstObjectByType<HealthBar>();
+        }
     }
 
     void Start()
@@ -75,14 +88,53 @@ public class GameManager : MonoBehaviour
     {
         if (gameRunning) {
             CheckBoundaries();
+
+            UpdateTimer();
+
+            if (Input.GetKeyDown(KeyCode.Minus)) {
+                ToggleEasyMode();
+            }
         }
     }
 
-    void UpdateHealthText()
+    public bool GameIsRunning()
     {
-        if (healthText != null) {
-            healthText.text = "Health: " + health.ToString();
+        return gameRunning;
+    }
+
+    void ToggleEasyMode()
+    {
+        // turn off easy mode
+        if (easyMode) {
+            health = maxHealth;
+            startingHealth = health;
+            // update health bar
+            if (healthBar != null) {
+                healthBar.SetHealth(health);
+                healthBar.SetMaxHealth(maxHealth);
+            }
+            // update UI
+            if (easyModeText != null) {
+                easyModeText.gameObject.SetActive(false);
+            }
         }
+
+        // turn on easy mode
+        else {
+            health = easyModeMaxHealth;
+            startingHealth = health;
+            // update health bar
+            if (healthBar != null) {
+                healthBar.SetHealth(health);
+                healthBar.SetMaxHealth(easyModeMaxHealth);
+            }
+            // update UI
+            if (easyModeText != null) {
+                easyModeText.gameObject.SetActive(true);
+            }
+        }
+
+        easyMode = !easyMode;
     }
 
     void UpdateScoreText()
@@ -90,6 +142,19 @@ public class GameManager : MonoBehaviour
         if (scoreText != null) {
             scoreText.text = "Score: " + score.ToString();
         }
+    }
+
+    void UpdateTimerText()
+    {
+        if (timerText != null) {
+            timerText.text = Mathf.Floor(timer).ToString();
+        }
+    }
+
+    void UpdateTimer()
+    {
+        timer += Time.deltaTime;
+        UpdateTimerText();
     }
 
     void KillPlayer()
@@ -101,21 +166,41 @@ public class GameManager : MonoBehaviour
     public void AddToHealth(int n)
     {
         // update health with min and max restrictions
-        health = Mathf.Clamp(minHealth, health + n, maxHealth);
+        health = Mathf.Clamp(minHealth, health + n, easyMode ? easyModeMaxHealth : maxHealth);
 
-        // update UI
-        UpdateHealthText();
-
-        // end game if out of health
-        if (health <= minHealth) {
-            KillPlayer();
-            return;
+        // update health bar
+        if (healthBar != null) {
+            healthBar.SetHealth(health);
         }
 
         // damage effect
         if (n < 0) {
             StartCoroutine(DamageEffectRoutine());
         }
+
+        // end game if out of health
+        if (health <= minHealth) {
+            KillPlayer();
+            return;
+        }
+    }
+
+    // show a message like "+100" for a certain amount of time.
+    // based on: https://www.youtube.com/watch?v=KOt85IoD__4
+    public void ShowScorePopup(Vector3 position, int amount)
+    {
+        if (!gameRunning) {
+            return;
+        }
+
+        // instantiate and set text
+        GameObject popup = Instantiate(scorePopUpPrefab, position, Quaternion.identity);
+        if (popup.transform.GetChild(0).TryGetComponent(out TextMeshProUGUI popupText)) {
+            popupText.text = "+" + amount.ToString();
+        }
+
+        // destroy pop-up after a certain amount of time
+        Destroy(popup, scorePopUpDuration);
     }
 
     public void AddToScore(int n) {
@@ -139,19 +224,28 @@ public class GameManager : MonoBehaviour
         // reset health for respawning
         health = startingHealth;
 
-        // health and score UI elements
-        if (healthText != null) {
-            UpdateHealthText();
-            healthText.gameObject.SetActive(true);
+        if (healthBar != null) {
+            healthBar.SetMaxHealth(easyMode ? easyModeMaxHealth : maxHealth);
+            healthBar.SetHealth(health);
         }
+        // UI elements
         if (scoreText != null) {
             UpdateScoreText();
             scoreText.gameObject.SetActive(true);
+        }
+        if (timerText != null) {
+            UpdateTimerText();
+            timerText.gameObject.SetActive(true);
         }
 
         // disable respawn button
         if (respawnButton != null) {
             respawnButton.gameObject.SetActive(false);
+        }
+
+        // disable damage effect
+        if (damageEffect != null) {
+            damageEffect.gameObject.SetActive(false);
         }
 
         // spawn player at current spawn point

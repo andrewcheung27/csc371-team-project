@@ -1,120 +1,191 @@
+
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
-using System;
 
 public class HunterMovement : MonoBehaviour
 {
-    public GameObject player; // Reference to the player
-    private Rigidbody rb;
+    public float raycastDistance = 20f;
+    public float followSpeed = 3.5f;
+    public float normalAcceleration = 8f;
+    public float dashSpeed = 10f;
+    public float dashAcceleration = 50f; 
+    public float dashChargeTime = 2f;
 
-    [Header ("Movement")]
-    public float moveSpeed = 2f; // Normal movement speed
-    public float dashSpeed = 20f; // Speed during dash
-    public float dashDuration = .5f; // How long the dash lasts
-    public float dashCooldown = 2f; // Time between dashes
+    public float dashMinRange = 5f;
+    public float dashMaxRange = 10f;
+    public float dashCooldown = 5f;
+    public float stuckCheckTime = 1f;
+    public float stuckThreshold = 0.1f;
+
+    private NavMeshAgent agent;
+    private Transform player;
+    private bool isPaused = false;
     private bool isDashing = false;
-    private bool canMove = true;
-
-    [Header ("Other Options")]
-    public float visionRange = 20f;  // how close the player must be to move towards the player
-    // can't move if player is beyond these boundaries on z axis
-    public float zBoundaryMin = Mathf.NegativeInfinity;
-    public float zBoundaryMax = Mathf.Infinity;
-    // can't move if player is beyond these boundaries on y axis
-    public float yBoundaryMin = Mathf.NegativeInfinity;
-    public float yBoundaryMax = Mathf.Infinity;
-
-    void Awake()
-    {
-        if (zBoundaryMin > zBoundaryMax || yBoundaryMin > yBoundaryMax) {
-            throw new Exception("Boundary min values must not be greater than max values");
-        }
-    }
+    private bool canDash = true;
+    private Vector3 dashTargetPosition;
+    private Renderer hunterRenderer;
+    private Color normalColor;
+    private Color darkColor;
+    public bool disableMovement = false;
 
     void Start()
     {
-        // Find the player in the scene (assuming the player has the tag "Player")
-        if (player == null)
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = followSpeed;
+        agent.acceleration = normalAcceleration; // Set default acceleration
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        hunterRenderer = GetComponent<Renderer>();
+        normalColor = hunterRenderer.material.color;
+        if (disableMovement)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            agent.isStopped = true;
         }
-
-        rb = GetComponent<Rigidbody>();
-
-        // Start the dash loop
-        StartCoroutine(DashRoutine());
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (player == null) return;
+        if (disableMovement)
+        {
+            agent.isStopped = true;
+            return;
+        }
+        if (!isPaused && !isDashing)
+        {
+            FollowPlayerWithSphereCast();
 
-        MoveTowardsPlayer();
+            float playerDistance = Vector3.Distance(transform.position, player.position);
+
+            if (canDash && playerDistance >= dashMinRange && playerDistance <= dashMaxRange)
+            {
+                StartCoroutine(DashAtPlayer());
+            }
+        }
+    
     }
 
-    void MoveTowardsPlayer()
+    void FollowPlayerWithSphereCast()
     {
-        if (!canMove) {
+        RaycastHit hit;
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Vector3 sphereCastOrigin = transform.position + Vector3.up * 1.0f;
+
+        bool playerDetected = Physics.SphereCast(sphereCastOrigin, 1f, directionToPlayer, out hit, raycastDistance);
+
+        if (playerDetected && hit.collider.CompareTag("Player"))
+        {
+            agent.SetDestination(player.position);
             return;
         }
 
-        // must be within movement boundaries
-        if (!(zBoundaryMin <= player.transform.position.z 
-            && player.transform.position.z <= zBoundaryMax 
-            && yBoundaryMin <= player.transform.position.y
-            && player.transform.position.y <= yBoundaryMax)) {
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= raycastDistance)
+        {
+            float playerHeightDiff = Mathf.Abs(player.position.y - transform.position.y);
+            if (playerHeightDiff < 5f)
+            {
+                agent.SetDestination(player.position);
                 return;
+            }
         }
 
-        Vector3 hunterToPlayer = player.transform.position - transform.position;
-
-        // raycast towards player
-        if (!Physics.Raycast(transform.position, hunterToPlayer, out RaycastHit hit, visionRange)) {
-            return;
-        }
-
-        // don't move if raycast hits a wall
-        // TODO: maybe need to change this to checking if raycast doesn't hit Player or Gun
-        if (hit.collider.gameObject.CompareTag("Wall")) {
-            return;
-        }
-
-        // move towards player
-        Vector3 direction = hunterToPlayer.normalized;
-        float yVelocity = rb.linearVelocity.y;  // save y velocity so we don't change it
-        rb.linearVelocity = new Vector3(direction.x, 0f, direction.z) * moveSpeed * Time.fixedDeltaTime;
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, yVelocity, rb.linearVelocity.z);
-
-        // do dash ability by adding force
-        if (isDashing) {
-            rb.AddForce(new Vector3(direction.x, 0f, direction.z) * dashSpeed);
-        }
-
-        // Rotate to face the player
-        transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
+        agent.ResetPath();
     }
 
-    IEnumerator DashRoutine()
+    IEnumerator DashAtPlayer()
     {
-        while (true)
+        canDash = false;
+        isDashing = true;
+        agent.isStopped = true;
+
+        darkColor = new Color(0.5f, 0f, 0f);
+
+        // Gradually darken the hunter while charging
+        yield return StartCoroutine(ChangeColorOverTime(normalColor, darkColor, dashChargeTime));
+
+        // Get a valid NavMesh position
+        if (NavMesh.SamplePosition(player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
         {
-            yield return new WaitForSeconds(dashCooldown); // Wait before dashing
-            isDashing = true;
-            yield return new WaitForSeconds(dashDuration); // Dash duration
+            dashTargetPosition = hit.position;
+        }
+        else
+        {
             isDashing = false;
+            canDash = true;
+            agent.isStopped = false;
+            yield return StartCoroutine(ChangeColorOverTime(hunterRenderer.material.color, normalColor, 0.5f));
+            yield break;
+        }
+
+        // Start dashing
+        agent.speed = dashSpeed;
+        agent.acceleration = dashAcceleration; // Increase acceleration for quick dash start
+        agent.isStopped = false;
+        agent.SetDestination(dashTargetPosition);
+
+        // Check if the agent gets stuck
+        Vector3 startPosition = transform.position;
+        yield return new WaitForSeconds(stuckCheckTime);
+        if (Vector3.Distance(transform.position, startPosition) < stuckThreshold)
+        {
+            isDashing = false;
+            agent.speed = followSpeed;
+            agent.acceleration = normalAcceleration; // Reset acceleration
+            agent.isStopped = false;
+            yield return StartCoroutine(ChangeColorOverTime(hunterRenderer.material.color, normalColor, 0.5f));
+
+            yield return new WaitForSeconds(dashCooldown);
+            canDash = true;
+
+            yield break;
+        }
+
+        // Wait until reaching the target or getting stuck
+        while (!agent.pathPending && agent.remainingDistance > 0.5f)
+        {
+            yield return null;
+        }
+
+        // Reset after dash
+        agent.speed = followSpeed;
+        agent.acceleration = normalAcceleration; // Reset acceleration
+        isDashing = false;
+
+        // Gradually return to normal color
+        yield return StartCoroutine(ChangeColorOverTime(hunterRenderer.material.color, normalColor, 0.5f));
+
+        // Cooldown before next dash
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
+    IEnumerator ChangeColorOverTime(Color fromColor, Color toColor, float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            hunterRenderer.material.color = Color.Lerp(fromColor, toColor, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        hunterRenderer.material.color = toColor;
+    }
+
+    public void PauseMovement(float pauseTime)
+    {
+        if (!isPaused)
+        {
+            StartCoroutine(PauseCoroutine(pauseTime));
         }
     }
 
-    // pause movement for some number of seconds
-    IEnumerator PauseMovementRoutine(float seconds)
+    private IEnumerator PauseCoroutine(float pauseTime)
     {
-        canMove = false;
-        yield return new WaitForSeconds(seconds);
-        canMove = true;
+        isPaused = true;
+        agent.isStopped = true;
+        yield return new WaitForSeconds(pauseTime);
+        agent.isStopped = false;
+        isPaused = false;
     }
 
-    // public method for PauseMovementRoutine()
-    public void PauseMovement(float seconds) {
-        StartCoroutine(PauseMovementRoutine(seconds));
-    }
 }
