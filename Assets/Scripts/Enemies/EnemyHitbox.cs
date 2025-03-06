@@ -14,7 +14,6 @@ public class EnemyHitbox : MonoBehaviour
         {
             // Log the hitbox type and damage
             int damage = (hitboxType == HitboxType.Head) ? baseDamage * headshotMultiplier : baseDamage;
-            Debug.Log("Hit " + hitboxType + " for " + damage + " damage!");
 
             // Trigger damage to MiniBoss (assuming it has the TakeDamage method)
             if (hitboxType == HitboxType.Head)

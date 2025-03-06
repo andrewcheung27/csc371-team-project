@@ -358,6 +358,74 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6253261557346847441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8465122384228244542}
+  - component: {fileID: 2173674087278032503}
+  - component: {fileID: 2378834208072704178}
+  m_Layer: 0
+  m_Name: MinibossCollision
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8465122384228244542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253261557346847441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.48, z: 0.49}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2100325198071688965}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2173674087278032503
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253261557346847441}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2378834208072704178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253261557346847441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a700dc0c99fc47faaa16a93a24e2d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6736979400214155537
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +657,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6733669816606894674}
+    - targetCorrespondingSourceObject: {fileID: 400000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8465122384228244542}
     - targetCorrespondingSourceObject: {fileID: 400100, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8641229027760867417}
@@ -608,6 +679,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6374438323667701262}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4625459078279313185}
   m_SourcePrefab: {fileID: 100100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
 --- !u!95 &2100325198062125285 stripped
 Animator:
@@ -656,8 +730,10 @@ MonoBehaviour:
   player: {fileID: 0}
   detectionRange: 30
   stoppingDistance: 1.5
+  normalSpeed: 3.5
   animator: {fileID: 2100325198062125285}
   agent: {fileID: 9046469070020291187}
+  shooter: {fileID: 0}
 --- !u!114 &5643236552809266101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,6 +767,24 @@ MonoBehaviour:
   attackCooldown: 2
   attackRange: 10
   armHitbox: {fileID: 1230910017473309324}
+  player: {fileID: 0}
+--- !u!114 &4625459078279313185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100325198071526181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4d9fbc80982450caf6ed2a48a318eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootPoint: {fileID: 3237554097637771153}
+  projectilePrefab: {fileID: 2042570341979246177, guid: a37ef4c526d4a48d78606a24354068ad, type: 3}
+  shootCooldown: 10
+  shootingSpeed: 2
+  animator: {fileID: 2100325198062125285}
   player: {fileID: 0}
 --- !u!4 &2100325198071688965 stripped
 Transform:

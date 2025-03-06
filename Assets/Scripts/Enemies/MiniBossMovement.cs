@@ -6,8 +6,10 @@ public class MiniBossMovement : MonoBehaviour
     public Transform player;
     public float detectionRange = 30f;
     public float stoppingDistance = 1.5f;
+    public float normalSpeed = 3.5f;
     public Animator animator;
     public UnityEngine.AI.NavMeshAgent agent;
+    public MiniBossShooting shooter;
 
     private bool isHit = false;
     private float hitCooldownTime = 3f;  // Cooldown time in seconds (adjust as needed)
@@ -16,6 +18,8 @@ public class MiniBossMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent.speed = normalSpeed;
+        shooter = GetComponent<MiniBossShooting>();
     }
 
     void Update()
@@ -24,11 +28,21 @@ public class MiniBossMovement : MonoBehaviour
         if (isHit) return;  
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= detectionRange)
+        if (!shooter.IsShooting)
         {
-            agent.SetDestination(player.position);
+            if (distanceToPlayer <= detectionRange)
+            {
+                agent.SetDestination(player.position);
+            }
         }
+
+        if(!shooter.IsShooting && shooter.CanShoot(distanceToPlayer))
+        {
+            shooter.StartShooting(player.position);
+        }
+
+
+
 
         float speed = agent.velocity.magnitude;
         animator.SetFloat("Speed", speed);  // Set the walking animation based on speed
