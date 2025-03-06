@@ -1,5 +1,5 @@
 {
-    "name": "InputSystem_Actions",
+    "name": "PlayerControls",
     "maps": [
         {
             "name": "Player",
@@ -36,7 +36,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
@@ -54,7 +54,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "f1ba0d36-48eb-4cd5-b651-1c94a6531f70",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -63,7 +63,7 @@
                     "name": "Previous",
                     "type": "Button",
                     "id": "2776c80d-3c14-4091-8c56-d04ced07a2b0",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -72,7 +72,7 @@
                     "name": "Next",
                     "type": "Button",
                     "id": "b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Charge Dash",
+                    "name": "ChargeDash",
                     "type": "Button",
                     "id": "d46656ed-9942-44c9-b32f-07f345bc0ae2",
                     "expectedControlType": "",
@@ -452,7 +452,7 @@
                 {
                     "name": "",
                     "id": "73f0f039-66a4-42e5-ae63-690aa47bb9a6",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -462,34 +462,34 @@
                 },
                 {
                     "name": "One Modifier",
-                    "id": "832c65ea-1e54-4064-8e0f-5e48431aa6f1",
+                    "id": "3b500a6a-c5de-441b-896d-3b1b38a627bf",
                     "path": "OneModifier",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Charge Dash",
+                    "action": "ChargeDash",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "modifier",
-                    "id": "96ba4927-1e37-4556-a662-1f06bcb75cf7",
+                    "id": "aecd4b69-0c7f-47f6-bf96-37a45d37accd",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Charge Dash",
+                    "action": "ChargeDash",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "binding",
-                    "id": "051c16f3-9993-4051-a011-8593f3b1ef1d",
-                    "path": "<Keyboard>/e",
+                    "id": "44f2c791-736d-47d3-ba4f-ecd29220b6ae",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Charge Dash",
+                    "action": "ChargeDash",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

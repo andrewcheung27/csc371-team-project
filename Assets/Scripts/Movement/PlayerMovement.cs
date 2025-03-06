@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +11,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector3 offset;
     private Vector3 velocity;
+    
+    enum Direction
+    {
+        Left = -1,
+        Right = 1
+    }
+
+    private float direction = (float)Direction.Right;
 
     [Header("Jump Settings")]
     // Max height a player can jump
@@ -25,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
     // The y value from which the player jumped
     private float jumpY;
     public bool jumpReleased = false;
+    public bool hasDoubleJump = true;
+    public bool hasDoubleJumped = false;
+    private float DOUBLEJUMPCOOLDOWN = 0.5f;
+    private float doubleJumpCooldownTimer = 0.0f;
 
     [Header("Midair Movement")]
     public float airAcceleration = 7.5f;
@@ -69,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Object Interaction")]
     // toggle object interaction because it can be expensive
     public bool doObjectInteraction = false;
-    private InputAction interactAction;
+    // private InputAction interactAction;
     // radius of sphere for interactions
     public float interactionRadius = 0.5f;
     // sphere offset from origin
@@ -78,9 +91,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Dash Settings")]
     // Whether the player has unlocked 'dash'
-    public bool hasDash = false;
+    public bool hasDash = true;
     // Whether the player has unlocked 'chargeDash'
-    public bool hasChargeDash = false;
+    public bool hasChargeDash = true;
     // Whether the player is currently doing a normal 'dash'.
     public bool isDashing = false;
     // Whether the player is currently charging a 'dash'.
@@ -88,28 +101,34 @@ public class PlayerMovement : MonoBehaviour
     // Whether the player is currently doing a charge dash (Actually moving) 
     public bool isChargeDashing = false;
     // The speed for a normal dash
-    public const float DASHSPEED = 5.0f;
+    public const float DASHSPEED = 20.0f;
     // The speed for a charged dash
-    public const float CHARGEDASHSPEED = 5.0f;
+    public const float CHARGEDASHSPEED = 40.0f;
     // The total time it takes to charge a charged dash
-    private const float CHARGEDASHTIME = 2.0f; // In seconds
+    private const float CHARGEDASHTIME = 3.0f; // In seconds
     // A timer to keep track of how long the player has charged the dash.
     private float chargeDashTimer = 0.0f;
     // A multiplier to speed up charge times (increases with future powerups)
-    public float chargeDashMultiplier = 1.0f;
+    public float chargeDashMultiplier = 4.0f;
     // The cooldown between dashes.
-    private const float DASHCOOLDOWN = 1.0f; // In seconds
+    private const float DASHCOOLDOWN = 0.2f; // In seconds
     // The timer to keep track of the dash cooldown.
-    private float dashCooldownTimer = 0.0f;
+    public float dashCooldownTimer = 0.0f;
     // The time it takes to complete a 'dash'.
-    private const float DASHTIME = 2.0f;
+    private const float DASHTIME = 0.2f;
     // The timer keeping track of how long the player has 'dashed'.
-    private float dashTimer = 0.0f;
+    public float dashTimer = 0.0f;
+
+    public int numDashes = 1;
+    public int numDashesUsed = 0;
+
+    public PlayerInputHandler inputHandler;
 
 
     void Awake()
     {
-        interactAction = InputSystem.actions.FindAction("Interact");
+        // interactAction = InputSystem.actions.FindAction("Interact");
+        inputHandler = GameObject.Find("PlayerInputHandler").GetComponent<PlayerInputHandler>();
     }
 
     void Start()
@@ -128,61 +147,96 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDashing) {
+        // If the player is currently dashing...
+        if (isDashing || isChargeDashing) {
+            if (isDashing) {
+                rb.linearVelocity = new Vector3(0, 0, DASHSPEED * direction);
+            }
+            else {
+                rb.linearVelocity = new Vector3(0, 0, DASHSPEED * direction * chargeDashMultiplier);
+            }
 
-        }
-        DetectWallSlide();
-        // Update wall jump timer if a wall jump is in progress
-        if (isWallJumping)
-        {
-            wallJumpTimer -= Time.fixedDeltaTime;
-            if (wallJumpTimer <= 0)
-            {
-                isWallJumping = false;
+
+            dashTimer -= Time.fixedDeltaTime;
+            if (dashTimer >= 0) {
+                return;
+            }
+            else {
+                isDashing = false;
+                isChargeDashing = false;
+                rb.linearVelocity = new Vector3(0, 0, 0);
+                dashCooldownTimer = DASHCOOLDOWN;
+                
+                if (isGrounded || isWallSliding) {
+                    numDashesUsed = 0;
+                }
             }
         }
-
-        float moveZ = Input.GetAxis("Horizontal");
-
-        Vector3 currentVelocity = rb.linearVelocity;
-
-        // Get the current velocity from the rigidbody
-        Vector3 newVelocity = new Vector3(
-            0, rb.linearVelocity.y, moveZ * speed
-        );
-
-        if (isGrounded && !isJumping)
-        {
-            /* 
-            When on a slope that is walkable, zero out any vertical
-            component. This prevents sliding down or the residual vertical
-            velocity from accumulating.   
-            */
-            currentVelocity.y = 0f;
+        // If the player is currently charging a dash...
+        else if (isDashCharging) {
+            chargeDashTimer -= Time.fixedDeltaTime;
+            return;
         }
+        /* Any other type of movement. */
+        else {
+            // Reduce dash cooldown
+            if (dashCooldownTimer >= 0.0) {
+                dashCooldownTimer -= Time.fixedDeltaTime;
+            }
 
-        // If wall jumping, preserve the current horizontal velocity
-        if (isWallJumping)
-        {
-            newVelocity = new Vector3(0, currentVelocity.y, currentVelocity.z);
+            // Reduce double jump cooldown
+            if (doubleJumpCooldownTimer >= 0.0) {
+                doubleJumpCooldownTimer -= Time.fixedDeltaTime;
+            }
+
+            // Check if wallsliding.
+            DetectWallSlide();
+            // Update wall jump timer if a wall jump is in progress
+            if (isWallJumping)
+            {
+                wallJumpTimer -= Time.fixedDeltaTime;
+                if (wallJumpTimer <= 0)
+                {
+                    isWallJumping = false;
+                }
+            }
+
+            Vector2 moveInput = inputHandler.MoveInput;
+            float moveZ = moveInput.x;
+
+            if (moveZ > 0)
+            {
+                direction = (float)Direction.Right;
+            }
+            else if (moveZ < 0) {
+                direction = (float)Direction.Left;
+            }
+
+            Vector3 newVelocity = new Vector3(0, rb.linearVelocity.y, moveZ * speed);
+
+            if (isGrounded && !isJumping)
+            {
+                newVelocity.y = 0f;
+            }
+
+            if (isWallJumping)
+            {
+                newVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
+            }
+            else if (isWallSliding)
+            {
+                newVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
+            }
+
+            AdjustGravity();
+
+            if (!isGrounded && !isWallSliding)
+            {
+                AdjustMidAirVelocity();
+            }
+
+            rb.linearVelocity = newVelocity;
         }
-        // If wall sliding, no horizontal movement allowed
-        else if (isWallSliding)
-        {
-            newVelocity = new Vector3(0, currentVelocity.y, currentVelocity.z);
-        }
-
-        // Handle gravity adjustments
-        AdjustGravity();
-
-        // Check for midair movement and adjust horizontal velocity accordingly.
-        if (!isGrounded && !isWallSliding)
-        {
-            AdjustMidAirVelocity();
-
-        }
-        
-        rb.linearVelocity = newVelocity;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -191,11 +245,13 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("MovingPlatform") && isGrounded)
         {
             isJumping = false;
+            hasDoubleJumped = false;
             // Parent the player to the platform
             transform.parent = collision.transform;
         }
         else if (isJumping && rb.linearVelocity.y <= 0 && isGrounded) {
             isJumping = false;
+            hasDoubleJumped = false;
         }
     }
 
@@ -204,11 +260,13 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("MovingPlatform") && isGrounded)
         {
             isJumping = false;
+            hasDoubleJumped = false;
             // Parent the player to the platform
             transform.parent = collision.transform;
         }
         else if (isJumping && rb.linearVelocity.y <= 0 && isGrounded) {
             isJumping = false;
+            hasDoubleJumped = false;
         }
 
         foreach (ContactPoint contact in collision.contacts)
@@ -267,36 +325,56 @@ public class PlayerMovement : MonoBehaviour
         /* Handle all the player inputs. */
         // If the player is not already in the dashing movmenet
         if (!isDashing && !isChargeDashing) {
+            // Check for 'charge dash'
             if (
-                Input.GetButtonDown("Charge Dash") && hasChargeDash &&
-                dashCooldownTimer == 0.0
+                inputHandler.chargeDashTriggered &&
+                hasChargeDash &&
+                dashCooldownTimer <= 0.0 &&
+                numDashesUsed < numDashes
             ) {
                 HandleChargingDash();
             }
-            else if (Input.GetButtonDown("Dash") && hasDash &&
-            dashCooldownTimer == 0.0
+            // Check for normal 'dash'
+            else if (
+                inputHandler.dashTriggered &&
+                hasDash &&
+                dashCooldownTimer <= 0.0 &&
+                numDashesUsed < numDashes
             ) {
+                Debug.Log("Registered Dash Input");
+                isJumping = false;
+                hasDoubleJumped = false;
+                isWallSliding = false;
+                isWallJumping = false;
                 HandleDash();
             }
-            else if (Input.GetButtonDown("Jump"))
+            // Check for Jump
+            else if (inputHandler.jumpTriggered)
             {
                 HandleJump();
             }
         }
 
         // Check if the player has released the 'Charge Dash' buttons.
-        if (HandleMovementInputs.GetButtonUp("Charge Dash") && isDashCharging)
+        if (!inputHandler.chargeDashTriggered && isDashCharging)
         {
-            rb.linearVelocity = new Vector3(0, 0, 0);
+            isDashCharging = false;
             // If the player has charged long enough, do a 'charged dash'
-            if (chargeDashTimer <= 0)
+            if (inputHandler.chargeDashDuration >= CHARGEDASHTIME)
             {
                 isChargeDashing = true;
                 dashTimer = DASHTIME;
+                float dashV = CHARGEDASHSPEED * chargeDashMultiplier * direction;
+                rb.linearVelocity = new Vector3(0, dashV, 0);
+            }
+            // Otherwise, do a normal 'dash'
+            else {
+                HandleDash();
             }
         }
 
-        if (isJumping && Input.GetButtonUp("Jump"))
+        // Check if the "Jump" button is released (For a shorter jump)
+        if (isJumping && !inputHandler.jumpTriggered)
         {
             jumpReleased = true;
         }
@@ -304,16 +382,31 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleChargingDash()
     {
+        // Disable any other movement
+        isJumping = false;
+        hasDoubleJumped = false;
+        isWallSliding = false;
+        isWallJumping = false;
+
+        // Start the Charging Timer
         isDashCharging = true;
         chargeDashTimer = CHARGEDASHTIME;
+        rb.linearVelocity = new Vector3(0, 0, 0);
     }
 
 
     void HandleDash()
     {
+        // Disable any other movement
+        isJumping = false;
+        hasDoubleJumped = false;
+        isWallSliding = false;
+        isWallJumping = false;
+        
+        // Start the dash movement 
         isDashing = true;
         dashTimer = DASHTIME;
-        rb.linearVelocity = new Vector3(0, 0, 0);
+        numDashesUsed += 1;
     }
 
     void HandleJump()
@@ -325,6 +418,7 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
             jumpY = rb.position.y;
             jumpReleased = false;
+            doubleJumpCooldownTimer = DOUBLEJUMPCOOLDOWN;
 
             float jumpVelocity = Mathf.Sqrt(
                 2 * Mathf.Abs(Physics.gravity.y) * maxJumpHeight
@@ -340,6 +434,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             isWallJumping = true;
             wallJumpTimer = wallJumpDuration;
+            doubleJumpCooldownTimer = DOUBLEJUMPCOOLDOWN;
 
             // Calculate the jump components for a 45° jump:
             float componentForce = wallJumpForce / Mathf.Sqrt(2f);
@@ -351,6 +446,21 @@ public class PlayerMovement : MonoBehaviour
 
             // Combine to get a jump at 45° relative to the wall
             rb.linearVelocity = horizontalJump + verticalJump;
+        }
+        // Double Jump
+        else if (hasDoubleJump && !hasDoubleJumped && doubleJumpCooldownTimer <= 0) {
+            isJumping = true;
+            hasDoubleJumped = true;
+            isGrounded = false;
+            jumpY = rb.position.y;
+            jumpReleased = false;
+
+            float jumpVelocity = Mathf.Sqrt(
+                2 * Mathf.Abs(Physics.gravity.y) * maxJumpHeight
+            );
+            rb.linearVelocity = new Vector3(
+                0, jumpVelocity, rb.linearVelocity.z
+            );
         }
     }
 
@@ -460,6 +570,7 @@ public class PlayerMovement : MonoBehaviour
                                groundMask
                               )
             ) {
+                numDashesUsed = 0;
             // Check if the angle of the ground is within the allowed slope limit
             float angle = Vector3.Angle(hit.normal, Vector3.up);
             if (angle <= slopeLimit)
@@ -503,7 +614,9 @@ public class PlayerMovement : MonoBehaviour
         {
             isWallSliding = true;
             isJumping = false;
+            hasDoubleJumped = false;
             lastWall = detectedWall;
+            numDashesUsed = 0;
             return;
         }
 
@@ -519,7 +632,7 @@ public class PlayerMovement : MonoBehaviour
             if (hitCollider.gameObject.TryGetComponent<ButtonController>(out buttonController))
             {
                 buttonController.SetActivatable();
-                if (interactAction.WasPressedThisFrame())
+                if (inputHandler.chargeDashTriggered)
                 {
                     buttonController.Activate();
                 }
