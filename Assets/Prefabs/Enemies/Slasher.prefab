@@ -788,7 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastDistance: 40
-  followSpeed: 3.5
+  followSpeed: 5
   normalAcceleration: 8
   stuckCheckTime: 1
   stuckThreshold: 0.1
