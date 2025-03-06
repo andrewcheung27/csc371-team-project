@@ -34,28 +34,44 @@ public class MiniBossMovement : MonoBehaviour
         animator.SetFloat("Speed", speed);  // Set the walking animation based on speed
     }
 
+    // public void TakeDamage()
+    // {
+    //     // Ensure cooldown is respected
+    //     if (Time.time - lastHitTime < hitCooldownTime) return; // Don't trigger animation again until cooldown
+
+    //     isHit = true;
+    //     agent.isStopped = true;  // Stop movement during hit animation
+
+    //     // Trigger appropriate hit animation based on whether the boss is moving or idle
+    //     if (animator.GetFloat("Speed") > 0.1f)  // If moving
+    //     {
+    //         animator.SetTrigger("WalkHit");  // Trigger walking hit animation
+    //     }
+    //     else  // If idle
+    //     {
+    //         animator.SetTrigger("Hit");  // Trigger idle hit animation
+    //     }
+
+    //     lastHitTime = Time.time;  // Update the last hit time
+
+    //     // Start cooldown to allow movement and prevent further hits from triggering animation
+    //     Invoke("ResetHit", 1f); // 1 second before the boss can move again after animation
+    // }
+
     public void TakeDamage()
     {
         // Ensure cooldown is respected
-        if (Time.time - lastHitTime < hitCooldownTime) return; // Don't trigger animation again until cooldown
+        if (Time.time - lastHitTime < hitCooldownTime) return; 
 
         isHit = true;
-        agent.isStopped = true;  // Stop movement during hit animation
+        agent.isStopped = true;  // Stop movement immediately
 
-        // Trigger appropriate hit animation based on whether the boss is moving or idle
-        if (animator.GetFloat("Speed") > 0.1f)  // If moving
-        {
-            animator.SetTrigger("WalkHit");  // Trigger walking hit animation
-        }
-        else  // If idle
-        {
-            animator.SetTrigger("Hit");  // Trigger idle hit animation
-        }
+        animator.SetTrigger("Hit");  // Always play the same hit animation
 
-        lastHitTime = Time.time;  // Update the last hit time
+        lastHitTime = Time.time;  // Update cooldown time
 
-        // Start cooldown to allow movement and prevent further hits from triggering animation
-        Invoke("ResetHit", 1f); // 1 second before the boss can move again after animation
+        // Resume movement after 1 second
+        Invoke("ResetHit", 1f);
     }
 
     void ResetHit()
