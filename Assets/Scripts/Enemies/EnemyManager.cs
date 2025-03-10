@@ -1,25 +1,20 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance; // Singleton instance
 
-    [Header("Enemy Settings")]
-    public GameObject[] enemyPrefabs; // Assign different enemy prefabs in the Inspector
-    public int numberOfEnemies = 5; // Number of enemies to spawn
-    public float spawnDelay = 2f; // Delay between enemy spawns
-    public bool respawnEnemies = false; // Should enemies respawn after being defeated?
+    [Header("Health Pack Settings")]
+    public GameObject healthPackPrefab; // Assign health pack prefab in Inspector
+    [Range(0f, 1f)]
+    public float healthPackDropChance = 0.3f; // 30% drop chance by default
 
-    [Header("Spawn Points")]
-    public List<Transform> spawnPoints = new List<Transform>(); // Assign spawn points in Inspector
-
-    private List<GameObject> activeEnemies = new List<GameObject>();
+    private List<GameObject> activeEnemies = new List<GameObject>(); // Track active enemies
 
     void Awake()
     {
-        // this is a singleton class
+        // Singleton setup
         if (instance == null)
         {
             instance = this;
@@ -27,53 +22,44 @@ public class EnemyManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return;
         }
     }
 
-    void Start()
+    // Call this when an enemy is created to add it to the active list
+    public void RegisterEnemy(GameObject enemy)
     {
-        StartCoroutine(SpawnEnemies());
-    }
-
-    IEnumerator SpawnEnemies()
-    {
-        for (int i = 0; i < numberOfEnemies; i++)
+        if (!activeEnemies.Contains(enemy))
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(spawnDelay);
+            activeEnemies.Add(enemy);
         }
     }
 
-    public void SpawnEnemy()
-    {
-        if (spawnPoints.Count == 0 || enemyPrefabs.Length == 0)
-        {
-            Debug.LogError("EnemyManager: No spawn points or enemy prefabs assigned!");
-            return;
-        }
-
-        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)]; // Pick a random spawn point
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]; // Pick a random enemy type
-
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-        activeEnemies.Add(newEnemy);
-    }
-
+    // Call this when an enemy is defeated
     public void EnemyDefeated(GameObject enemy)
     {
         activeEnemies.Remove(enemy);
-        Destroy(enemy);
 
-        if (respawnEnemies)
+        // Try dropping a health pack at enemy's position
+        TryDropHealthPack(enemy.transform.position);
+
+        // Destroy the enemy GameObject
+        Destroy(enemy);
+    }
+
+    private void TryDropHealthPack(Vector3 position)
+    {
+        if (healthPackPrefab == null) return; // Safety check
+
+        if (Random.value <= healthPackDropChance)
         {
-            StartCoroutine(RespawnEnemy());
+            Instantiate(healthPackPrefab, position, Quaternion.identity);
+            Debug.Log("Health pack dropped!");
         }
     }
 
-    IEnumerator RespawnEnemy()
+    // Optional: Get list of active enemies (for other systems, like wave manager)
+    public List<GameObject> GetActiveEnemies()
     {
-        yield return new WaitForSeconds(spawnDelay);
-        SpawnEnemy();
+        return activeEnemies;
     }
 }

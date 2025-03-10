@@ -75,16 +75,21 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
+{
+    GameManager.instance.AddToScore(score);
+    GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
+
+    // Tell EnemyManager that this enemy died (so it can handle health pack drop and tracking)
+    EnemyManager.instance.EnemyDefeated(gameObject);
+
+    // Destroy health bar UI when enemy dies
+    if (healthBarCanvas != null)
     {
-        GameManager.instance.AddToScore(score);
-        GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
-
-        // Destroy health bar UI when enemy dies
-        if (healthBarCanvas != null)
-        {
-            Destroy(healthBarCanvas.gameObject);
-        }
-
-        Destroy(gameObject);
+        Destroy(healthBarCanvas.gameObject);
     }
+
+    // EnemyManager will handle destroying the enemy
+    // So we DON'T need Destroy(gameObject); here anymore!
+}
+
 }
