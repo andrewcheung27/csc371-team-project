@@ -5,7 +5,7 @@ public class Weapon : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint; // Assign a child empty GameObject where bullets spawn
     public float bulletSpeed = 20f;
-
+    
     public void Shoot(Vector3 direction)
     {
         // can't shoot if game is over
@@ -15,6 +15,8 @@ public class Weapon : MonoBehaviour
 
         GameObject bulletInstance = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         bulletInstance.transform.Rotate(new Vector3(90f, 0f, 0f));  // make bullet horizontal
+        Debug.Log("Bullet spawned at " + firePoint.position);
+        Debug.Log("Firepoint position: " + firePoint.position);
         Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
         if (bulletScript != null)
         {
