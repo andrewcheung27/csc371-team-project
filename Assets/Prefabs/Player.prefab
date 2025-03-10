@@ -515,7 +515,7 @@ MonoBehaviour:
   maxFallSpeed: -10
   isJumping: 0
   jumpReleased: 0
-  hasDoubleJump: 1
+  hasDoubleJump: 0
   hasDoubleJumped: 0
   airAcceleration: 7.5
   airDeceleration: 0.75
@@ -539,8 +539,8 @@ MonoBehaviour:
   doObjectInteraction: 0
   interactionRadius: 0.5
   interactionOffset: 0.5
-  hasDash: 1
-  hasChargeDash: 1
+  hasDash: 0
+  hasChargeDash: 0
   isDashing: 0
   isDashCharging: 0
   isChargeDashing: 0

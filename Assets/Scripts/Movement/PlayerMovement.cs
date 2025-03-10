@@ -341,7 +341,7 @@ public class PlayerMovement : MonoBehaviour
                 dashCooldownTimer <= 0.0 &&
                 numDashesUsed < numDashes
             ) {
-                Debug.Log("Registered Dash Input");
+                // Debug.Log("Registered Dash Input");
                 isJumping = false;
                 hasDoubleJumped = false;
                 isWallSliding = false;

@@ -70,7 +70,7 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction.performed += context =>
         {
             jumpTriggered = true;
-            Debug.Log("Jump Pressed");
+            // Debug.Log("Jump Pressed");
             StartCoroutine(ResetJumpTrigger());
         };
         jumpAction.canceled += context => jumpTriggered = false;
@@ -78,14 +78,14 @@ public class PlayerInputHandler : MonoBehaviour
         interactAction.performed += context =>
         {
             interactTriggered = true;
-            Debug.Log("Interact Pressed");
+            // Debug.Log("Interact Pressed");
         };
         interactAction.canceled += context => interactTriggered = false;
         
         dashAction.performed += context =>
         {
             dashTriggered = true;
-            Debug.Log("Dash Pressed");
+            // Debug.Log("Dash Pressed");
         };
         dashAction.canceled += context => dashTriggered = false;
         
@@ -93,7 +93,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             chargeDashTriggered = true;
             chargeDashStartTime = Time.time;
-            Debug.Log("Charge Dash Pressed");
+            // Debug.Log("Charge Dash Pressed");
         };
         chargeDashAction.canceled += context =>
         {

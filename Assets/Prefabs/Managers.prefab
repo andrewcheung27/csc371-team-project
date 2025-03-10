@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6998207511161948417}
   - component: {fileID: 6990805685360188830}
   - component: {fileID: 9194267022577920700}
+  - component: {fileID: 4362876376236738940}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -111,3 +112,17 @@ MonoBehaviour:
   dialogueImage: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueTime: 3
+--- !u!114 &4362876376236738940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205422591119166137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a675ad758b024b158742f98e3fffd90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPackPrefab: {fileID: 901120258844968018, guid: 8240220ec37d4473eb0514542e8f8273, type: 3}
+  healthPackDropChance: 0.3
