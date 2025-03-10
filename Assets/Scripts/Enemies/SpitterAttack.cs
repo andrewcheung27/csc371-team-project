@@ -58,6 +58,7 @@ public class SpitterAttack : MonoBehaviour
         {
             rb.linearVelocity = currentAttackDirection * projectileSpeed;
         }
+        AudioManager.instance.SpitterAttack();
 
     }
 }

@@ -84,6 +84,15 @@ public class EnemyHealth : MonoBehaviour
         {
             Destroy(healthBarCanvas.gameObject);
         }
+        if (gameObject.name == "Hunter") // Replace "Hunter" with your actual Hunter enemy's GameObject name
+        {
+            AudioManager.instance.HunterDamage(); // Play the Hunter's death sound
+        }
+        else
+        {
+            // Add any additional sounds for other enemies here
+        }
+
 
         Destroy(gameObject);
     }

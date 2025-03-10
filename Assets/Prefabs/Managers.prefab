@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 8
   maxHealth: 8
+  easyModeMaxHealth: 1000000000
   healthBar: {fileID: 0}
   score: 0
   deathPenalty: 100
@@ -56,6 +57,7 @@ MonoBehaviour:
   scorePopUpDuration: 2
   scoreText: {fileID: 0}
   timerText: {fileID: 0}
+  easyModeText: {fileID: 0}
   respawnButton: {fileID: 0}
   damageEffect: {fileID: 0}
   damageEffectDuration: 0.5
@@ -89,7 +91,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafcc76d92ff54c3e97541e77376f65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShoot: {fileID: 0}
+  playerShoot: {fileID: 8300000, guid: b11438c0128434874aa91e9f37111c06, type: 3}
+  hunterAttack: {fileID: 8300000, guid: e9824a5bd73814829b947f7c014e1599, type: 3}
+  hunterDamage: {fileID: 8300000, guid: afb3f59115d54497c964ef5511fd96dc, type: 3}
+  spitterAttack: {fileID: 8300000, guid: 5ef258addb3e241c4b40f7a3771acdb6, type: 3}
+  audioSourcePoolSize: 10
 --- !u!114 &9194267022577920700
 MonoBehaviour:
   m_ObjectHideFlags: 0
