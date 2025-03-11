@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 10f084d53d87af5428e492b68c5986fb
+timeCreated: 1514643343
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 99671
+  packageName: Sci-Fi Rifle
+  packageVersion: 1.0
+  assetPath: Assets/Sci-Fi Rifle/Sci-Fi Rifle_demo scene.unity
+  uploadId: 221426
