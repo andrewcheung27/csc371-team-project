@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public string enemyName;  // name of this enemy
+
     [Header("Health Settings")]
     public int health = 10;  // current health
     public int maxHealth = 10;  // max health
@@ -74,6 +76,18 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    // play audio based on enemy name
+    void PlayDefeatedAudio()
+    {
+        switch (enemyName) {
+            case "Hunter":
+                AudioManager.instance.HunterDamage();
+                break;
+            default:
+                break;
+        }
+    }
+
     void Die()
 {
     GameManager.instance.AddToScore(score);
@@ -81,6 +95,9 @@ public class EnemyHealth : MonoBehaviour
 
     // Tell EnemyManager that this enemy died (so it can handle health pack drop and tracking)
     EnemyManager.instance.EnemyDefeated(gameObject);
+
+    // death sound
+    PlayDefeatedAudio();
 
     // Destroy health bar UI when enemy dies
     if (healthBarCanvas != null)
