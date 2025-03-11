@@ -2,19 +2,30 @@ using UnityEngine;
 
 public class ElectricHazard : MonoBehaviour
 {
-    [Header ("Motion")]
-    public bool rotate = true;
-    public float rotateSpeed = 90f;
+    public float yCoord1;
+    public float yCoord2;
+    public float speed = 1f;
+    public int damage = 1;
 
-    void Start()
+    private Vector3 velocity;
+
+    void FixedUpdate()
     {
-        
+        float t = Mathf.PingPong(Time.time * speed, 1);
+        Vector3 newPosition = Vector3.Lerp(new Vector3(transform.localPosition.x, yCoord1, transform.localPosition.z), new Vector3(transform.localPosition.x, yCoord2, transform.localPosition.z), t);
+        velocity = (newPosition - transform.position) / Time.deltaTime;
+        transform.localPosition = newPosition;
     }
 
-    void Update()
+    public Vector3 GetVelocity()
     {
-        if (rotate) {
-            transform.Rotate(new Vector3(0f, rotateSpeed * Time.deltaTime, 0f));
+        return velocity;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player")) {
+            GameManager.instance.AddToHealth(-damage);
         }
     }
 }
