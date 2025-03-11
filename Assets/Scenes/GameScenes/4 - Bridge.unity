@@ -533,9 +533,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
-      propertyPath: playerShoot
+      propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 5595662232879108231}
+      objectReference: {fileID: 365012392}
     - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: shootAudioSource
       value: 
@@ -1055,6 +1055,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1028863395935276323, guid: 085785bf4a2444a7ab71495e3eacff81, type: 3}
+      propertyPath: hasDash
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1028863395935276323, guid: 085785bf4a2444a7ab71495e3eacff81, type: 3}
+      propertyPath: hasChargeDash
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5442695597079718587, guid: 085785bf4a2444a7ab71495e3eacff81, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1132,11 +1140,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 085785bf4a2444a7ab71495e3eacff81, type: 3}
---- !u!82 &5595662232879108231 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6350184397950129176, guid: 085785bf4a2444a7ab71495e3eacff81, type: 3}
-  m_PrefabInstance: {fileID: 5595662232879108230}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5740436119286959747
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6998207511161948417}
   - component: {fileID: 6990805685360188830}
   - component: {fileID: 9194267022577920700}
+  - component: {fileID: 4362876376236738940}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 8
   maxHealth: 8
+  easyModeMaxHealth: 1000000000
   healthBar: {fileID: 0}
   score: 0
   deathPenalty: 100
@@ -56,6 +58,7 @@ MonoBehaviour:
   scorePopUpDuration: 2
   scoreText: {fileID: 0}
   timerText: {fileID: 0}
+  easyModeText: {fileID: 0}
   respawnButton: {fileID: 0}
   damageEffect: {fileID: 0}
   damageEffectDuration: 0.5
@@ -89,7 +92,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafcc76d92ff54c3e97541e77376f65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShoot: {fileID: 0}
+  playerShoot: {fileID: 8300000, guid: b11438c0128434874aa91e9f37111c06, type: 3}
+  hunterAttack: {fileID: 8300000, guid: e9824a5bd73814829b947f7c014e1599, type: 3}
+  hunterDamage: {fileID: 8300000, guid: afb3f59115d54497c964ef5511fd96dc, type: 3}
+  spitterAttack: {fileID: 8300000, guid: 5ef258addb3e241c4b40f7a3771acdb6, type: 3}
+  audioSourcePoolSize: 10
 --- !u!114 &9194267022577920700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,3 +112,17 @@ MonoBehaviour:
   dialogueImage: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueTime: 3
+--- !u!114 &4362876376236738940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205422591119166137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a675ad758b024b158742f98e3fffd90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPackPrefab: {fileID: 901120258844968018, guid: 8240220ec37d4473eb0514542e8f8273, type: 3}
+  healthPackDropChance: 0.3

@@ -43,6 +43,7 @@ public class HunterAttack : MonoBehaviour
         {
             Debug.LogError("GameManager instance not found!");
         }
+        AudioManager.instance.HunterAttack();
     }
 }
 

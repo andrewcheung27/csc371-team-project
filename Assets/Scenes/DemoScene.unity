@@ -1222,6 +1222,7 @@ Transform:
   m_Children:
   - {fileID: 2121192383}
   - {fileID: 1419462367}
+  - {fileID: 1272235692}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &620466263
@@ -1245,7 +1246,6 @@ MonoBehaviour:
   isJumping: 0
   jumpReleased: 0
   airAcceleration: 7.5
-  rotationSpeed: 360
   airDeceleration: 0.75
   gravityScale: 1
   apexGravityScale: 0.75
@@ -1267,6 +1267,15 @@ MonoBehaviour:
   doObjectInteraction: 0
   interactionRadius: 0.5
   interactionOffset: 0.5
+  hasDash: 1
+  hasChargeDash: 1
+  isDashing: 0
+  isDashCharging: 0
+  isChargeDashing: 0
+  chargeDashMultiplier: 1
+  dashCooldownTimer: 0
+  dashTimer: 0
+  inputHandler: {fileID: 0}
 --- !u!136 &620466264
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1324,6 +1333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHolder: {fileID: 1419462367}
+  shootingCooldown: 0.5
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,6 +1599,58 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1162671660}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1272235691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1272235692}
+  - component: {fileID: 1272235693}
+  m_Layer: 0
+  m_Name: PlayerInputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1272235692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272235691}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10, y: -6, z: 14}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 620466262}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1272235693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272235691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2500902aa95db06429bbdb38a95446ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  actionMapName: Player
+  move: Move
+  jump: Jump
+  interact: Interact
+  dash: dash
+  chargeDash: chargeDash
+  chargeDashStartTime: 0
 --- !u!1001 &1325588094
 PrefabInstance:
   m_ObjectHideFlags: 0
