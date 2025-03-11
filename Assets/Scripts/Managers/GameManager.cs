@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
     public void AddToHealth(int n)
     {
         // update health with min and max restrictions
-        health = Mathf.Clamp(minHealth, health + n, easyMode ? easyModeMaxHealth : maxHealth);
+        health = Mathf.Clamp(health + n, minHealth, easyMode ? easyModeMaxHealth : maxHealth);
 
         // update health bar
         if (healthBar != null) {
