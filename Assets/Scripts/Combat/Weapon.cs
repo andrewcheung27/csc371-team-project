@@ -13,10 +13,7 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        GameObject bulletInstance = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        bulletInstance.transform.Rotate(new Vector3(90f, 0f, 0f));  // make bullet horizontal
-        Debug.Log("Bullet spawned at " + firePoint.position);
-        Debug.Log("Firepoint position: " + firePoint.position);
+        GameObject bulletInstance = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
         if (bulletScript != null)
         {

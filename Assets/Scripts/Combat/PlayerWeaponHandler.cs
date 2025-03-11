@@ -203,6 +203,7 @@ using UnityEngine.InputSystem;
 public class PlayerWeaponHandler : MonoBehaviour
 {
     public Transform weaponHolder;
+    public Transform firePoint;
     public float shootingCooldown = 0.5f;
     private Weapon currentWeapon;
     private bool hasWeapon = false;
@@ -288,12 +289,14 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (plane.Raycast(ray, out float distance))
         {
             Vector3 worldMousePosition = ray.GetPoint(distance);
-            Vector3 direction = worldMousePosition - transform.position;
+            Vector3 direction = worldMousePosition - weaponHolder.position;
 
-            // ✅ Correct orientation: Barrel now faces outward, not at the player
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.down);
+            // ✅ Simply rotate the gun toward the mouse, no extra BS
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            // ✅ Apply 90-degree X-axis + 180-degree Z-axis rotation to face outward
+            // ✅ Apply the rotation and prevent any awkward flip
+            targetRotation *= Quaternion.Euler(-90f, 0f, 0f);
+
             weaponHolder.rotation = targetRotation;
         }
     }
