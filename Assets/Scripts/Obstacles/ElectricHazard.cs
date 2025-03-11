@@ -14,7 +14,7 @@ public class ElectricHazard : MonoBehaviour
     void Update()
     {
         if (rotate) {
-            transform.Rotate(new Vector3(rotateSpeed * Time.deltaTime, 0f, 0f));
+            transform.Rotate(new Vector3(0f, rotateSpeed * Time.deltaTime, 0f));
         }
     }
 }
