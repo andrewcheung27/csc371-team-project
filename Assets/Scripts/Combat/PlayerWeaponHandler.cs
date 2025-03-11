@@ -291,7 +291,7 @@ public class PlayerWeaponHandler : MonoBehaviour
             Vector3 worldMousePosition = ray.GetPoint(distance);
             Vector3 direction = worldMousePosition - weaponHolder.position;
 
-            // ✅ Simply rotate the gun toward the mouse, no extra BS
+            // ✅ Simply rotate the gun toward the mouse
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 
             // ✅ Apply the rotation and prevent any awkward flip

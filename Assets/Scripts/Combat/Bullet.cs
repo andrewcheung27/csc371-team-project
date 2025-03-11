@@ -55,6 +55,14 @@ public class Bullet : MonoBehaviour
     private Vector3 moveDirection;
     private float speed;
 
+    void Awake()
+    {
+        // Force the bullet's X position to 0
+        Vector3 position = transform.position;
+        position.x = 0f;  // Ensure the bullet always spawns on X = 0
+        transform.position = position;
+    }
+
     public void SetDirection(Vector3 direction, float speed)
     {
         this.moveDirection = direction.normalized;
