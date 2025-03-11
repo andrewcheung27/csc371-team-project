@@ -19,7 +19,7 @@ public class WeaponPickup : MonoBehaviour
         if (!isPickedUp)
         {
             // Rotate the weapon slowly around the Y-axis
-            transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
 
             // Make the weapon move up and down using a sine wave
             float newY = startPosition.y + Mathf.Sin(Time.time * floatSpeed) * floatHeight;
