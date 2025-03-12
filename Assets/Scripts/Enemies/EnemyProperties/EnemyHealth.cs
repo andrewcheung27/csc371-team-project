@@ -43,18 +43,10 @@ public class EnemyHealth : MonoBehaviour
         {
             Debug.LogError("EnemyHealth: bloodEffectPrefab not assigned in Inspector!");
         }
-        else
-        {
-            Debug.Log("EnemyHealth: bloodEffectPrefab is assigned correctly.");
-        }
 
         if (headGameObject == null)
         {
             Debug.LogError("EnemyHealth: headGameObject not assigned in Inspector!");
-        }
-        else
-        {
-            Debug.Log("EnemyHealth: headGameObject is assigned correctly.");
         }
     }
 
@@ -78,14 +70,14 @@ public class EnemyHealth : MonoBehaviour
         health += n;
         health = Mathf.Clamp(health, minHealth, maxHealth); // Ensure health stays within limits
 
+        // show change on healthbar
+        healthbar?.UpdateHealthBar(maxHealth, health);
+
         // Spawn blood effect when taking damage
         if (n < 0)
         {
-            Debug.Log("EnemyHealth: Enemy took damage. Damage amount: " + n);
-
             if (bloodEffectPrefab != null && headGameObject != null)
             {
-                Debug.Log("EnemyHealth: Instantiating blood effect at head position: " + headGameObject.transform.position);
                 GameObject blood = Instantiate(bloodEffectPrefab, headGameObject.transform.position, Quaternion.identity);
 
                 if (blood == null)
@@ -96,12 +88,7 @@ public class EnemyHealth : MonoBehaviour
                 {
                     // Set the blood effect to shoot upwards
                     blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                    Debug.Log("EnemyHealth: Blood effect instantiated successfully.");
                 }
-            }
-            else
-            {
-                Debug.LogError("EnemyHealth: bloodEffectPrefab or headGameObject is null.");
             }
         }
 
@@ -114,8 +101,6 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Enemy Died!");
-
         GameManager.instance.AddToScore(score);
         GameManager.instance.ShowScorePopup(transform.position, score);
 
