@@ -35,7 +35,7 @@ public class HunterMovement : MonoBehaviour
         agent.speed = followSpeed;
         agent.acceleration = normalAcceleration; // Set default acceleration
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        hunterRenderer = GetComponent<Renderer>();
+        hunterRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         normalColor = hunterRenderer.material.color;
         if (disableMovement)
         {

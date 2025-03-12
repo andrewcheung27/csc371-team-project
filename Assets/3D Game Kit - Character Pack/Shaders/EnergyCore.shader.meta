@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 3cd42a876a23c5941928ebc1f21ee020
+timeCreated: 1501774878
+licenseType: Store
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135217
+  packageName: 3D Game Kit - Character Pack
+  packageVersion: 1.0
+  assetPath: Assets/3D Game Kit - Character Pack/Shaders/EnergyCore.shader
+  uploadId: 518974
