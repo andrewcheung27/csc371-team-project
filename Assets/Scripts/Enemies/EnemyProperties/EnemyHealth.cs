@@ -17,6 +17,9 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private Healthbar healthbar; // Assign the Healthbar script
     [SerializeField] private Transform healthBarCanvas; // Assign the Health Bar Canvas
 
+    [Header("Blood Effect")]
+    public GameObject bloodEffectPrefab; // Assign the Blood Effect Prefab in Inspector
+
     private bool isHealthBarVisible = false; // Track if health bar is visible
 
     void Start()
@@ -63,6 +66,12 @@ public class EnemyHealth : MonoBehaviour
         health += n;
         health = Mathf.Clamp(health, minHealth, maxHealth); // Ensure health stays within limits
 
+        // 💥 Spawn blood effect when taking damage
+        if (n < 0 && bloodEffectPrefab != null)
+        {
+            Instantiate(bloodEffectPrefab, transform.position, Quaternion.identity);
+        }
+
         // Update health bar
         if (healthbar != null)
         {
@@ -89,24 +98,25 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
-{
-    GameManager.instance.AddToScore(score);
-    GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
+    {
+        // Add score
+        GameManager.instance.AddToScore(score);
 
-    // Tell EnemyManager that this enemy died (so it can handle health pack drop and tracking)
-    EnemyManager.instance.EnemyDefeated(gameObject);
+        // Show popup score above enemy
+        GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
+
+        // Notify enemy manager about death (for loot drops, tracking)
+        EnemyManager.instance.EnemyDefeated(gameObject);
 
     // death sound
     PlayDefeatedAudio();
 
-    // Destroy health bar UI when enemy dies
-    if (healthBarCanvas != null)
-    {
-        Destroy(healthBarCanvas.gameObject);
+        // Destroy health bar UI when enemy dies
+        if (healthBarCanvas != null)
+        {
+            Destroy(healthBarCanvas.gameObject);
+        }
+
+        // EnemyManager handles destroying the enemy, so no need to Destroy(gameObject) here
     }
-
-    // EnemyManager will handle destroying the enemy
-    // So we DON'T need Destroy(gameObject); here anymore!
-}
-
 }

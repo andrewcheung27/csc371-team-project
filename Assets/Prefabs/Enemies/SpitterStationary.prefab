@@ -195,6 +195,7 @@ MonoBehaviour:
   scorePopupHeight: 2
   healthbar: {fileID: 2153689821351062515}
   healthBarCanvas: {fileID: 5760343608142265977}
+  bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
 --- !u!1 &1028060706434649363
 GameObject:
   m_ObjectHideFlags: 0
