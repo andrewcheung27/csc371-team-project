@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6998207511161948417}
   - component: {fileID: 6990805685360188830}
   - component: {fileID: 9194267022577920700}
-  - component: {fileID: 4362876376236738940}
+  - component: {fileID: 4748616117557485209}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -66,6 +66,8 @@ MonoBehaviour:
   spawnPoints: []
   spawnPointIndex: 0
   minHeightBeforeDeath: -16
+  bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  playerHeadGameObject: {fileID: 0}
 --- !u!114 &6998207511161948417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +98,7 @@ MonoBehaviour:
   hunterAttack: {fileID: 8300000, guid: e9824a5bd73814829b947f7c014e1599, type: 3}
   hunterDamage: {fileID: 8300000, guid: afb3f59115d54497c964ef5511fd96dc, type: 3}
   spitterAttack: {fileID: 8300000, guid: 5ef258addb3e241c4b40f7a3771acdb6, type: 3}
+  playerTransform: {fileID: 0}
   audioSourcePoolSize: 10
 --- !u!114 &9194267022577920700
 MonoBehaviour:
@@ -112,3 +115,17 @@ MonoBehaviour:
   dialogueImage: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueTime: 3
+--- !u!114 &4748616117557485209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205422591119166137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a675ad758b024b158742f98e3fffd90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPackPrefab: {fileID: 901120258844968018, guid: 8240220ec37d4473eb0514542e8f8273, type: 3}
+  healthPackDropChance: 0.3

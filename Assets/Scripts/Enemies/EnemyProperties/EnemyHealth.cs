@@ -2,28 +2,30 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public string enemyName;  // name of this enemy
-
     [Header("Health Settings")]
-    public int health = 10;  // current health
-    public int maxHealth = 10;  // max health
+    public int health = 10;
     private int minHealth = 0;
+    private int maxHealth; // Stores max health
 
     [Header("Score Settings")]
     public int score = 100; // Points for killing the enemy
-    public float scorePopupHeight = 0f;  // how high above the enemy to show score popup when it dies
 
     [Header("Health Bar UI")]
     [SerializeField] private Healthbar healthbar; // Assign the Healthbar script
     [SerializeField] private Transform healthBarCanvas; // Assign the Health Bar Canvas
 
-    [Header("Blood Effect")]
-    public GameObject bloodEffectPrefab; // Assign the Blood Effect Prefab in Inspector
+    [Header("Effects")]
+    [SerializeField] private GameObject bloodEffectPrefab; // Assign the blood effect prefab
+    [SerializeField] private GameObject headGameObject; // Assign the enemy's head GameObject
 
+    private Camera cam; // Camera reference
     private bool isHealthBarVisible = false; // Track if health bar is visible
 
     void Start()
     {
+        maxHealth = health; // Store initial health value
+        cam = Camera.main; // Get reference to the main camera
+
         if (healthbar == null)
         {
             Debug.LogError("EnemyHealth: Healthbar not assigned in Inspector!");
@@ -34,15 +36,25 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            // show health bar if enemy starts damaged
-            if (health < maxHealth) {
-                healthBarCanvas.gameObject.SetActive(true);
-                healthbar.UpdateHealthBar(maxHealth, health);
-            }
-            // otherwise, hide health bar initially
-            else {
-                healthBarCanvas.gameObject.SetActive(false);
-            }
+            healthBarCanvas.gameObject.SetActive(false); // Initially hide the health bar
+        }
+
+        if (bloodEffectPrefab == null)
+        {
+            Debug.LogError("EnemyHealth: bloodEffectPrefab not assigned in Inspector!");
+        }
+        else
+        {
+            Debug.Log("EnemyHealth: bloodEffectPrefab is assigned correctly.");
+        }
+
+        if (headGameObject == null)
+        {
+            Debug.LogError("EnemyHealth: headGameObject not assigned in Inspector!");
+        }
+        else
+        {
+            Debug.Log("EnemyHealth: headGameObject is assigned correctly.");
         }
     }
 
@@ -66,16 +78,31 @@ public class EnemyHealth : MonoBehaviour
         health += n;
         health = Mathf.Clamp(health, minHealth, maxHealth); // Ensure health stays within limits
 
-        // 💥 Spawn blood effect when taking damage
-        if (n < 0 && bloodEffectPrefab != null)
+        // Spawn blood effect when taking damage
+        if (n < 0)
         {
-            Instantiate(bloodEffectPrefab, transform.position, Quaternion.identity);
-        }
+            Debug.Log("EnemyHealth: Enemy took damage. Damage amount: " + n);
 
-        // Update health bar
-        if (healthbar != null)
-        {
-            healthbar.UpdateHealthBar(maxHealth, health);
+            if (bloodEffectPrefab != null && headGameObject != null)
+            {
+                Debug.Log("EnemyHealth: Instantiating blood effect at head position: " + headGameObject.transform.position);
+                GameObject blood = Instantiate(bloodEffectPrefab, headGameObject.transform.position, Quaternion.identity);
+
+                if (blood == null)
+                {
+                    Debug.LogError("EnemyHealth: Failed to instantiate blood effect.");
+                }
+                else
+                {
+                    // Set the blood effect to shoot upwards
+                    blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    Debug.Log("EnemyHealth: Blood effect instantiated successfully.");
+                }
+            }
+            else
+            {
+                Debug.LogError("EnemyHealth: bloodEffectPrefab or headGameObject is null.");
+            }
         }
 
         // Ensure enemy dies when health reaches zero
@@ -85,31 +112,12 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    // play audio based on enemy name
-    void PlayDefeatedAudio()
-    {
-        switch (enemyName) {
-            case "Hunter":
-                AudioManager.instance.HunterDamage();
-                break;
-            default:
-                break;
-        }
-    }
-
     void Die()
     {
-        // Add score
+        Debug.Log("Enemy Died!");
+
         GameManager.instance.AddToScore(score);
-
-        // Show popup score above enemy
-        GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
-
-        // Notify enemy manager about death (for loot drops, tracking)
-        EnemyManager.instance.EnemyDefeated(gameObject);
-
-    // death sound
-    PlayDefeatedAudio();
+        GameManager.instance.ShowScorePopup(transform.position, score);
 
         // Destroy health bar UI when enemy dies
         if (healthBarCanvas != null)
@@ -117,6 +125,6 @@ public class EnemyHealth : MonoBehaviour
             Destroy(healthBarCanvas.gameObject);
         }
 
-        // EnemyManager handles destroying the enemy, so no need to Destroy(gameObject) here
+        Destroy(gameObject);
     }
 }

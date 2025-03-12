@@ -38,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 5760343608142265977}
   - {fileID: 1545129915372680688}
+  - {fileID: 7900990761038993283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3304036338106479300
@@ -188,14 +189,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31961efc5703b41bab2fca97d72d7a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyName: Spitter
   health: 4
-  maxHealth: 4
   score: 100
-  scorePopupHeight: 2
   healthbar: {fileID: 2153689821351062515}
   healthBarCanvas: {fileID: 5760343608142265977}
   bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  headGameObject: {fileID: 3630009008900589143}
 --- !u!1 &1028060706434649363
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +387,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3630009008900589143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7900990761038993283}
+  m_Layer: 0
+  m_Name: Head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7900990761038993283
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3630009008900589143}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.013999939, y: 0.487, z: -0.004000346}
+  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7688600254447474157}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6063558460982669203
 GameObject:
   m_ObjectHideFlags: 0
