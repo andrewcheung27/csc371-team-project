@@ -24,7 +24,6 @@ public class ElectricHazardProjectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("EHP hit: " + other.gameObject.name);
         // damage and destroy if it hits player
         if (other.gameObject.CompareTag("Player")) {
             GameManager.instance.AddToHealth(-damage);
