@@ -184,7 +184,6 @@ public class GameManager : MonoBehaviour
             // Spawn blood effect when taking damage
             if (bloodEffectPrefab != null && playerHeadGameObject != null)
             {
-                Debug.Log("GameManager: Instantiating blood effect at player head position: " + playerHeadGameObject.transform.position);
                 GameObject blood = Instantiate(bloodEffectPrefab, playerHeadGameObject.transform.position, Quaternion.identity);
 
                 if (blood == null)
@@ -195,7 +194,6 @@ public class GameManager : MonoBehaviour
                 {
                     // Set the blood effect to shoot upwards
                     blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                    Debug.Log("GameManager: Blood effect instantiated successfully.");
                 }
             }
             else
