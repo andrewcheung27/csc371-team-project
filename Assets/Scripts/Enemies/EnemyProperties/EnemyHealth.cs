@@ -72,6 +72,9 @@ public class EnemyHealth : MonoBehaviour
         health += n;
         health = Mathf.Clamp(health, minHealth, maxHealth); // Ensure health stays within limits
 
+        // update health bar UI
+        healthbar?.UpdateHealthBar(maxHealth, health);
+
         // Spawn blood effect when taking damage
         if (n < 0)
         {
