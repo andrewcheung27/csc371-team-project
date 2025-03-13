@@ -18,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] private GameObject bloodEffectPrefab; // Assign the blood effect prefab
+    public float bloodEffectDuration = 2f;
     [SerializeField] private GameObject headGameObject; // Assign the enemy's head GameObject
 
     private Camera cam; // Camera reference
@@ -90,6 +91,7 @@ public class EnemyHealth : MonoBehaviour
                 {
                     // Set the blood effect to shoot upwards
                     blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    Destroy(blood, bloodEffectDuration);
                 }
             }
         }

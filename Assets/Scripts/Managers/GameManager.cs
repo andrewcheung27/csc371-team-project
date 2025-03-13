@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     [Header ("Effects")]
     public GameObject bloodEffectPrefab; // Assign the blood effect prefab
+    public float bloodEffectDuration = 2f;
     public GameObject playerHeadGameObject; // Assign the player's head GameObject
 
     void Awake()
@@ -194,6 +195,7 @@ public class GameManager : MonoBehaviour
                 {
                     // Set the blood effect to shoot upwards
                     blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    Destroy(blood, bloodEffectDuration);
                 }
             }
             else

@@ -27,6 +27,7 @@ public class ElectricHazardProjectile : MonoBehaviour
         // damage and destroy if it hits player
         if (other.gameObject.CompareTag("Player")) {
             GameManager.instance.AddToHealth(-damage);
+            AudioManager.instance.ElectricHazardDamage();
             Destroy(gameObject);
         }
         // destroy this if it hits a solid object
