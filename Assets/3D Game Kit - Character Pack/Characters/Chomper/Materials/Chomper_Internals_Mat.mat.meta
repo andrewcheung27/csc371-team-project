@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 4b16268047716604e8906338172a7efa
+timeCreated: 1493134673
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135217
+  packageName: 3D Game Kit - Character Pack
+  packageVersion: 1.0
+  assetPath: Assets/3D Game Kit - Character Pack/Characters/Chomper/Materials/Chomper_Internals_Mat.mat
+  uploadId: 518974

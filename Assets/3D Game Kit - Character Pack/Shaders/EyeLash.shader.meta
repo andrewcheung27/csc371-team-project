@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 3433191ca6e0b3540b6277505b8abde3
+timeCreated: 1502201250
+licenseType: Store
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135217
+  packageName: 3D Game Kit - Character Pack
+  packageVersion: 1.0
+  assetPath: Assets/3D Game Kit - Character Pack/Shaders/EyeLash.shader
+  uploadId: 518974

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b8ffc11356b25423badb5ee91cd5fab6
+timeCreated: 1499268500
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135217
+  packageName: 3D Game Kit - Character Pack
+  packageVersion: 1.0
+  assetPath: Assets/3D Game Kit - Character Pack/Shaders/EyeBallsHD.shader
+  uploadId: 518974
