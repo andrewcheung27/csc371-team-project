@@ -15,6 +15,7 @@ public class HunterMovement : MonoBehaviour
     public float dashMinRange = 5f;
     public float dashMaxRange = 10f;
     public float dashCooldown = 5f;
+    public float howFarToDashPastPlayer = 3f;
     public float stuckCheckTime = 1f;
     public float stuckThreshold = 0.1f;
 
@@ -103,8 +104,13 @@ public class HunterMovement : MonoBehaviour
         // Gradually darken the hunter while charging
         yield return StartCoroutine(ChangeColorOverTime(normalColor, darkColor, dashChargeTime));
 
-        // Get a valid NavMesh position
-        if (NavMesh.SamplePosition(player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        // try to dash a bit past the player
+        Vector3 pastPlayerPosition = player.position + new Vector3(0f, 0f, transform.position.z > player.position.z ? -howFarToDashPastPlayer : howFarToDashPastPlayer);
+        if (NavMesh.SamplePosition(pastPlayerPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
+            dashTargetPosition = hit.position;
+        }
+        // if we can't dash past the player, get a valid NavMesh position where the player currently is
+        else if (NavMesh.SamplePosition(player.position, out hit, 1.0f, NavMesh.AllAreas))
         {
             dashTargetPosition = hit.position;
         }

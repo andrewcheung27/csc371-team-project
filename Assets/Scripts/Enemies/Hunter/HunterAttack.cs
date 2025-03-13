@@ -21,6 +21,7 @@ public class HunterAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && Time.time >= lastAttackTime + attackCooldown)
         {
             Attack();
+            lastAttackTime = 0f;
         }
     }
 
