@@ -115,11 +115,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: Spitter
-  health: 4
+  health: 2
   score: 100
   healthbar: {fileID: 2153689821351062515}
   healthBarCanvas: {fileID: 5760343608142265977}
   bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  bloodEffectDuration: 2
   headGameObject: {fileID: 3630009008900589143}
 --- !u!65 &1999886462286776930
 BoxCollider:
