@@ -50,7 +50,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage = 2;
+    public int damage = 1;
     public float destroyAfterSeconds = 2f;  // destroy Bullet after this many seconds
     private Vector3 moveDirection;
     private float speed;

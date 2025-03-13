@@ -732,11 +732,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: Slasher
-  health: 16
+  health: 8
   score: 800
   healthbar: {fileID: 2367058085283123686}
   healthBarCanvas: {fileID: 6367400377188203611}
   bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  bloodEffectDuration: 2
   headGameObject: {fileID: 5246848464741879574}
 --- !u!114 &5323073954254385182
 MonoBehaviour:
@@ -751,7 +752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slasherClaw: {fileID: 1239144726486299985}
-  damage: 3
+  damage: 4
   attackRange: 6.5
   attackDamageDelay: 1.4
 --- !u!136 &2077107255691460600

@@ -35,10 +35,10 @@ public class MinibossAttack : MonoBehaviour
         lastAttackTime = Time.time;
         animator.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
 
         armHitbox.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.75f);
         armHitbox.SetActive(false);
     }
 }

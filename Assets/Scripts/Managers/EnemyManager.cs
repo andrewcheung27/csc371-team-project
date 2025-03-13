@@ -39,6 +39,17 @@ public class EnemyManager : MonoBehaviour
     {
         activeEnemies.Remove(enemy);
 
+        if (enemy.name == "Boss")
+        {
+            // Trigger the MiniBossDeath routine instead of destroying it
+            MiniBossDeath bossDeath = enemy.GetComponent<MiniBossDeath>();
+            if (bossDeath != null)
+            {
+                bossDeath.TriggerDeath();
+                return; // Prevent the enemy from being destroyed immediately
+            }
+        }
+
         // Try dropping a health pack at enemy's position
         TryDropHealthPack(enemy.transform.position);
 

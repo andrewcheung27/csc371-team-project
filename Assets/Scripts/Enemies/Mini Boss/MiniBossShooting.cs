@@ -108,25 +108,31 @@ public class MiniBossShooting : MonoBehaviour
         lastShootTime = Time.time;
         lastKnownPlayerPos = playerPosition; // Store the last known position
 
+        float shootInterval = 1.0f; // Fixed time between each shot
+
         for (int i = 0; i < 3; i++)
         {
-            float delay = Random.Range(0.5f, 2f);
-            yield return new WaitForSeconds(delay);
-
-            float animSpeed = (delay < 1f) ? 1.5f : 1f;
-            animator.SetFloat("ShootSpeed", animSpeed);
+            // Trigger the shoot animation
+            animator.SetFloat("ShootSpeed", 1f);
             animator.SetTrigger("Shoot");
 
-            FireProjectile(); // Fire a projectile
+            // Fire the projectile
+            FireProjectile();
+
+            // Wait for the interval (accounting for the animation time)
+            yield return new WaitForSeconds(shootInterval);
         }
 
-        yield return new WaitForSeconds(1.66f); // Wait for shooting animation to end
+        // Ensure the shooting animation has fully finished before resuming normal speed
+        yield return new WaitForSeconds(1.66f - (shootInterval * 3));
+
         movement.agent.speed = movement.normalSpeed; // Resume normal speed
         isShooting = false;
     }
 
     void FireProjectile()
     {
+        if (!enabled) return; // Skip if the script is disabled
         // Get the player's velocity to predict their movement
         if (player == null) return; // Ensure player reference exists
 
