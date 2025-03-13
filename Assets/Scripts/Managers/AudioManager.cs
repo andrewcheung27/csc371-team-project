@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -7,6 +6,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header ("Background Music")]
+    public bool playBackgroundMusic = true;
+    public float volume = 1f;
     public AudioSource backgroundMusicAudioSource;  // should not have a clip
     public AudioClip backgroundMusicToPlayOnce;
     public AudioClip backgroundMusicToLoop;
@@ -14,8 +15,8 @@ public class AudioManager : MonoBehaviour
     [Header ("Player Audio Clips")]
     public AudioClip playerShoot;
     public AudioClip hunterAttack;
-    public AudioClip hunterDamage;
-    public AudioClip spitterAttack;
+    public AudioClip hunterDeath;
+    public AudioClip spitterDeath;
 
     [Header("Player Reference")]
     public Transform playerTransform; 
@@ -62,6 +63,12 @@ public class AudioManager : MonoBehaviour
 
     void StartBackgroundMusic()
     {
+        if (!playBackgroundMusic) {
+            return;
+        }
+
+        backgroundMusicAudioSource.volume = Mathf.Clamp(volume, 0f, 1f);
+
         float loopingMusicDelay = 0f;
         // play the track that should be played once
         if (backgroundMusicToPlayOnce != null) {
@@ -116,16 +123,16 @@ public class AudioManager : MonoBehaviour
 
     public void HunterAttack()
     {
-        PlaySound(hunterAttack, 0.5f);
+        PlaySound(hunterAttack, 1f);
     }
 
-    public void HunterDamage()
+    public void HunterDeath()
     {
-        PlaySound(hunterDamage, 0.5f);
+        PlaySound(hunterDeath, 1f);
     }
 
-    public void SpitterAttack()
+    public void SpitterDeath()
     {
-        PlaySound(spitterAttack, 0.5f);
+        PlaySound(spitterDeath, 0.5f);
     }
 }

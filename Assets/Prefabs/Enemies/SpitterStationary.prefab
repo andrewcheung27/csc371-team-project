@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31961efc5703b41bab2fca97d72d7a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyName: Spitter
   health: 4
   score: 100
   healthbar: {fileID: 2153689821351062515}

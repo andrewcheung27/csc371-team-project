@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public string enemyName = "";  // used to look up death sound
+
     [Header("Health Settings")]
     public int health = 10;
     private int minHealth = 0;
@@ -99,6 +101,21 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    void PlayDeathSound()
+    {
+        // play death sound based on enemy name
+        switch (enemyName) {
+            case "Spitter":
+                AudioManager.instance.SpitterDeath();
+                break;
+            case "Hunter":
+                AudioManager.instance.HunterDeath();
+                break;
+            default:
+                break;
+        }
+    }
+
     void Die()
     {
         GameManager.instance.AddToScore(score);
@@ -109,6 +126,9 @@ public class EnemyHealth : MonoBehaviour
         {
             Destroy(healthBarCanvas.gameObject);
         }
+
+        // play death sound
+        PlayDeathSound();
 
         Destroy(gameObject);
     }
