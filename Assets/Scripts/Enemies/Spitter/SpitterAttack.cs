@@ -21,6 +21,20 @@ public class SpitterAttack : MonoBehaviour
         {
             player = playerObj.transform;
         }
+
+        // extremely terrible code to make it face in the attack direction
+        if (attackDirection.x > 0.1) {
+            transform.LookAt(transform.position + new Vector3(-1f, 0f, 0f));
+        }
+        else if (attackDirection.x < -0.1) {
+            transform.LookAt(transform.position + new Vector3(1f, 0f, 0f));
+        }
+        else if (attackDirection.z > 0.1) {
+            transform.LookAt(transform.position + new Vector3(0f, 0f, -1f));
+        }
+        else if (attackDirection.z < -0.1) {
+            transform.LookAt(transform.position + new Vector3(0f, 0f, 1f));
+        }
     }
 
     void Update()
