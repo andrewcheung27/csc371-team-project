@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip hunterAttack;
     public AudioClip hunterDeath;
     public AudioClip spitterDeath;
+    public AudioClip electricHazardDamage;
 
     [Header("Player Reference")]
     public Transform playerTransform; 
@@ -134,5 +135,10 @@ public class AudioManager : MonoBehaviour
     public void SpitterDeath()
     {
         PlaySound(spitterDeath, 0.5f);
+    }
+
+    public void ElectricHazardDamage()
+    {
+        PlaySound(electricHazardDamage, 0.75f);
     }
 }

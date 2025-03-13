@@ -26,6 +26,7 @@ public class ElectricHazard : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")) {
             GameManager.instance.AddToHealth(-damage);
+            AudioManager.instance.ElectricHazardDamage();
         }
     }
 }
