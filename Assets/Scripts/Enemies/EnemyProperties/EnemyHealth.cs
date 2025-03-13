@@ -113,6 +113,9 @@ public class EnemyHealth : MonoBehaviour
             case "Hunter":
                 AudioManager.instance.HunterDeath();
                 break;
+            case "Slasher":
+                AudioManager.instance.SlasherDeath();
+                break;
             default:
                 break;
         }
