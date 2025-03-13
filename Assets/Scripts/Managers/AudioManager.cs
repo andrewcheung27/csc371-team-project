@@ -123,12 +123,12 @@ public class AudioManager : MonoBehaviour
 
     public void HunterAttack()
     {
-        PlaySound(hunterAttack, 0.5f);
+        PlaySound(hunterAttack, 1f);
     }
 
     public void HunterDeath()
     {
-        PlaySound(hunterDeath, 0.5f);
+        PlaySound(hunterDeath, 1f);
     }
 
     public void SpitterDeath()
