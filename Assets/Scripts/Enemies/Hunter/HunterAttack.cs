@@ -10,7 +10,7 @@ public class HunterAttack : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) // Attacks when first colliding with the player
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player")  && Time.time >= lastAttackTime + attackCooldown)
         {
             Attack();
         }
@@ -21,7 +21,6 @@ public class HunterAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && Time.time >= lastAttackTime + attackCooldown)
         {
             Attack();
-            lastAttackTime = 0f;
         }
     }
 
