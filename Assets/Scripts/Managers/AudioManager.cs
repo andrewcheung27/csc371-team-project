@@ -1,8 +1,15 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
+
+    [Header ("Background Music")]
+    public AudioSource backgroundMusicAudioSource;  // should not have a clip
+    public AudioClip backgroundMusicToPlayOnce;
+    public AudioClip backgroundMusicToLoop;
 
     [Header ("Player Audio Clips")]
     public AudioClip playerShoot;
@@ -48,6 +55,34 @@ public class AudioManager : MonoBehaviour
             audioSources[i].minDistance = 5f;  // Full volume within 5 units
             audioSources[i].maxDistance = 50f; // Completely inaudible beyond 50 units
             audioSources[i].rolloffMode = AudioRolloffMode.Linear; // Smooth fade-out
+        }
+
+        StartBackgroundMusic();
+    }
+
+    void StartBackgroundMusic()
+    {
+        float loopingMusicDelay = 0f;
+        // play the track that should be played once
+        if (backgroundMusicToPlayOnce != null) {
+            backgroundMusicAudioSource.clip = backgroundMusicToPlayOnce;
+            backgroundMusicAudioSource.loop = false;
+            backgroundMusicAudioSource.Play();
+            loopingMusicDelay = backgroundMusicToPlayOnce.length;
+        }
+
+        // play looping music afterwards
+        StartCoroutine(PlayLoopingBackgroundMusicAfterDelay(loopingMusicDelay));
+    }
+
+    IEnumerator<WaitForSeconds> PlayLoopingBackgroundMusicAfterDelay(float whenToStart)
+    {
+        yield return new WaitForSeconds(whenToStart);
+
+        if (backgroundMusicToLoop != null) {
+            backgroundMusicAudioSource.clip = backgroundMusicToLoop;
+            backgroundMusicAudioSource.loop = true;
+            backgroundMusicAudioSource.Play();
         }
     }
 

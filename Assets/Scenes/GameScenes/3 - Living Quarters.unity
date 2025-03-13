@@ -5019,6 +5019,10 @@ PrefabInstance:
       propertyPath: shootAudioSource
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: backgroundMusicToLoop
+      value: 
+      objectReference: {fileID: 8300000, guid: 3d1a975d855a64f35ae7dc18731185ce, type: 3}
     - target: {fileID: 6998207511161948417, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: nextSceneName
       value: 4 - Bridge
