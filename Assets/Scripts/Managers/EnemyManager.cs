@@ -64,7 +64,6 @@ public class EnemyManager : MonoBehaviour
         if (Random.value <= healthPackDropChance)
         {
             Instantiate(healthPackPrefab, position, Quaternion.identity);
-            Debug.Log("Health pack dropped!");
         }
     }
 
