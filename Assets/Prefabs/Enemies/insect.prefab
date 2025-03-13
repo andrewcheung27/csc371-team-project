@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1230910017473309324}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7349506, y: -0.672396, z: -0.022964982, w: 0.084875725}
-  m_LocalPosition: {x: -0.4080636, y: -0.05930029, z: 0.016914362}
+  m_LocalPosition: {x: -0.452, y: -0.507, z: -0.05}
   m_LocalScale: {x: 0.33333313, y: 0.33333322, z: 0.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5, y: 6, z: 1.5}
+  m_Size: {x: 4, y: 6, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8278723288960214679
 MonoBehaviour:
@@ -682,6 +682,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4625459078279313185}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2414758393119387571}
   m_SourcePrefab: {fileID: 100100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
 --- !u!95 &2100325198062125285 stripped
 Animator:
@@ -703,8 +706,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 4
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -728,9 +731,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  detectionRange: 30
-  stoppingDistance: 1.5
-  normalSpeed: 3.5
+  detectionRange: 45
+  stoppingDistance: 2
+  normalSpeed: 4
   animator: {fileID: 2100325198062125285}
   agent: {fileID: 9046469070020291187}
   shooter: {fileID: 0}
@@ -747,9 +750,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: Boss
-  health: 99
-  maxHealth: 99
-  score: 10000
+  health: 150
+  maxHealth: 150
+  score: 1000
   scorePopupHeight: 0
   healthbar: {fileID: 8000334064430889273}
   healthBarCanvas: {fileID: 4618037410428187818}
@@ -765,7 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767dcb2160e19424fb2b6f2de6dd9fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 2
+  attackCooldown: 4
   attackRange: 10
   armHitbox: {fileID: 1230910017473309324}
   player: {fileID: 0}
@@ -787,6 +790,25 @@ MonoBehaviour:
   shootingSpeed: 2
   animator: {fileID: 2100325198062125285}
   player: {fileID: 0}
+--- !u!114 &2414758393119387571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100325198071526181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b44cf9d8583432fb3abd4ce3937ea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTransform: {fileID: 0}
+  animator: {fileID: 2100325198062125285}
+  agent: {fileID: 9046469070020291187}
+  movement: {fileID: 897923635197986273}
+  shooter: {fileID: 4625459078279313185}
+  healthScript: {fileID: 5643236552809266101}
+  deathSpeed: 2
 --- !u!4 &2100325198071688965 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
