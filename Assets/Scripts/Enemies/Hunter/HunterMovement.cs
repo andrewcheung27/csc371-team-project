@@ -18,6 +18,7 @@ public class HunterMovement : MonoBehaviour
     public float howFarToDashPastPlayer = 3f;
     public float stuckCheckTime = 1f;
     public float stuckThreshold = 0.1f;
+    public float freezeXCoord = 0f;
 
     private NavMeshAgent agent;
     private Transform player;
@@ -63,6 +64,8 @@ public class HunterMovement : MonoBehaviour
             }
         }
     
+        // make sure navmesh doesn't move it on the x axis
+        transform.position = new Vector3(freezeXCoord, transform.position.y, transform.position.z);
     }
 
     void FollowPlayerWithSphereCast()
