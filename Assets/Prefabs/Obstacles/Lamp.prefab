@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 6017244207289298226}
   - component: {fileID: 2138111651286530167}
   - component: {fileID: 2777938858210294194}
+  - component: {fileID: 3572337947586381514}
   m_Layer: 0
   m_Name: Lamp
   m_TagString: Untagged
@@ -241,3 +242,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &3572337947586381514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492145542873735498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3bed1d437634aaebfe8a9f4b1a810b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickerInterval: 2
+  flickerIntervalVariance: 1
+  minIntensity: 2
+  maxIntensity: 8
