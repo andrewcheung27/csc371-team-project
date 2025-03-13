@@ -41,10 +41,10 @@ public class PlayerWeaponHandler : MonoBehaviour
             lastMoveDirection = new Vector3(0, 0, Mathf.Sign(moveDirection));
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            alwaysAim = !alwaysAim;
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     alwaysAim = !alwaysAim;
+        // }
     }
 
     public void PickUpWeapon(GameObject weaponPrefab)
