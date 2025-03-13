@@ -10,7 +10,11 @@ public class MiniBossDeath : MonoBehaviour
     public MiniBossMovement movement;
     public MiniBossShooting shooter;
     public EnemyHealth healthScript;
-
+    public MinibossAttack attackScript;  // Reference to attack script
+    public GameObject collisionObject; // Reference to collision script
+    public GameObject platform;
+    public GameObject wall;
+    public GameObject door;
     private bool isDying = false;
     private bool hasPlayedDeathAnimation = false;
     public float deathSpeed = 2f; // Slow walking speed to death spot
@@ -36,6 +40,36 @@ public class MiniBossDeath : MonoBehaviour
         if (isDying) return;
         isDying = true;
 
+        if (healthScript != null)
+        {
+            healthScript.enabled = false;
+        }
+
+        if (shooter != null)
+        {
+            shooter.enabled = false;
+        }
+
+        if (attackScript != null)
+        {
+            attackScript.enabled = false;
+        }
+
+        if (collisionObject != null)
+        {
+            collisionObject.SetActive(false);
+        }
+
+        if (GetComponent<Collider>() != null)
+        {
+            GetComponent<Collider>().enabled = false;
+        }
+
+        if (platform != null)
+        {
+            platform.SetActive(false);
+        }
+
         // Stop any movement/shooting logic
         movement.enabled = false;
         shooter.enabled = false;
@@ -58,6 +92,15 @@ public class MiniBossDeath : MonoBehaviour
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.enabled = false;
+
+        if (wall != null)
+        {
+            wall.SetActive(false);
+        }
+        if (door != null)
+        {
+            door.SetActive(true);
+        }
 
         // Keep the body in the final frame of the death animation
         StartCoroutine(FreezeBodyOnDeath());

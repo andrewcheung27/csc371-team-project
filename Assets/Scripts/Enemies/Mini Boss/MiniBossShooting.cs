@@ -132,6 +132,7 @@ public class MiniBossShooting : MonoBehaviour
 
     void FireProjectile()
     {
+        if (!enabled) return; // Skip if the script is disabled
         // Get the player's velocity to predict their movement
         if (player == null) return; // Ensure player reference exists
 

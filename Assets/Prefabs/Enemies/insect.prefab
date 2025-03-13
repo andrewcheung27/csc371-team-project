@@ -808,6 +808,8 @@ MonoBehaviour:
   movement: {fileID: 897923635197986273}
   shooter: {fileID: 4625459078279313185}
   healthScript: {fileID: 5643236552809266101}
+  attackScript: {fileID: 6374438323667701262}
+  collisionObject: {fileID: 6253261557346847441}
   deathSpeed: 2
 --- !u!4 &2100325198071688965 stripped
 Transform:
