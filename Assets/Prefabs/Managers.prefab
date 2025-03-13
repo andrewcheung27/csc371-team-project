@@ -106,6 +106,7 @@ MonoBehaviour:
   hunterDeath: {fileID: 8300000, guid: afb3f59115d54497c964ef5511fd96dc, type: 3}
   spitterDeath: {fileID: 8300000, guid: 5ef258addb3e241c4b40f7a3771acdb6, type: 3}
   slasherAttack: {fileID: 8300000, guid: 6972546c805dc447cb26d2af53b4e2c8, type: 3}
+  slasherDeath: {fileID: 8300000, guid: 3b7dad21e37c64849a3e1b01ebb130d4, type: 3}
   electricHazardDamage: {fileID: 8300000, guid: 02b7347790a504fd5a9a9b51c794468c, type: 3}
   playerTransform: {fileID: 0}
   audioSourcePoolSize: 10

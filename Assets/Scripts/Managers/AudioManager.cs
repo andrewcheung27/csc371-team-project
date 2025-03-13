@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip hunterDeath;
     public AudioClip spitterDeath;
     public AudioClip slasherAttack;
+    public AudioClip slasherDeath;
     public AudioClip electricHazardDamage;
 
     [Header("Player Reference")]
@@ -141,6 +142,11 @@ public class AudioManager : MonoBehaviour
     public void SlasherAttack()
     {
         PlaySound(slasherAttack, 1.5f);
+    }
+
+    public void SlasherDeath()
+    {
+        PlaySound(slasherDeath, 1f);
     }
 
     public void ElectricHazardDamage()
