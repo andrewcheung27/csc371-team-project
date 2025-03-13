@@ -5,6 +5,7 @@ public class MiniBossCollision : MonoBehaviour
     // This method is called when the miniboss collides with something
     private void OnCollisionEnter(Collision collision)
     {
+        if (!enabled) return; // Skip if the script is disabled
         // Check if the object the miniboss collided with has the "Player" tag
         if (collision.gameObject.CompareTag("Player"))
         {

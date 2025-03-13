@@ -122,7 +122,9 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
-    {
+
+  {
+        if (!enabled) return; // Don't run this function if the script is disabled
         GameManager.instance.AddToScore(score);
         GameManager.instance.ShowScorePopup(transform.position, score);
 
