@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef2ec5f3a6a147f1be1b1a6725e8719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
   attackCooldown: 1.5
   movePauseAfterAttack: 1
 --- !u!114 &7099534924972204632
@@ -328,11 +328,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: Hunter
-  health: 6
+  health: 3
   score: 300
   healthbar: {fileID: 4135035700503697704}
   healthBarCanvas: {fileID: 1743827149939873216}
   bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  bloodEffectDuration: 2
   headGameObject: {fileID: 4837431511011930366}
 --- !u!195 &8941174655876997702
 NavMeshAgent:
