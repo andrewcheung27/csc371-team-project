@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public string enemyName = "";  // used to look up death sound
+
     [Header("Health Settings")]
     public int health = 10;
     private int minHealth = 0;
@@ -43,18 +45,10 @@ public class EnemyHealth : MonoBehaviour
         {
             Debug.LogError("EnemyHealth: bloodEffectPrefab not assigned in Inspector!");
         }
-        else
-        {
-            Debug.Log("EnemyHealth: bloodEffectPrefab is assigned correctly.");
-        }
 
         if (headGameObject == null)
         {
             Debug.LogError("EnemyHealth: headGameObject not assigned in Inspector!");
-        }
-        else
-        {
-            Debug.Log("EnemyHealth: headGameObject is assigned correctly.");
         }
     }
 
@@ -81,11 +75,8 @@ public class EnemyHealth : MonoBehaviour
         // Spawn blood effect when taking damage
         if (n < 0)
         {
-            Debug.Log("EnemyHealth: Enemy took damage. Damage amount: " + n);
-
             if (bloodEffectPrefab != null && headGameObject != null)
             {
-                Debug.Log("EnemyHealth: Instantiating blood effect at head position: " + headGameObject.transform.position);
                 GameObject blood = Instantiate(bloodEffectPrefab, headGameObject.transform.position, Quaternion.identity);
 
                 if (blood == null)
@@ -96,7 +87,6 @@ public class EnemyHealth : MonoBehaviour
                 {
                     // Set the blood effect to shoot upwards
                     blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                    Debug.Log("EnemyHealth: Blood effect instantiated successfully.");
                 }
             }
             else
@@ -109,6 +99,24 @@ public class EnemyHealth : MonoBehaviour
         if (health <= minHealth)
         {
             Die();
+        }
+    }
+
+    void PlayDeathSound()
+    {
+        // play death sound based on enemy name
+        switch (enemyName) {
+            case "Spitter":
+                AudioManager.instance.SpitterDeath();
+                break;
+            case "Hunter":
+                AudioManager.instance.HunterDeath();
+                break;
+            case "Slasher":
+                AudioManager.instance.SlasherDeath();
+                break;
+            default:
+                break;
         }
     }
 
@@ -127,6 +135,9 @@ public class EnemyHealth : MonoBehaviour
         {
             Destroy(healthBarCanvas.gameObject);
         }
+
+        // play death sound
+        PlayDeathSound();
 
         // The enemy GameObject will be destroyed by EnemyManager
     }
