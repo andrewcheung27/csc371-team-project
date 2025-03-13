@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafcc76d92ff54c3e97541e77376f65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playBackgroundMusic: 1
+  volume: 0.75
   backgroundMusicAudioSource: {fileID: 4535120932897980232}
   backgroundMusicToPlayOnce: {fileID: 0}
   backgroundMusicToLoop: {fileID: 0}

@@ -6,6 +6,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header ("Background Music")]
+    public bool playBackgroundMusic = true;
+    public float volume = 1f;
     public AudioSource backgroundMusicAudioSource;  // should not have a clip
     public AudioClip backgroundMusicToPlayOnce;
     public AudioClip backgroundMusicToLoop;
@@ -61,6 +63,12 @@ public class AudioManager : MonoBehaviour
 
     void StartBackgroundMusic()
     {
+        if (!playBackgroundMusic) {
+            return;
+        }
+
+        backgroundMusicAudioSource.volume = Mathf.Clamp(volume, 0f, 1f);
+
         float loopingMusicDelay = 0f;
         // play the track that should be played once
         if (backgroundMusicToPlayOnce != null) {
