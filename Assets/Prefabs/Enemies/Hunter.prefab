@@ -295,9 +295,10 @@ MonoBehaviour:
   dashMinRange: 6
   dashMaxRange: 16
   dashCooldown: 1.5
-  howFarToDashPastPlayer: 0
+  howFarToDashPastPlayer: 3
   stuckCheckTime: 1
   stuckThreshold: 4
+  freezeXCoord: 0
   disableMovement: 0
 --- !u!114 &-8640726567477325499
 MonoBehaviour:
