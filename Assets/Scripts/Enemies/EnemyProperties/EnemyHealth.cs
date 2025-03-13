@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public string enemyName = "";  // used to look up death sound
-
     [Header("Health Settings")]
     public int health = 10;
     private int minHealth = 0;
@@ -18,7 +16,6 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] private GameObject bloodEffectPrefab; // Assign the blood effect prefab
-    public float bloodEffectDuration = 2f;
     [SerializeField] private GameObject headGameObject; // Assign the enemy's head GameObject
 
     private Camera cam; // Camera reference
@@ -46,10 +43,18 @@ public class EnemyHealth : MonoBehaviour
         {
             Debug.LogError("EnemyHealth: bloodEffectPrefab not assigned in Inspector!");
         }
+        else
+        {
+            Debug.Log("EnemyHealth: bloodEffectPrefab is assigned correctly.");
+        }
 
         if (headGameObject == null)
         {
             Debug.LogError("EnemyHealth: headGameObject not assigned in Inspector!");
+        }
+        else
+        {
+            Debug.Log("EnemyHealth: headGameObject is assigned correctly.");
         }
     }
 
@@ -73,14 +78,14 @@ public class EnemyHealth : MonoBehaviour
         health += n;
         health = Mathf.Clamp(health, minHealth, maxHealth); // Ensure health stays within limits
 
-        // show change on healthbar
-        healthbar?.UpdateHealthBar(maxHealth, health);
-
         // Spawn blood effect when taking damage
         if (n < 0)
         {
+            Debug.Log("EnemyHealth: Enemy took damage. Damage amount: " + n);
+
             if (bloodEffectPrefab != null && headGameObject != null)
             {
+                Debug.Log("EnemyHealth: Instantiating blood effect at head position: " + headGameObject.transform.position);
                 GameObject blood = Instantiate(bloodEffectPrefab, headGameObject.transform.position, Quaternion.identity);
 
                 if (blood == null)
@@ -91,8 +96,12 @@ public class EnemyHealth : MonoBehaviour
                 {
                     // Set the blood effect to shoot upwards
                     blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                    Destroy(blood, bloodEffectDuration);
+                    Debug.Log("EnemyHealth: Blood effect instantiated successfully.");
                 }
+            }
+            else
+            {
+                Debug.LogError("EnemyHealth: bloodEffectPrefab or headGameObject is null.");
             }
         }
 
@@ -103,30 +112,15 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    void PlayDeathSound()
-    {
-        // play death sound based on enemy name
-        switch (enemyName) {
-            case "Spitter":
-                AudioManager.instance.SpitterDeath();
-                break;
-            case "Hunter":
-                AudioManager.instance.HunterDeath();
-                break;
-            case "Slasher":
-                AudioManager.instance.SlasherDeath();
-                break;
-            default:
-                break;
-        }
-    }
-
     void Die()
-
-  {
+    {
         if (!enabled) return; // Don't run this function if the script is disabled
+
         GameManager.instance.AddToScore(score);
         GameManager.instance.ShowScorePopup(transform.position, score);
+
+        // Notify EnemyManager that this enemy has been defeated
+        EnemyManager.instance.EnemyDefeated(gameObject);
 
         // Destroy health bar UI when enemy dies
         if (healthBarCanvas != null)
@@ -134,9 +128,6 @@ public class EnemyHealth : MonoBehaviour
             Destroy(healthBarCanvas.gameObject);
         }
 
-        // play death sound
-        PlayDeathSound();
-
-        Destroy(gameObject);
+        // The enemy GameObject will be destroyed by EnemyManager
     }
 }
