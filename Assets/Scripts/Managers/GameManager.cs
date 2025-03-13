@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour
     [Header ("Boundaries")]
     public float minHeightBeforeDeath = -16f;  // die when player is lower than this height
 
+    [Header ("Effects")]
+    public GameObject bloodEffectPrefab; // Assign the blood effect prefab
+    public float bloodEffectDuration = 2f;
+    public GameObject playerHeadGameObject; // Assign the player's head GameObject
+
     void Awake()
     {
         // this is a singleton class
@@ -166,7 +171,7 @@ public class GameManager : MonoBehaviour
     public void AddToHealth(int n)
     {
         // update health with min and max restrictions
-        health = Mathf.Clamp(minHealth, health + n, easyMode ? easyModeMaxHealth : maxHealth);
+        health = Mathf.Clamp(health + n, minHealth, easyMode ? easyModeMaxHealth : maxHealth);
 
         // update health bar
         if (healthBar != null) {
@@ -176,6 +181,27 @@ public class GameManager : MonoBehaviour
         // damage effect
         if (n < 0) {
             StartCoroutine(DamageEffectRoutine());
+
+            // Spawn blood effect when taking damage
+            if (bloodEffectPrefab != null && playerHeadGameObject != null)
+            {
+                GameObject blood = Instantiate(bloodEffectPrefab, playerHeadGameObject.transform.position, Quaternion.identity);
+
+                if (blood == null)
+                {
+                    Debug.LogError("GameManager: Failed to instantiate blood effect.");
+                }
+                else
+                {
+                    // Set the blood effect to shoot upwards
+                    blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    Destroy(blood, bloodEffectDuration);
+                }
+            }
+            else
+            {
+                Debug.LogError("GameManager: bloodEffectPrefab or playerHeadGameObject is null.");
+            }
         }
 
         // end game if out of health

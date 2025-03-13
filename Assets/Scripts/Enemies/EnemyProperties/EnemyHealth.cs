@@ -2,25 +2,33 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public string enemyName;  // name of this enemy
+    public string enemyName = "";  // used to look up death sound
 
     [Header("Health Settings")]
-    public int health = 10;  // current health
-    public int maxHealth = 10;  // max health
+    public int health = 10;
     private int minHealth = 0;
+    private int maxHealth; // Stores max health
 
     [Header("Score Settings")]
     public int score = 100; // Points for killing the enemy
-    public float scorePopupHeight = 0f;  // how high above the enemy to show score popup when it dies
 
     [Header("Health Bar UI")]
     [SerializeField] private Healthbar healthbar; // Assign the Healthbar script
     [SerializeField] private Transform healthBarCanvas; // Assign the Health Bar Canvas
 
+    [Header("Effects")]
+    [SerializeField] private GameObject bloodEffectPrefab; // Assign the blood effect prefab
+    public float bloodEffectDuration = 2f;
+    [SerializeField] private GameObject headGameObject; // Assign the enemy's head GameObject
+
+    private Camera cam; // Camera reference
     private bool isHealthBarVisible = false; // Track if health bar is visible
 
     void Start()
     {
+        maxHealth = health; // Store initial health value
+        cam = Camera.main; // Get reference to the main camera
+
         if (healthbar == null)
         {
             Debug.LogError("EnemyHealth: Healthbar not assigned in Inspector!");
@@ -31,15 +39,17 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            // show health bar if enemy starts damaged
-            if (health < maxHealth) {
-                healthBarCanvas.gameObject.SetActive(true);
-                healthbar.UpdateHealthBar(maxHealth, health);
-            }
-            // otherwise, hide health bar initially
-            else {
-                healthBarCanvas.gameObject.SetActive(false);
-            }
+            healthBarCanvas.gameObject.SetActive(false); // Initially hide the health bar
+        }
+
+        if (bloodEffectPrefab == null)
+        {
+            Debug.LogError("EnemyHealth: bloodEffectPrefab not assigned in Inspector!");
+        }
+
+        if (headGameObject == null)
+        {
+            Debug.LogError("EnemyHealth: headGameObject not assigned in Inspector!");
         }
     }
 
@@ -63,10 +73,27 @@ public class EnemyHealth : MonoBehaviour
         health += n;
         health = Mathf.Clamp(health, minHealth, maxHealth); // Ensure health stays within limits
 
-        // Update health bar
-        if (healthbar != null)
+        // show change on healthbar
+        healthbar?.UpdateHealthBar(maxHealth, health);
+
+        // Spawn blood effect when taking damage
+        if (n < 0)
         {
-            healthbar.UpdateHealthBar(maxHealth, health);
+            if (bloodEffectPrefab != null && headGameObject != null)
+            {
+                GameObject blood = Instantiate(bloodEffectPrefab, headGameObject.transform.position, Quaternion.identity);
+
+                if (blood == null)
+                {
+                    Debug.LogError("EnemyHealth: Failed to instantiate blood effect.");
+                }
+                else
+                {
+                    // Set the blood effect to shoot upwards
+                    blood.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    Destroy(blood, bloodEffectDuration);
+                }
+            }
         }
 
         // Ensure enemy dies when health reaches zero
@@ -76,12 +103,18 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    // play audio based on enemy name
-    void PlayDefeatedAudio()
+    void PlayDeathSound()
     {
+        // play death sound based on enemy name
         switch (enemyName) {
+            case "Spitter":
+                AudioManager.instance.SpitterDeath();
+                break;
             case "Hunter":
-                AudioManager.instance.HunterDamage();
+                AudioManager.instance.HunterDeath();
+                break;
+            case "Slasher":
+                AudioManager.instance.SlasherDeath();
                 break;
             default:
                 break;
@@ -89,26 +122,21 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
-{
-    if (!enabled) return; // Don't run this function if the script is disabled
-    
-    GameManager.instance.AddToScore(score);
-    GameManager.instance.ShowScorePopup(transform.position + new Vector3(0f, scorePopupHeight, 0f), score);
 
-    // Tell EnemyManager that this enemy died (so it can handle health pack drop and tracking)
-    EnemyManager.instance.EnemyDefeated(gameObject);
+  {
+        if (!enabled) return; // Don't run this function if the script is disabled
+        GameManager.instance.AddToScore(score);
+        GameManager.instance.ShowScorePopup(transform.position, score);
 
-    // death sound
-    PlayDefeatedAudio();
+        // Destroy health bar UI when enemy dies
+        if (healthBarCanvas != null)
+        {
+            Destroy(healthBarCanvas.gameObject);
+        }
 
-    // Destroy health bar UI when enemy dies
-    if (healthBarCanvas != null)
-    {
-        Destroy(healthBarCanvas.gameObject);
+        // play death sound
+        PlayDeathSound();
+
+        Destroy(gameObject);
     }
-
-    // EnemyManager will handle destroying the enemy
-    // So we DON'T need Destroy(gameObject); here anymore!
-}
-
 }

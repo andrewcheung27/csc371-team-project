@@ -1,14 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
+    [Header ("Background Music")]
+    public bool playBackgroundMusic = true;
+    public float volume = 1f;
+    public AudioSource backgroundMusicAudioSource;  // should not have a clip
+    public AudioClip backgroundMusicToPlayOnce;
+    public AudioClip backgroundMusicToLoop;
+
     [Header ("Player Audio Clips")]
     public AudioClip playerShoot;
     public AudioClip hunterAttack;
-    public AudioClip hunterDamage;
-    public AudioClip spitterAttack;
+    public AudioClip hunterDeath;
+    public AudioClip spitterDeath;
+    public AudioClip slasherAttack;
+    public AudioClip slasherDeath;
+    public AudioClip electricHazardDamage;
 
     [Header("Player Reference")]
     public Transform playerTransform; 
@@ -49,6 +60,40 @@ public class AudioManager : MonoBehaviour
             audioSources[i].maxDistance = 50f; // Completely inaudible beyond 50 units
             audioSources[i].rolloffMode = AudioRolloffMode.Linear; // Smooth fade-out
         }
+
+        StartBackgroundMusic();
+    }
+
+    void StartBackgroundMusic()
+    {
+        if (!playBackgroundMusic) {
+            return;
+        }
+
+        backgroundMusicAudioSource.volume = Mathf.Clamp(volume, 0f, 1f);
+
+        float loopingMusicDelay = 0f;
+        // play the track that should be played once
+        if (backgroundMusicToPlayOnce != null) {
+            backgroundMusicAudioSource.clip = backgroundMusicToPlayOnce;
+            backgroundMusicAudioSource.loop = false;
+            backgroundMusicAudioSource.Play();
+            loopingMusicDelay = backgroundMusicToPlayOnce.length;
+        }
+
+        // play looping music afterwards
+        StartCoroutine(PlayLoopingBackgroundMusicAfterDelay(loopingMusicDelay));
+    }
+
+    IEnumerator<WaitForSeconds> PlayLoopingBackgroundMusicAfterDelay(float whenToStart)
+    {
+        yield return new WaitForSeconds(whenToStart);
+
+        if (backgroundMusicToLoop != null) {
+            backgroundMusicAudioSource.clip = backgroundMusicToLoop;
+            backgroundMusicAudioSource.loop = true;
+            backgroundMusicAudioSource.Play();
+        }
     }
 
     public void PlaySound(AudioClip clip, float volume = 1f)
@@ -81,16 +126,31 @@ public class AudioManager : MonoBehaviour
 
     public void HunterAttack()
     {
-        PlaySound(hunterAttack, 0.5f);
+        PlaySound(hunterAttack, 1f);
     }
 
-    public void HunterDamage()
+    public void HunterDeath()
     {
-        PlaySound(hunterDamage, 0.5f);
+        PlaySound(hunterDeath, 1f);
     }
 
-    public void SpitterAttack()
+    public void SpitterDeath()
     {
-        PlaySound(spitterAttack, 0.5f);
+        PlaySound(spitterDeath, 0.5f);
+    }
+
+    public void SlasherAttack()
+    {
+        PlaySound(slasherAttack, 1.5f);
+    }
+
+    public void SlasherDeath()
+    {
+        PlaySound(slasherDeath, 1f);
+    }
+
+    public void ElectricHazardDamage()
+    {
+        PlaySound(electricHazardDamage, 0.75f);
     }
 }

@@ -35,6 +35,7 @@ public class SlasherAttack : MonoBehaviour
         if (slasherAnimator.InAttackAnimation() && triggerSource == "Claws") {
             if (other.gameObject.CompareTag("Player")) {
                 GameManager.instance.AddToHealth(-damage);
+                AudioManager.instance.SlasherAttack();
             }
         }
     }
