@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -14,8 +13,8 @@ public class AudioManager : MonoBehaviour
     [Header ("Player Audio Clips")]
     public AudioClip playerShoot;
     public AudioClip hunterAttack;
-    public AudioClip hunterDamage;
-    public AudioClip spitterAttack;
+    public AudioClip hunterDeath;
+    public AudioClip spitterDeath;
 
     [Header("Player Reference")]
     public Transform playerTransform; 
@@ -119,13 +118,13 @@ public class AudioManager : MonoBehaviour
         PlaySound(hunterAttack, 0.5f);
     }
 
-    public void HunterDamage()
+    public void HunterDeath()
     {
-        PlaySound(hunterDamage, 0.5f);
+        PlaySound(hunterDeath, 0.5f);
     }
 
-    public void SpitterAttack()
+    public void SpitterDeath()
     {
-        PlaySound(spitterAttack, 0.5f);
+        PlaySound(spitterDeath, 0.5f);
     }
 }

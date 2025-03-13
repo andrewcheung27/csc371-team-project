@@ -327,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31961efc5703b41bab2fca97d72d7a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyName: Hunter
   health: 6
   score: 300
   healthbar: {fileID: 4135035700503697704}
