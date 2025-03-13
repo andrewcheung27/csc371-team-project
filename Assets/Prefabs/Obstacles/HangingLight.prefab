@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7764023184279749941}
   - component: {fileID: 6166581499686743213}
   - component: {fileID: 2788655561532141435}
+  - component: {fileID: 7258801733721049467}
   m_Layer: 0
   m_Name: HangingLight
   m_TagString: Untagged
@@ -176,3 +177,21 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &7258801733721049467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739174769486776674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3bed1d437634aaebfe8a9f4b1a810b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickerIntervalOn: 2
+  flickerIntervalOnVariance: 1
+  flickerIntervalOff: 0.5
+  flickerIntervalOffVariance: 0.25
+  minIntensity: 69
+  maxIntensity: 100

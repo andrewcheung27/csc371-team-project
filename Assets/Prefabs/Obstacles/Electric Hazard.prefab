@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3170849906107872039}
   - component: {fileID: 3317932485644215276}
   - component: {fileID: 2292617198883430692}
+  - component: {fileID: 8355173329156938121}
   m_Layer: 0
   m_Name: Electric Hazard
   m_TagString: Untagged
@@ -112,6 +113,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &8355173329156938121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3845367948263354097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3bed1d437634aaebfe8a9f4b1a810b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickerIntervalOn: 1
+  flickerIntervalOnVariance: 0.5
+  flickerIntervalOff: 0.3
+  flickerIntervalOffVariance: 0.2
+  minIntensity: 2
+  maxIntensity: 8
 --- !u!1 &7119402140037005104
 GameObject:
   m_ObjectHideFlags: 0
