@@ -96,7 +96,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySound(AudioClip clip, float volume = 1f)
+    public void PlaySound(AudioClip clip, float volume = 1f, float minPitch = 0.8f, float maxPitch = 1.2f)
     {
          if (clip == null || playerTransform == null) return;
 
@@ -106,6 +106,11 @@ public class AudioManager : MonoBehaviour
         // Set the clip and volume
         source.clip = clip;
         source.volume = volume;
+
+        // set random pitch
+        if (minPitch < maxPitch) {
+            source.pitch = Random.Range(minPitch, maxPitch);
+        }
 
         // Move the AudioSource to the player's position
         source.transform.position = playerTransform.position;
