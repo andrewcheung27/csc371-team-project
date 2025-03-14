@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        Debug.Log("Player health: " + currentHealth);
         // if (healthBar != null)
         // {
         //     healthBar.SetMaxHealth(maxHealth);
