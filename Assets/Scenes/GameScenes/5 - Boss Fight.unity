@@ -320,6 +320,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2414758393119387571, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: door
       value: 
@@ -340,6 +344,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 365012392}
+    - target: {fileID: 5643236552809266101, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643236552809266101, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: bloodEffectPrefab
+      value: 
+      objectReference: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
     - target: {fileID: 6374438323667701262, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: player
       value: 
@@ -1759,7 +1771,7 @@ Transform:
   m_GameObject: {fileID: 1102437722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.763, z: 1.9}
+  m_LocalPosition: {x: 0, y: -0.763, z: 3.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1799,7 +1811,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 0.9659676, b: 0.4575472, a: 1}
-  m_Intensity: 50
+  m_Intensity: 100
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
