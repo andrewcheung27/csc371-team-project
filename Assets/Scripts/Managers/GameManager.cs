@@ -50,6 +50,10 @@ public class GameManager : MonoBehaviour
     public float bloodEffectDuration = 2f;
     public GameObject playerHeadGameObject; // Assign the player's head GameObject
 
+    [Header("Death Tracking")]
+    private int deathCount = 0; // Track deaths in the current level
+    private int defaultMaxHealth; // Store the original max health for reset
+
     void Awake()
     {
         // this is a singleton class
@@ -60,6 +64,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        defaultMaxHealth = maxHealth;
 
         // enforce minimum health and score
         if (health <= minHealth) {
@@ -164,6 +170,14 @@ public class GameManager : MonoBehaviour
 
     void KillPlayer()
     {
+        deathCount++; // Increase the death counter
+
+        // Every 3 deaths, increase max health by 150%
+        if (deathCount % 3 == 0)
+        {
+            maxHealth = Mathf.RoundToInt(maxHealth * 1.5f);
+            startingHealth = maxHealth; // Update starting health
+        }
         AddToScore(-1 * deathPenalty);  // penalty for dying
         EndGame();
     }
