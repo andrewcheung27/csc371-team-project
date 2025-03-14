@@ -11,6 +11,8 @@ public class HealthPack : MonoBehaviour
             // Access GameManager instance and add to health
             GameManager.instance.AddToHealth(healAmount);
 
+            AudioManager.instance.HealthDropPickup();
+
             // Destroy health pack after it's picked up
             Destroy(gameObject);
         }

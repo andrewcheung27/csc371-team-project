@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip slasherAttack;
     public AudioClip slasherDeath;
     public AudioClip electricHazardDamage;
+    public AudioClip healthDropPickup;
 
     [Header("Player Reference")]
     public Transform playerTransform; 
@@ -157,5 +158,10 @@ public class AudioManager : MonoBehaviour
     public void ElectricHazardDamage()
     {
         PlaySound(electricHazardDamage, 0.75f);
+    }
+
+    public void HealthDropPickup()
+    {
+        PlaySound(healthDropPickup, 1f);
     }
 }
