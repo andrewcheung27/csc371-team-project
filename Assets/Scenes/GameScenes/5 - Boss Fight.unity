@@ -337,6 +337,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1012800577}
     - target: {fileID: 2414758393119387571, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: deathSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414758393119387571, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: deathTransform
       value: 
       objectReference: {fileID: 1547832054}
@@ -344,14 +348,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 365012392}
-    - target: {fileID: 5643236552809266101, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
-      propertyPath: health
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5643236552809266101, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
-      propertyPath: bloodEffectPrefab
-      value: 
-      objectReference: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
     - target: {fileID: 6374438323667701262, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: player
       value: 
@@ -2299,6 +2295,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7233591697932546313, guid: 029640cdabaf4495da3cee1e84fc7307, type: 3}
     - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: playerHeadGameObject
+      value: 
+      objectReference: {fileID: 1789272833}
+    - target: {fileID: -601480403009586158, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: spawnPoints.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -2363,6 +2363,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: bossVictory
+      value: 
+      objectReference: {fileID: 8300000, guid: 06406663b42f347fbb986a523c654aff, type: 3}
+    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 365012392}
@@ -2370,6 +2374,18 @@ PrefabInstance:
       propertyPath: shootAudioSource
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: backgroundMusicToLoop
+      value: 
+      objectReference: {fileID: 8300000, guid: c1a22199bef36416dae585ae028b61d2, type: 3}
+    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: backgroundMusicAlternate
+      value: 
+      objectReference: {fileID: 8300000, guid: 997d381cb0d35467c8cf676f8a5bafc9, type: 3}
+    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: backgroundMusicToPlayOnce
+      value: 
+      objectReference: {fileID: 8300000, guid: 948764ae9b3ea46fc80663f73688ffe3, type: 3}
     - target: {fileID: 6998207511161948417, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: nextSceneName
       value: 
@@ -3011,6 +3027,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6597438541933201415, guid: 52d0575d74c45440fa486f93181d3be8, type: 3}
   m_PrefabInstance: {fileID: 1536844904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1789272833 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 763341289251210169, guid: 085785bf4a2444a7ab71495e3eacff81, type: 3}
+  m_PrefabInstance: {fileID: 5595662232879108230}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1797044175
 PrefabInstance:

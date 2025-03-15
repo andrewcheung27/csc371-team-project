@@ -9,8 +9,9 @@ public class AudioManager : MonoBehaviour
     public bool playBackgroundMusic = true;
     public float volume = 1f;
     public AudioSource backgroundMusicAudioSource;  // should not have a clip
-    public AudioClip backgroundMusicToPlayOnce;
-    public AudioClip backgroundMusicToLoop;
+    public AudioClip backgroundMusicToPlayOnce;  // play this once to start
+    public AudioClip backgroundMusicToLoop;  // play this in a loop afterwards
+    public AudioClip backgroundMusicAlternate;  // used to play music after boss fight
 
     [Header ("Player Audio Clips")]
     public AudioClip playerShoot;
@@ -21,6 +22,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip slasherDeath;
     public AudioClip electricHazardDamage;
     public AudioClip healthDropPickup;
+    public AudioClip bossVictory;
 
     [Header("Player Reference")]
     public Transform playerTransform; 
@@ -90,11 +92,46 @@ public class AudioManager : MonoBehaviour
     {
         yield return new WaitForSeconds(whenToStart);
 
-        if (backgroundMusicToLoop != null) {
+        if (playBackgroundMusic && backgroundMusicToLoop != null) {
             backgroundMusicAudioSource.clip = backgroundMusicToLoop;
             backgroundMusicAudioSource.loop = true;
             backgroundMusicAudioSource.Play();
         }
+    }
+
+    public void StopBackgroundMusic()
+    {
+        backgroundMusicAudioSource.Stop();
+        playBackgroundMusic = false;
+    }
+
+    public void PlayAlternateBackgroundMusic(float delay=0f)
+    {
+        StartCoroutine(PlayAlternateBackgroundMusicCoroutine(delay));
+    }
+
+    IEnumerator<WaitForSeconds> PlayAlternateBackgroundMusicCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (backgroundMusicAlternate != null) {
+            playBackgroundMusic = true;
+            backgroundMusicAudioSource.Stop();
+            backgroundMusicAudioSource.clip = backgroundMusicAlternate;
+            backgroundMusicAudioSource.loop = true;
+            backgroundMusicAudioSource.Play();
+        }
+    }
+
+    public void PlayBossDefeatedMusic()
+    {
+        backgroundMusicAudioSource.Stop();
+
+        backgroundMusicAudioSource.clip = bossVictory;
+        backgroundMusicAudioSource.loop = false;
+        backgroundMusicAudioSource.Play();
+
+        PlayAlternateBackgroundMusic(delay: bossVictory.length);
     }
 
     public void PlaySound(AudioClip clip, float volume = 1f, float minPitch = 0.8f, float maxPitch = 1.2f)

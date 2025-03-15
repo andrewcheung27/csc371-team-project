@@ -12,9 +12,5 @@ public class Healthbar : MonoBehaviour
             float healthPercentage = currentHealth / maxHealth;
             healthbarSprite.localScale = new Vector3(healthPercentage, 1, 1);
         }
-        else
-        {
-            Debug.LogError("Healthbar sprite is not assigned.");
-        }
     }
 }
