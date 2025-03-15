@@ -70,6 +70,9 @@ public class MiniBossDeath : MonoBehaviour
             platform.SetActive(false);
         }
 
+        // new music after boss is defeated
+        AudioManager.instance.PlayBossDefeatedMusic();
+
         // Stop any movement/shooting logic
         movement.enabled = false;
         shooter.enabled = false;
