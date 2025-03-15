@@ -6,6 +6,7 @@ public class MiniBossShooting : MonoBehaviour
 {
     public Transform shootPoint; // Where the projectiles spawn
     public GameObject projectilePrefab;
+    public float projectileSpeed = 40f;
     public float shootCooldown = 10f;
     public float shootingSpeed = 2f; // Slowed movement speed when shooting
     public Animator animator;
@@ -85,7 +86,7 @@ public class MiniBossShooting : MonoBehaviour
             {
                 // Calculate direction to predicted position
                 Vector3 direction = (predictedPosition - shootPoint.position).normalized;
-                rb.linearVelocity = direction * 10f; // Adjust speed as needed
+                rb.linearVelocity = direction * projectileSpeed; // Adjust speed as needed
             }
         }
     }
