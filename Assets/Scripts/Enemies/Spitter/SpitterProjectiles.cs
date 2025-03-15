@@ -15,6 +15,12 @@ public class SpitterProjectile : MonoBehaviour
         // Check if the projectile hit an object tagged "Player"
         if (other.CompareTag("Player"))
         {
+            // player is immune to projectiles while dashing
+            if (other.TryGetComponent(out PlayerMovement playerMovement) && playerMovement.IsDashing()) {
+                Destroy(gameObject);
+                return;
+            }
+
             // Apply damage using GameManager
             if (GameManager.instance != null)
             {
