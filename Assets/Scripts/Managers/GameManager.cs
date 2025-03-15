@@ -168,6 +168,11 @@ public class GameManager : MonoBehaviour
         UpdateTimerText();
     }
 
+    public bool EasyMode()
+    {
+        return easyMode;
+    }
+
     void KillPlayer()
     {
         deathCount++; // Increase the death counter
