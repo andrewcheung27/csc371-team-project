@@ -3,6 +3,7 @@ using UnityEngine;
 public class ElectricHazardProjectile : MonoBehaviour
 {
     public int damage = 1;
+    public float maxLifespan = 30f;
     Vector3 projectileVelocity;
 
     void Start()
@@ -10,6 +11,8 @@ public class ElectricHazardProjectile : MonoBehaviour
         if (projectileVelocity == null) {
             projectileVelocity = new Vector3(0, 0, 1);
         }
+
+        Destroy(gameObject, maxLifespan);
     }
 
     void Update()
