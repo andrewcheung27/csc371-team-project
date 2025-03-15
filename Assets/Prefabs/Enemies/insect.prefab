@@ -691,6 +691,11 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
   m_PrefabInstance: {fileID: 2100325198071559557}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2100325198071526177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100004, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
+  m_PrefabInstance: {fileID: 2100325198071559557}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2100325198071526181 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
@@ -750,12 +755,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: Boss
-  health: 150
-  score: 1000
+  health: 50
+  score: 10000
   healthbar: {fileID: 8000334064430889273}
   healthBarCanvas: {fileID: 4618037410428187818}
-  bloodEffectPrefab: {fileID: 0}
-  headGameObject: {fileID: 0}
+  bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  headGameObject: {fileID: 2100325198071526177}
 --- !u!114 &6374438323667701262
 MonoBehaviour:
   m_ObjectHideFlags: 0
