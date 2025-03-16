@@ -24,7 +24,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.time - mostRecentDialogueTime > mostRecentDialogueDuration) {
+        if (dialogueImage != null & Time.time - mostRecentDialogueTime > mostRecentDialogueDuration) {
             dialogueImage.SetActive(false);
         }
     }

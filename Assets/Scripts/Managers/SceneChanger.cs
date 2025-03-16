@@ -39,6 +39,11 @@ public class SceneChanger : MonoBehaviour
     // after a delay, load the next scene
     public void LoadNextScene(float delay=0f)
     {
+        // save score to carry over to the next level
+        if (ScoreManager.instance != null) {
+            ScoreManager.instance.SetScore(GameManager.instance.GetScore());
+        }
+
         StartCoroutine(LoadNextSceneRoutine(delay));
     }
 
