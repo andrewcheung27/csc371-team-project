@@ -22,8 +22,9 @@ public class EnemyHealth : MonoBehaviour
     public float bloodEffectDuration = 5f;
 
     [Header ("Boss")]
-    public int bossHealthDropInterval = 10;  // boss drops health pack every x attacks
+    public int bossHealthDropInterval = 10;  // boss drops health pack every x times it's been shot
     int numTimesShot = 0;
+    public int bossHealthDropHealAmount = 2;  // how much health drops heal for in the boss fight
 
     private Camera cam; // Camera reference
     private bool isHealthBarVisible = false; // Track if health bar is visible
@@ -66,7 +67,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void AddToHealth(int n)
+    public void AddToHealth(int n, bool doBlood=true)
     {
         if (!isHealthBarVisible && healthBarCanvas != null)
         {
@@ -81,7 +82,7 @@ public class EnemyHealth : MonoBehaviour
         healthbar?.UpdateHealthBar(maxHealth, health);
 
         // Spawn blood effect when taking damage
-        if (n < 0)
+        if (doBlood && n < 0)
         {
             if (bloodEffectPrefab != null && headGameObject != null)
             {
@@ -119,8 +120,15 @@ public class EnemyHealth : MonoBehaviour
     {
         numTimesShot += 1;
         if (numTimesShot % bossHealthDropInterval == 0) {
-            EnemyManager.instance.TryDropHealthPack(transform.position + new Vector3(0f, 2f, 0f), doRandomDropChance: false, healAmount: 2);
+            EnemyManager.instance.TryDropHealthPack(transform.position + new Vector3(0f, 2f, 0f), 
+                doRandomDropChance: false, 
+                healAmount: bossHealthDropHealAmount);
         }
+    }
+
+    public void AddToBossHealthDropInterval(int n)
+    {
+        bossHealthDropInterval += n;
     }
 
     void PlayDeathSound()
@@ -161,5 +169,10 @@ public class EnemyHealth : MonoBehaviour
         PlayDeathSound();
 
         // The enemy GameObject will be destroyed by EnemyManager
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 }

@@ -110,6 +110,8 @@ MonoBehaviour:
   slasherDeath: {fileID: 8300000, guid: 3b7dad21e37c64849a3e1b01ebb130d4, type: 3}
   electricHazardDamage: {fileID: 8300000, guid: 02b7347790a504fd5a9a9b51c794468c, type: 3}
   healthDropPickup: {fileID: 8300000, guid: bb033e1b56ebb45b1a274bc9c4bce4e6, type: 3}
+  bossRoar: {fileID: 8300000, guid: e50e04afef51248d8a18c2237edf6289, type: 3}
+  bossDeath: {fileID: 8300000, guid: 3b7dad21e37c64849a3e1b01ebb130d4, type: 3}
   bossVictory: {fileID: 8300000, guid: 06406663b42f347fbb986a523c654aff, type: 3}
   playerTransform: {fileID: 0}
   audioSourcePoolSize: 10

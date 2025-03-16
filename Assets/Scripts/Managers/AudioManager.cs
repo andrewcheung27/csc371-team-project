@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public float volume = 1f;
     public AudioSource backgroundMusicAudioSource;  // should not have a clip
     public AudioClip backgroundMusicToPlayOnce;  // play this once to start
+    public float backgroundMusicToPlayOnceEarlyCutoff = 0f;  // cut off first track early
     public AudioClip backgroundMusicToLoop;  // play this in a loop afterwards
     public AudioClip backgroundMusicAlternate;  // used to play music after boss fight
 
@@ -22,6 +23,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip slasherDeath;
     public AudioClip electricHazardDamage;
     public AudioClip healthDropPickup;
+    public AudioClip bossRoar;
+    public AudioClip bossDeath;
     public AudioClip bossVictory;
 
     [Header("Player Reference")]
@@ -81,7 +84,7 @@ public class AudioManager : MonoBehaviour
             backgroundMusicAudioSource.clip = backgroundMusicToPlayOnce;
             backgroundMusicAudioSource.loop = false;
             backgroundMusicAudioSource.Play();
-            loopingMusicDelay = backgroundMusicToPlayOnce.length;
+            loopingMusicDelay = backgroundMusicToPlayOnce.length - backgroundMusicToPlayOnceEarlyCutoff;
         }
 
         // play looping music afterwards
@@ -105,6 +108,11 @@ public class AudioManager : MonoBehaviour
         playBackgroundMusic = false;
     }
 
+    public void SetBackgroundMusicVolume(float n)
+    {
+        backgroundMusicAudioSource.volume = Mathf.Clamp(n, 0f, 1f);
+    }
+
     public void PlayAlternateBackgroundMusic(float delay=0f)
     {
         StartCoroutine(PlayAlternateBackgroundMusicCoroutine(delay));
@@ -126,6 +134,8 @@ public class AudioManager : MonoBehaviour
     public void PlayBossDefeatedMusic()
     {
         backgroundMusicAudioSource.Stop();
+
+        PlaySound(bossDeath, 10f, minPitch: 1.2f, maxPitch: 1.2f);
 
         backgroundMusicAudioSource.clip = bossVictory;
         backgroundMusicAudioSource.loop = false;
@@ -200,5 +210,10 @@ public class AudioManager : MonoBehaviour
     public void HealthDropPickup()
     {
         PlaySound(healthDropPickup, 1f);
+    }
+
+    public void BossRoar(float volume=1f, float pitch=1f)
+    {
+        PlaySound(bossRoar, volume, minPitch: pitch, maxPitch: pitch);
     }
 }

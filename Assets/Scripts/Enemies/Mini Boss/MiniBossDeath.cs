@@ -28,7 +28,7 @@ public class MiniBossDeath : MonoBehaviour
             agent.speed = deathSpeed;
 
             // Check if the boss has reached the death transform
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            if (movement.ReachedDestination())
             {
                 PlayDeathAnimation();
             }
@@ -72,6 +72,9 @@ public class MiniBossDeath : MonoBehaviour
 
         // new music after boss is defeated
         AudioManager.instance.PlayBossDefeatedMusic();
+
+        // disable player damage
+        GameManager.instance.SetPlayerDamageEnabled(false);
 
         // Stop any movement/shooting logic
         movement.enabled = false;

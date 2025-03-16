@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -7,7 +6,8 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager instance;
     public GameObject dialogueImage;  // speech bubble image
     public TextMeshProUGUI dialogueText;  // text that is a child of the speech bubble image
-    public float dialogueTime = 3f;
+    float mostRecentDialogueDuration;
+    float mostRecentDialogueTime;
 
     void Awake()
     {
@@ -21,16 +21,19 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(string dialogue)
+    void Update()
+    {
+        if (Time.time - mostRecentDialogueTime > mostRecentDialogueDuration) {
+            dialogueImage.SetActive(false);
+        }
+    }
+
+    public void ShowDialogue(string dialogue, float duration)
     {
         dialogueImage.SetActive(true);
         dialogueText.text = dialogue;
-        StartCoroutine(CloseDialogue());
-    }
 
-    IEnumerator CloseDialogue()
-    {
-        yield return new WaitForSeconds(dialogueTime);
-        dialogueImage.SetActive(false);
+        mostRecentDialogueTime = Time.time;
+        mostRecentDialogueDuration = duration;
     }
 }
