@@ -9,7 +9,9 @@ public class MiniBossShooting : MonoBehaviour
     public float projectileSpeed = 40f;
     public int shotsPerLoad = 3;
     public float shootCooldown = 10f;
-    public float shootCooldownWhenDestinationReached = 4f;
+    public float shootCooldownWhenPlayerCamping = 4f;
+    public float campingZBoundaryMin = -1000f;
+    public float campingZBoundaryMax = 1000f;
     public float shootingSpeed = 2f; // Slowed movement speed when shooting
     public Animator animator;
     
@@ -17,6 +19,8 @@ public class MiniBossShooting : MonoBehaviour
     private Vector3 lastKnownPlayerPos;
     private bool isShooting = false;
     private MiniBossMovement movement;
+    float playerPrevZ;
+    float playerZTime = 0f;
     
     // Reference to player to track their movement
     public Transform player;  // Add a public reference to the player
@@ -28,10 +32,34 @@ public class MiniBossShooting : MonoBehaviour
         movement = GetComponent<MiniBossMovement>();
     }
 
+    void Update()
+    {
+        // keep track of player z-axis location about 3 seconds ago
+        playerZTime += Time.deltaTime;
+        if (playerZTime > 3f) {
+            playerPrevZ = player.position.z;
+            playerZTime = 0f;
+        }
+    }
+
     public bool CanShoot(float distanceToPlayer)
     {
-        float cooldown = movement.ReachedDestination() ? shootCooldownWhenDestinationReached : shootCooldown;
+        float cooldown;
+        if (movement.ReachedDestination() && PlayerIsCamping()) {
+            cooldown = shootCooldownWhenPlayerCamping;
+        }
+        else {
+            cooldown = shootCooldown;
+        }
+
         return Time.time - lastShootTime >= cooldown && distanceToPlayer >= 10f && distanceToPlayer <= 20f;
+    }
+
+    // detect camping if the player was out of bounds a few seconds ago and is still out of bounds
+    bool PlayerIsCamping()
+    {
+        return (playerPrevZ < campingZBoundaryMin || playerPrevZ > campingZBoundaryMax)
+            && (player.position.z < campingZBoundaryMin || player.position.z > campingZBoundaryMax);
     }
 
     public void StartShooting(Vector3 playerPosition)

@@ -133,11 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4851090595161316232, guid: d858ac6ef3f584df88983af905109e15, type: 3}
       propertyPath: pointA.z
-      value: 101
+      value: 101.5
       objectReference: {fileID: 0}
     - target: {fileID: 4851090595161316232, guid: d858ac6ef3f584df88983af905109e15, type: 3}
       propertyPath: pointB.z
-      value: 101
+      value: 101.5
       objectReference: {fileID: 0}
     - target: {fileID: 7081987587472714786, guid: d858ac6ef3f584df88983af905109e15, type: 3}
       propertyPath: m_LocalPosition.x
@@ -457,6 +457,18 @@ PrefabInstance:
     - target: {fileID: 4625459078279313185, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: projectileSpeed
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625459078279313185, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: campingZBoundaryMax
+      value: 103.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625459078279313185, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: campingZBoundaryMin
+      value: 38.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625459078279313185, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: shootCooldownWhenDestinationReached
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5643236552809266101, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: health
@@ -3292,6 +3304,14 @@ PrefabInstance:
     - target: {fileID: 4335952384560048947, guid: d858ac6ef3f584df88983af905109e15, type: 3}
       propertyPath: m_Name
       value: MovingVerticalPlatformBossFight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851090595161316232, guid: d858ac6ef3f584df88983af905109e15, type: 3}
+      propertyPath: pointA.z
+      value: 40.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851090595161316232, guid: d858ac6ef3f584df88983af905109e15, type: 3}
+      propertyPath: pointB.z
+      value: 40.5
       objectReference: {fileID: 0}
     - target: {fileID: 7081987587472714786, guid: d858ac6ef3f584df88983af905109e15, type: 3}
       propertyPath: m_LocalPosition.x
