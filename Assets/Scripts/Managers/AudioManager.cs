@@ -108,6 +108,11 @@ public class AudioManager : MonoBehaviour
         playBackgroundMusic = false;
     }
 
+    public void SetBackgroundMusicVolume(float n)
+    {
+        backgroundMusicAudioSource.volume = Mathf.Clamp(n, 0f, 1f);
+    }
+
     public void PlayAlternateBackgroundMusic(float delay=0f)
     {
         StartCoroutine(PlayAlternateBackgroundMusicCoroutine(delay));

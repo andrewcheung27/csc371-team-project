@@ -19,6 +19,11 @@ public class MiniBossPhaseManager : MonoBehaviour
     public List<Color> colorsForEachPhase;
     public List<float> intensitiesForEachPhase;
 
+    [Header ("Background Music")]
+    public float bgmVolPhase1 = 0.6f;
+    public float bgmVolPhase2 = 0.9f;
+    public float bgmVolPhase3 = 1.3f;
+
     void Start()
     {
         movement = GetComponent<MiniBossMovement>();
@@ -26,6 +31,8 @@ public class MiniBossPhaseManager : MonoBehaviour
         health = GetComponent<EnemyHealth>();
 
         StartCoroutine(SetGlowingEyes(delay: 0f, phase: 1));
+
+        AudioManager.instance.SetBackgroundMusicVolume(bgmVolPhase1);
     }
 
     void Update()
@@ -48,6 +55,7 @@ public class MiniBossPhaseManager : MonoBehaviour
         shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
         health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
 
+        AudioManager.instance.SetBackgroundMusicVolume(bgmVolPhase2);
         AudioManager.instance.BossRoar(volume: 2f);
         movement.Flinch();
 
@@ -62,6 +70,7 @@ public class MiniBossPhaseManager : MonoBehaviour
         shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
         health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
 
+        AudioManager.instance.SetBackgroundMusicVolume(bgmVolPhase3);
         AudioManager.instance.BossRoar(volume: 4f);
         movement.Flinch();
 

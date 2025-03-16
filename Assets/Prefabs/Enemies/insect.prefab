@@ -778,6 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a700dc0c99fc47faaa16a93a24e2d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1 &6736979400214155537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1205,7 @@ MonoBehaviour:
   healthThresholdPhase3: 50
   glowingEye1: {fileID: 8188805448125921848}
   glowingEye2: {fileID: 6996465105652813776}
+  glowingEyesDelayAfterNewPhase: 1
   colorsForEachPhase:
   - {r: 1, g: 0.80241597, b: 0, a: 0}
   - {r: 1, g: 0.35940674, b: 0, a: 0}
@@ -1212,6 +1214,9 @@ MonoBehaviour:
   - 1
   - 2
   - 8
+  bgmVolPhase1: 0.4
+  bgmVolPhase2: 0.9
+  bgmVolPhase3: 1.3
 --- !u!4 &2100325198071688965 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 5be2c6dc7d0cd11418701026bf971b37, type: 3}
