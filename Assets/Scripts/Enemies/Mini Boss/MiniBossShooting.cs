@@ -8,6 +8,7 @@ public class MiniBossShooting : MonoBehaviour
     public GameObject projectilePrefab;
     public float projectileSpeed = 40f;
     public float shootCooldown = 10f;
+    public float shootCooldownWhenDestinationReached = 4f;
     public float shootingSpeed = 2f; // Slowed movement speed when shooting
     public Animator animator;
     
@@ -28,7 +29,8 @@ public class MiniBossShooting : MonoBehaviour
 
     public bool CanShoot(float distanceToPlayer)
     {
-        return Time.time - lastShootTime >= shootCooldown && distanceToPlayer >= 10f && distanceToPlayer <= 20f;
+        float cooldown = movement.ReachedDestination() ? shootCooldownWhenDestinationReached : shootCooldown;
+        return Time.time - lastShootTime >= cooldown && distanceToPlayer >= 10f && distanceToPlayer <= 20f;
     }
 
     public void StartShooting(Vector3 playerPosition)

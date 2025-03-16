@@ -7,6 +7,8 @@ public class MiniBossMovement : MonoBehaviour
     public float detectionRange = 30f;
     public float stoppingDistance = 1.5f;
     public float normalSpeed = 3.5f;
+    public float zBoundaryMin = 0f;
+    public float zBoundaryMax = 1000f;
     public Animator animator;
     public UnityEngine.AI.NavMeshAgent agent;
     public MiniBossShooting shooter;
@@ -42,7 +44,8 @@ public class MiniBossMovement : MonoBehaviour
         {
             if (distanceToPlayer <= detectionRange)
             {
-                agent.SetDestination(player.position);
+                Vector3 pos = new Vector3(player.position.x, player.position.y, Mathf.Clamp(player.position.z, zBoundaryMin, zBoundaryMax));
+                agent.SetDestination(pos);
             }
         }
 
@@ -107,5 +110,22 @@ public class MiniBossMovement : MonoBehaviour
     {
         isHit = false;
         agent.isStopped = false;  // Allow movement again after hit animation
+    }
+
+    public bool ReachedDestination()
+    {
+        // https://discussions.unity.com/t/how-can-i-tell-when-a-navmeshagent-has-reached-its-destination/52403/5
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
