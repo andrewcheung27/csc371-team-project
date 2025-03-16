@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     [Header ("Player Spawning")]
     public GameObject player;  // game object with PlayerMovement component
+    PlayerMovement playerMovement;
+    Rigidbody playerRB;
     public List<Transform> spawnPoints;
     public int spawnPointIndex = 0;  // current spawn point, as an index in list of spawnPoints
 
@@ -95,6 +97,9 @@ public class GameManager : MonoBehaviour
         if (ScoreManager.instance != null) {
             score = ScoreManager.instance.GetScore();
         }
+
+        playerMovement = player.GetComponent<PlayerMovement>();
+        playerRB = player.GetComponent<Rigidbody>();
 
         StartGame();
     }
@@ -317,8 +322,13 @@ public class GameManager : MonoBehaviour
             player.transform.position = spawnPoints[spawnPointIndex].transform.position;
 
             // reset velocity
-            if (player.TryGetComponent(out Rigidbody rb)) {
-                rb.linearVelocity = Vector3.zero;
+            if (playerRB != null) {
+                playerRB.linearVelocity = Vector3.zero;
+            }
+
+            // cancel dash
+            if (playerMovement != null) {
+                playerMovement.SetIsDashing(false);
             }
         }
     }
