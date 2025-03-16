@@ -57,7 +57,7 @@ public class EnemyManager : MonoBehaviour
         Destroy(enemy);
     }
 
-    private void TryDropHealthPack(Vector3 position)
+    public void TryDropHealthPack(Vector3 position)
     {
         if (healthPackPrefab == null) return; // Safety check
 
