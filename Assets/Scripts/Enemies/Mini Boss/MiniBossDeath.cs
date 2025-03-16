@@ -28,7 +28,7 @@ public class MiniBossDeath : MonoBehaviour
             agent.speed = deathSpeed;
 
             // Check if the boss has reached the death transform
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            if (movement.ReachedDestination())
             {
                 PlayDeathAnimation();
             }
