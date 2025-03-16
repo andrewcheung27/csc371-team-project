@@ -10,11 +10,13 @@ public class MinibossAttack : MonoBehaviour
 
     private Animator animator;
     private float lastAttackTime = 0f;
+    MiniBossMovement miniBossMovement;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
         armHitbox.SetActive(false);
+        miniBossMovement = GetComponent<MiniBossMovement>();
     }
 
     private void Update()
@@ -34,11 +36,13 @@ public class MinibossAttack : MonoBehaviour
     {
         lastAttackTime = Time.time;
         animator.SetTrigger("Attack");
+        miniBossMovement.SetIsAttacking(true);
 
         yield return new WaitForSeconds(0.5f);
 
         armHitbox.SetActive(true);
         yield return new WaitForSeconds(1.75f);
         armHitbox.SetActive(false);
+        miniBossMovement.SetIsAttacking(false);
     }
 }

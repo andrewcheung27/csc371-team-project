@@ -12,6 +12,7 @@ public class MiniBossMovement : MonoBehaviour
     public MiniBossShooting shooter;
 
     private bool isHit = false;
+    bool isAttacking = false;
     private float hitCooldownTime = 3f;  // Cooldown time in seconds (adjust as needed)
     private float lastHitTime = 0f;  // Keeps track of the last time the animation was triggered
 
@@ -26,6 +27,15 @@ public class MiniBossMovement : MonoBehaviour
     {
         // Don't allow movement if the hit animation is playing or during cooldown
         if (isHit) return;  
+
+        // don't move while attacking
+        if (isAttacking) {
+            agent.isStopped = true;
+            return;
+        }
+        else {
+            agent.isStopped = false;
+        }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (!shooter.IsShooting)
@@ -46,6 +56,11 @@ public class MiniBossMovement : MonoBehaviour
 
         float speed = agent.velocity.magnitude;
         animator.SetFloat("Speed", speed);  // Set the walking animation based on speed
+    }
+
+    public void SetIsAttacking(bool b)
+    {
+        isAttacking = b;
     }
 
     // public void TakeDamage()
