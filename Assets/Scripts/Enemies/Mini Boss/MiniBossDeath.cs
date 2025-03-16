@@ -73,6 +73,9 @@ public class MiniBossDeath : MonoBehaviour
         // new music after boss is defeated
         AudioManager.instance.PlayBossDefeatedMusic();
 
+        // disable player damage
+        GameManager.instance.SetPlayerDamageEnabled(false);
+
         // Stop any movement/shooting logic
         movement.enabled = false;
         shooter.enabled = false;

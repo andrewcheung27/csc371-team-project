@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private bool easyMode = false;
 
     [Header ("Health")]
+    private bool playerDamageEnabled = true;  // whether the player can take damage
     private int minHealth = 0;  // at this health or lower, game over
     public int health = 3;  // current health
     public int maxHealth = 8;  // maximum health
@@ -189,6 +190,10 @@ public class GameManager : MonoBehaviour
 
     public void AddToHealth(int n)
     {
+        if (!playerDamageEnabled) {
+            return;
+        }
+
         // update health with min and max restrictions
         health = Mathf.Clamp(health + n, minHealth, easyMode ? easyModeMaxHealth : maxHealth);
 
@@ -228,6 +233,11 @@ public class GameManager : MonoBehaviour
             KillPlayer();
             return;
         }
+    }
+
+    public void SetPlayerDamageEnabled(bool b)
+    {
+        playerDamageEnabled = b;
     }
 
     // show a message like "+100" for a certain amount of time.
