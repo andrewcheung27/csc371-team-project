@@ -9,8 +9,10 @@ public class MiniBossPhaseManager : MonoBehaviour
 
     [Header ("Boss Phases")]
     int phase = 1;
-    public int healthThresholdPhase2 = 100;
-    public int healthThresholdPhase3 = 50;
+    public int healthPercentThresholdPhase2 = 60;
+    public int healthPercentThresholdPhase3 = 30;
+    int healthThresholdPhase2;
+    int healthThresholdPhase3;
 
     [Header ("Glowing Eyes")]
     public Light glowingEye1;
@@ -29,6 +31,10 @@ public class MiniBossPhaseManager : MonoBehaviour
         movement = GetComponent<MiniBossMovement>();
         shooter = GetComponent<MiniBossShooting>();
         health = GetComponent<EnemyHealth>();
+
+        // convert health percents into ints
+        healthThresholdPhase2 = Mathf.RoundToInt(healthPercentThresholdPhase2 / 100f * health.GetHealth());
+        healthThresholdPhase3 = Mathf.RoundToInt(healthPercentThresholdPhase3 / 100f * health.GetHealth());
 
         StartCoroutine(SetGlowingEyes(delay: 0f, phase: 1));
 
