@@ -17,4 +17,9 @@ public class HealthPack : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void SetHealAmount(int n)
+    {
+        healAmount = n;
+    }
 }

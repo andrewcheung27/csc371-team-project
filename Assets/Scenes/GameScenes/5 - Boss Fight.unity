@@ -356,6 +356,10 @@ PrefabInstance:
       propertyPath: health
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 5643236552809266101, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: bossHealthDropInterval
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6374438323667701262, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: player
       value: 

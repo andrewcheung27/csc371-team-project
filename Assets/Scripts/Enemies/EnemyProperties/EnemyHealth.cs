@@ -22,7 +22,7 @@ public class EnemyHealth : MonoBehaviour
     public float bloodEffectDuration = 5f;
 
     [Header ("Boss")]
-    public int bossHealthDropInterval = 5;  // boss drops health pack every x attacks
+    public int bossHealthDropInterval = 10;  // boss drops health pack every x attacks
     int numTimesShot = 0;
 
     private Camera cam; // Camera reference
@@ -119,7 +119,7 @@ public class EnemyHealth : MonoBehaviour
     {
         numTimesShot += 1;
         if (numTimesShot % bossHealthDropInterval == 0) {
-            EnemyManager.instance.TryDropHealthPack(transform.position + new Vector3(0f, 2f, 0f));
+            EnemyManager.instance.TryDropHealthPack(transform.position + new Vector3(0f, 2f, 0f), doRandomDropChance: false, healAmount: 2);
         }
     }
 
