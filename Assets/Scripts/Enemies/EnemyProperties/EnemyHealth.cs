@@ -20,6 +20,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject bloodEffectPrefab; // Assign the blood effect prefab
     [SerializeField] private GameObject headGameObject; // Assign the enemy's head GameObject
     public float bloodEffectDuration = 5f;
+    public float scorePopUpBonusHeight = 0f;  // make score popup higher
 
     [Header ("Boss")]
     public int bossHealthDropInterval = 10;  // boss drops health pack every x times it's been shot
@@ -154,7 +155,9 @@ public class EnemyHealth : MonoBehaviour
         if (!enabled) return; // Don't run this function if the script is disabled
 
         GameManager.instance.AddToScore(score);
-        GameManager.instance.ShowScorePopup(transform.position, score);
+        GameManager.instance.ShowScorePopup(
+            headGameObject.transform.position + new Vector3(0f, scorePopUpBonusHeight, 0f), 
+            score);
 
         // Notify EnemyManager that this enemy has been defeated
         EnemyManager.instance.EnemyDefeated(gameObject);

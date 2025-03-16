@@ -51,7 +51,12 @@ public class EnemyManager : MonoBehaviour
         }
 
         // Try dropping a health pack at enemy's position
-        TryDropHealthPack(enemy.transform.position);
+        if (enemy.name == "Slasher") {
+            TryDropHealthPack(enemy.transform.position + new Vector3(0f, 1f, 0f));
+        }
+        else {
+            TryDropHealthPack(enemy.transform.position);
+        }
 
         // Destroy the enemy GameObject
         Destroy(enemy);

@@ -333,8 +333,11 @@ MonoBehaviour:
   healthbar: {fileID: 4135035700503697704}
   healthBarCanvas: {fileID: 1743827149939873216}
   bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
-  bloodEffectDuration: 2
   headGameObject: {fileID: 4837431511011930366}
+  bloodEffectDuration: 2
+  scorePopUpBonusHeight: 1
+  bossHealthDropInterval: 10
+  bossHealthDropHealAmount: 2
 --- !u!195 &8941174655876997702
 NavMeshAgent:
   m_ObjectHideFlags: 0
