@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip slasherDeath;
     public AudioClip electricHazardDamage;
     public AudioClip healthDropPickup;
+    public AudioClip bossDeath;
     public AudioClip bossVictory;
 
     [Header("Player Reference")]
@@ -126,6 +127,8 @@ public class AudioManager : MonoBehaviour
     public void PlayBossDefeatedMusic()
     {
         backgroundMusicAudioSource.Stop();
+
+        PlaySound(bossDeath, 10f, minPitch: 1.2f, maxPitch: 1.2f);
 
         backgroundMusicAudioSource.clip = bossVictory;
         backgroundMusicAudioSource.loop = false;
