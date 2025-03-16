@@ -19,6 +19,11 @@ public class EnemyHealth : MonoBehaviour
     [Header("Effects")]
     [SerializeField] private GameObject bloodEffectPrefab; // Assign the blood effect prefab
     [SerializeField] private GameObject headGameObject; // Assign the enemy's head GameObject
+    public float bloodEffectDuration = 5f;
+
+    [Header ("Boss")]
+    public int bossHealthDropInterval = 10;  // boss drops health pack every x attacks
+    int numTimesShot = 0;
 
     private Camera cam; // Camera reference
     private bool isHealthBarVisible = false; // Track if health bar is visible
@@ -81,6 +86,7 @@ public class EnemyHealth : MonoBehaviour
             if (bloodEffectPrefab != null && headGameObject != null)
             {
                 GameObject blood = Instantiate(bloodEffectPrefab, headGameObject.transform.position, Quaternion.identity);
+                Destroy(blood, bloodEffectDuration);
 
                 if (blood == null)
                 {
@@ -98,10 +104,22 @@ public class EnemyHealth : MonoBehaviour
             }
         }
 
+        if (n < 0 && enemyName == "Boss") {
+            HandleBossDamage();
+        }
+
         // Ensure enemy dies when health reaches zero
         if (health <= minHealth)
         {
             Die();
+        }
+    }
+
+    void HandleBossDamage()
+    {
+        numTimesShot += 1;
+        if (numTimesShot % bossHealthDropInterval == 0) {
+            EnemyManager.instance.TryDropHealthPack(transform.position + new Vector3(0f, 2f, 0f), doRandomDropChance: false, healAmount: 2);
         }
     }
 

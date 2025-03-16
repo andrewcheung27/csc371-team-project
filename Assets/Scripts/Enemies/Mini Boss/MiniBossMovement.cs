@@ -7,11 +7,14 @@ public class MiniBossMovement : MonoBehaviour
     public float detectionRange = 30f;
     public float stoppingDistance = 1.5f;
     public float normalSpeed = 3.5f;
+    public float zBoundaryMin = 0f;
+    public float zBoundaryMax = 1000f;
     public Animator animator;
     public UnityEngine.AI.NavMeshAgent agent;
     public MiniBossShooting shooter;
 
     private bool isHit = false;
+    bool isAttacking = false;
     private float hitCooldownTime = 3f;  // Cooldown time in seconds (adjust as needed)
     private float lastHitTime = 0f;  // Keeps track of the last time the animation was triggered
 
@@ -27,12 +30,22 @@ public class MiniBossMovement : MonoBehaviour
         // Don't allow movement if the hit animation is playing or during cooldown
         if (isHit) return;  
 
+        // don't move while attacking
+        if (isAttacking) {
+            agent.isStopped = true;
+            return;
+        }
+        else {
+            agent.isStopped = false;
+        }
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (!shooter.IsShooting)
         {
             if (distanceToPlayer <= detectionRange)
             {
-                agent.SetDestination(player.position);
+                Vector3 pos = new Vector3(player.position.x, player.position.y, Mathf.Clamp(player.position.z, zBoundaryMin, zBoundaryMax));
+                agent.SetDestination(pos);
             }
         }
 
@@ -46,6 +59,11 @@ public class MiniBossMovement : MonoBehaviour
 
         float speed = agent.velocity.magnitude;
         animator.SetFloat("Speed", speed);  // Set the walking animation based on speed
+    }
+
+    public void SetIsAttacking(bool b)
+    {
+        isAttacking = b;
     }
 
     // public void TakeDamage()
@@ -92,5 +110,22 @@ public class MiniBossMovement : MonoBehaviour
     {
         isHit = false;
         agent.isStopped = false;  // Allow movement again after hit animation
+    }
+
+    public bool ReachedDestination()
+    {
+        // https://discussions.unity.com/t/how-can-i-tell-when-a-navmeshagent-has-reached-its-destination/52403/5
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

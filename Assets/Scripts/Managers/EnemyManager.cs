@@ -57,13 +57,17 @@ public class EnemyManager : MonoBehaviour
         Destroy(enemy);
     }
 
-    private void TryDropHealthPack(Vector3 position)
+    public void TryDropHealthPack(Vector3 position, bool doRandomDropChance=true, int healAmount=-1)
     {
         if (healthPackPrefab == null) return; // Safety check
 
-        if (Random.value <= healthPackDropChance)
+        if (!doRandomDropChance || Random.value <= healthPackDropChance)
         {
-            Instantiate(healthPackPrefab, position, Quaternion.identity);
+            GameObject healthPack = Instantiate(healthPackPrefab, position, Quaternion.identity);
+            // set heal amount if one is provided. must be > 0
+            if (healAmount > 0 && healthPack.TryGetComponent(out HealthPack hp)) {
+                hp.SetHealAmount(healAmount);
+            }
         }
     }
 
