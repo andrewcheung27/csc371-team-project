@@ -67,7 +67,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void AddToHealth(int n)
+    public void AddToHealth(int n, bool doBlood=true)
     {
         if (!isHealthBarVisible && healthBarCanvas != null)
         {
@@ -82,7 +82,7 @@ public class EnemyHealth : MonoBehaviour
         healthbar?.UpdateHealthBar(maxHealth, health);
 
         // Spawn blood effect when taking damage
-        if (n < 0)
+        if (doBlood && n < 0)
         {
             if (bloodEffectPrefab != null && headGameObject != null)
             {

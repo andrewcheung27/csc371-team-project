@@ -36,6 +36,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         EnemyHealth enemyHealth = null;
+        bool doBlood = true;
         int finalDamage = GameManager.instance.EasyMode() ? damageEasyMode : damage;  // adjust damage if game is on easy mode
 
         // 1️⃣ Check if we hit a special hitbox (head or body)
@@ -47,6 +48,10 @@ public class Bullet : MonoBehaviour
             {
                 finalDamage *= hitbox.headshotMultiplier; // Apply headshot multiplier
             }
+            else {
+                // if we hit the boss and it wasn't the head, don't show effect
+                doBlood = false;
+            }
         }
         else
         {
@@ -57,7 +62,7 @@ public class Bullet : MonoBehaviour
         // Apply damage if we found an EnemyHealth component
         if (enemyHealth != null)
         {
-            enemyHealth.AddToHealth(-finalDamage);
+            enemyHealth.AddToHealth(-finalDamage, doBlood);
             Destroy(gameObject); // Destroy bullet on hit
         }
 

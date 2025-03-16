@@ -1123,7 +1123,7 @@ MonoBehaviour:
   score: 10000
   healthbar: {fileID: 8000334064430889273}
   healthBarCanvas: {fileID: 4618037410428187818}
-  bloodEffectPrefab: {fileID: 5273018501702694350, guid: 02f170bead9324fe3a024ba8fe8e9e9f, type: 3}
+  bloodEffectPrefab: {fileID: 4503612902121041701, guid: f53a2cead09094f5ea9be52289d479cb, type: 3}
   headGameObject: {fileID: 2100325198071526177}
   bloodEffectDuration: 5
   bossHealthDropInterval: 10
@@ -1161,7 +1161,9 @@ MonoBehaviour:
   projectileSpeed: 5
   shotsPerLoad: 3
   shootCooldown: 10
-  shootCooldownWhenDestinationReached: 4
+  shootCooldownWhenPlayerCamping: 4
+  campingZBoundaryMin: -1000
+  campingZBoundaryMax: 1000
   shootingSpeed: 2
   animator: {fileID: 2100325198062125285}
   player: {fileID: 0}
