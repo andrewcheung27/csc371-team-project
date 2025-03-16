@@ -2413,6 +2413,10 @@ PrefabInstance:
       propertyPath: backgroundMusicToPlayOnce
       value: 
       objectReference: {fileID: 8300000, guid: 948764ae9b3ea46fc80663f73688ffe3, type: 3}
+    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
+      propertyPath: backgroundMusicToPlayOnceEarlyCutoff
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6998207511161948417, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: nextSceneName
       value: 

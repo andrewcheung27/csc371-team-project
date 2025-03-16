@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public float volume = 1f;
     public AudioSource backgroundMusicAudioSource;  // should not have a clip
     public AudioClip backgroundMusicToPlayOnce;  // play this once to start
+    public float backgroundMusicToPlayOnceEarlyCutoff = 0f;  // cut off first track early
     public AudioClip backgroundMusicToLoop;  // play this in a loop afterwards
     public AudioClip backgroundMusicAlternate;  // used to play music after boss fight
 
@@ -83,7 +84,7 @@ public class AudioManager : MonoBehaviour
             backgroundMusicAudioSource.clip = backgroundMusicToPlayOnce;
             backgroundMusicAudioSource.loop = false;
             backgroundMusicAudioSource.Play();
-            loopingMusicDelay = backgroundMusicToPlayOnce.length;
+            loopingMusicDelay = backgroundMusicToPlayOnce.length - backgroundMusicToPlayOnceEarlyCutoff;
         }
 
         // play looping music afterwards
