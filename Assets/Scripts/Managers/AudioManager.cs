@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip slasherDeath;
     public AudioClip electricHazardDamage;
     public AudioClip healthDropPickup;
+    public AudioClip bossRoar;
     public AudioClip bossDeath;
     public AudioClip bossVictory;
 
@@ -203,5 +204,10 @@ public class AudioManager : MonoBehaviour
     public void HealthDropPickup()
     {
         PlaySound(healthDropPickup, 1f);
+    }
+
+    public void BossRoar(float volume=1f, float pitch=1f)
+    {
+        PlaySound(bossRoar, volume, minPitch: pitch, maxPitch: pitch);
     }
 }

@@ -48,6 +48,7 @@ public class MiniBossPhaseManager : MonoBehaviour
         shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
         health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
 
+        AudioManager.instance.BossRoar(volume: 2f);
         movement.Flinch();
 
         StartCoroutine(SetGlowingEyes(delay: glowingEyesDelayAfterNewPhase, phase: 2));
@@ -61,6 +62,7 @@ public class MiniBossPhaseManager : MonoBehaviour
         shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
         health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
 
+        AudioManager.instance.BossRoar(volume: 4f);
         movement.Flinch();
 
         StartCoroutine(SetGlowingEyes(delay: glowingEyesDelayAfterNewPhase, phase: 3));
