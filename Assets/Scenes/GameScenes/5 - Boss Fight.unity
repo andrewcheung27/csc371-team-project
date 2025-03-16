@@ -789,6 +789,7 @@ Transform:
   - {fileID: 797734084}
   - {fileID: 1663352690}
   - {fileID: 1365547002}
+  - {fileID: 1637626843}
   - {fileID: 737613430}
   - {fileID: 248836334}
   - {fileID: 580068024}
@@ -1931,7 +1932,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 396393910}
     m_Modifications:
     - target: {fileID: 6475309489128763885, guid: 79574a07bede544e39153403fc4453ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2641,6 +2642,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4d9fbc80982450caf6ed2a48a318eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1637626843 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6475309489128763885, guid: 79574a07bede544e39153403fc4453ec, type: 3}
+  m_PrefabInstance: {fileID: 1248523680}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1657523275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3622,4 +3628,3 @@ SceneRoots:
   - {fileID: 776568817943311736}
   - {fileID: 206134772}
   - {fileID: 1547832054}
-  - {fileID: 1248523680}

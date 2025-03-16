@@ -3,6 +3,7 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     public string dialogue = "";
+    public float duration = 3f;
     public bool onlyShowOnce = true;
     private bool triggerEnabled = true;
 
@@ -13,7 +14,7 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         if (other.gameObject.CompareTag("Player")) {
-            DialogueManager.instance.ShowDialogue(dialogue);
+            DialogueManager.instance.ShowDialogue(dialogue, duration);
             if (onlyShowOnce) {
                 triggerEnabled = false;
             }
