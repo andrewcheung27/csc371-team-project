@@ -7,6 +7,12 @@ public class EnemyHitbox : MonoBehaviour
 
     public int baseDamage = 10;
     public int headshotMultiplier = 2;
+    MiniBossMovement miniBoss;
+
+    void Start()
+    {
+        miniBoss = GetComponentInParent<MiniBossMovement>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,7 +24,6 @@ public class EnemyHitbox : MonoBehaviour
             // Trigger damage to MiniBoss (assuming it has the TakeDamage method)
             if (hitboxType == HitboxType.Head)
             {
-                MiniBossMovement miniBoss = GetComponentInParent<MiniBossMovement>();
                 if (miniBoss != null)
                 {
                     miniBoss.TakeDamage();  // Call TakeDamage when hit in the head

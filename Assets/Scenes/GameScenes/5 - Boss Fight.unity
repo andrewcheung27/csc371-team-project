@@ -422,6 +422,14 @@ PrefabInstance:
       propertyPath: deathTransform
       value: 
       objectReference: {fileID: 1547832054}
+    - target: {fileID: 2451684410748496380, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: healthThresholdPhase2
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451684410748496380, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: healthThresholdPhase3
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 4625459078279313185, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: player
       value: 
@@ -1075,8 +1083,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.888889, y: 1.9552212, z: 5.3137994}
-  m_Center: {x: -0.22222222, y: -0.9276105, z: 1.3431047}
+  m_Size: {x: 1.888889, y: 1.9552212, z: 6.749612}
+  m_Center: {x: -0.22222222, y: -0.9276105, z: 0.6251992}
 --- !u!1001 &582021351
 PrefabInstance:
   m_ObjectHideFlags: 0

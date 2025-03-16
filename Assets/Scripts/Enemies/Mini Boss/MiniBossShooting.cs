@@ -7,6 +7,7 @@ public class MiniBossShooting : MonoBehaviour
     public Transform shootPoint; // Where the projectiles spawn
     public GameObject projectilePrefab;
     public float projectileSpeed = 40f;
+    public int shotsPerLoad = 3;
     public float shootCooldown = 10f;
     public float shootCooldownWhenDestinationReached = 4f;
     public float shootingSpeed = 2f; // Slowed movement speed when shooting
@@ -48,8 +49,13 @@ public class MiniBossShooting : MonoBehaviour
 
         float shootInterval = 1.0f; // Fixed time between each shot
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < shotsPerLoad; i++)
         {
+            // stop if no longer shooting
+            if (!isShooting) {
+                yield break;
+            }
+
             // Trigger the shoot animation
             animator.SetFloat("ShootSpeed", 1f);
             animator.SetTrigger("Shoot");
@@ -62,7 +68,7 @@ public class MiniBossShooting : MonoBehaviour
         }
 
         // Ensure the shooting animation has fully finished before resuming normal speed
-        yield return new WaitForSeconds(1.66f - (shootInterval * 3));
+        yield return new WaitForSeconds(1.66f - (shootInterval * shotsPerLoad));
 
         movement.agent.speed = movement.normalSpeed; // Resume normal speed
         isShooting = false;
@@ -92,5 +98,14 @@ public class MiniBossShooting : MonoBehaviour
             }
         }
     }
-}
 
+    public void AddShotsPerLoad(int n)
+    {
+        shotsPerLoad += n;
+    }
+
+    public void StopShooting()
+    {
+        isShooting = false;
+    }
+}
