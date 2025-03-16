@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;  // text that is a child of the speech bubble image
     float mostRecentDialogueDuration;
     float mostRecentDialogueTime;
+    bool headshotDialogueShown = false;
 
     void Awake()
     {
@@ -28,12 +29,20 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(string dialogue, float duration)
+    public void ShowDialogue(string dialogue, float duration=3f)
     {
         dialogueImage.SetActive(true);
         dialogueText.text = dialogue;
 
         mostRecentDialogueTime = Time.time;
         mostRecentDialogueDuration = duration;
+    }
+
+    public void ShowBossHeadshotDialogue()
+    {
+        if (!headshotDialogueShown) {
+            ShowDialogue("Headshot!");
+            headshotDialogueShown = true;
+        }
     }
 }

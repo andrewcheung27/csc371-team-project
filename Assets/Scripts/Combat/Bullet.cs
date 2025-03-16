@@ -47,6 +47,9 @@ public class Bullet : MonoBehaviour
             if (hitbox.hitboxType == EnemyHitbox.HitboxType.Head)
             {
                 finalDamage *= hitbox.headshotMultiplier; // Apply headshot multiplier
+
+                // show dialogue to make sure the player knows about headshots
+                DialogueManager.instance.ShowBossHeadshotDialogue();
             }
             else {
                 // if we hit the boss and it wasn't the head, don't show effect
