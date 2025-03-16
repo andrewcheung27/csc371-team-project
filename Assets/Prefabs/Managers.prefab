@@ -101,6 +101,7 @@ MonoBehaviour:
   backgroundMusicAudioSource: {fileID: 4535120932897980232}
   backgroundMusicToPlayOnce: {fileID: 0}
   backgroundMusicToLoop: {fileID: 0}
+  backgroundMusicAlternate: {fileID: 0}
   playerShoot: {fileID: 8300000, guid: b11438c0128434874aa91e9f37111c06, type: 3}
   hunterAttack: {fileID: 8300000, guid: e9824a5bd73814829b947f7c014e1599, type: 3}
   hunterDeath: {fileID: 8300000, guid: afb3f59115d54497c964ef5511fd96dc, type: 3}
@@ -109,6 +110,7 @@ MonoBehaviour:
   slasherDeath: {fileID: 8300000, guid: 3b7dad21e37c64849a3e1b01ebb130d4, type: 3}
   electricHazardDamage: {fileID: 8300000, guid: 02b7347790a504fd5a9a9b51c794468c, type: 3}
   healthDropPickup: {fileID: 8300000, guid: bb033e1b56ebb45b1a274bc9c4bce4e6, type: 3}
+  bossVictory: {fileID: 8300000, guid: 06406663b42f347fbb986a523c654aff, type: 3}
   playerTransform: {fileID: 0}
   audioSourcePoolSize: 10
 --- !u!114 &9194267022577920700

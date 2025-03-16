@@ -2600,10 +2600,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
-      propertyPath: bossVictory
-      value: 
-      objectReference: {fileID: 8300000, guid: 06406663b42f347fbb986a523c654aff, type: 3}
-    - target: {fileID: 6990805685360188830, guid: 48c4e7df884754d468423e41113f447f, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 365012392}
