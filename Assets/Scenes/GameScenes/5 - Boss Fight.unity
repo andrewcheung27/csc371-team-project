@@ -959,6 +959,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 396393910}
     m_Modifications:
+    - target: {fileID: 1839166149301907728, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 7bbaa0097d7604f18b1baeededb8bc1b, type: 2}
     - target: {fileID: 3793915934349323043, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_Name
       value: Ground
@@ -1324,7 +1328,7 @@ PrefabInstance:
     - target: {fileID: 1839166149301907728, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 7bbaa0097d7604f18b1baeededb8bc1b, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3793915934349323043, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_Name
       value: Ground

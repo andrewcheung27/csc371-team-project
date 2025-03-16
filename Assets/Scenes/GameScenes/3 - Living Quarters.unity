@@ -7415,7 +7415,7 @@ PrefabInstance:
     - target: {fileID: 5829634651801724332, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: edfc47bad5817400685fc98183cf9a1d, type: 2}
+      objectReference: {fileID: 23800000, guid: 51b42250f51ec43339547e0f20fd1608, type: 2}
     - target: {fileID: 6277289926554958064, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_LocalScale.z
       value: 40
@@ -7463,7 +7463,7 @@ PrefabInstance:
     - target: {fileID: 8148151602739379580, guid: 0dd70f55d5db245d89821581bb339848, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: e872b8da2c64a45f391b2c4b28955abb, type: 2}
+      objectReference: {fileID: 23800000, guid: 40b3c2f8bba224ef687edc65fa156621, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
