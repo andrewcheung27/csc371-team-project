@@ -399,6 +399,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: m_Size.x
+      value: 2.9999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: m_Size.y
+      value: 6.1946573
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: m_Center.x
+      value: -0.000000006942798
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: m_Center.y
+      value: -0.09732889
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
+      propertyPath: m_Center.z
+      value: -0.000000008686035
+      objectReference: {fileID: 0}
+    - target: {fileID: 2122959414235600130, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
@@ -452,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 365012392}
     - target: {fileID: 6374438323667701262, guid: 9cb21cb743eba4ef6a36440066c8f555, type: 3}
       propertyPath: attackRange
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
