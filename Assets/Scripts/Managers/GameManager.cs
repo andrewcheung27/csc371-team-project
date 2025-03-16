@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     [Header ("Score")]
     private int minScore = 0;  // can't go below this score
-    public int score = 0;  // current score
+    private int score = 0;  // current score
     public int deathPenalty = 100;  // how many points you lose for dying
     public GameObject scorePopUpPrefab;  // prefab for a Canvas with a TextMeshProUGUI child to show points when an enemy is killed
     public float scorePopUpDuration = 2f;  // how many seconds until score pop up disappears
@@ -91,7 +91,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // TODO: title screen before game start
+        // carry over score from previous level
+        if (ScoreManager.instance != null) {
+            score = ScoreManager.instance.GetScore();
+        }
 
         StartGame();
     }
@@ -147,6 +150,11 @@ public class GameManager : MonoBehaviour
         }
 
         easyMode = !easyMode;
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 
     void UpdateScoreText()
