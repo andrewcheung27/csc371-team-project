@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
 
     public void AddToHealth(int n)
     {
-        if (!playerDamageEnabled) {
+        if (!playerDamageEnabled && n < 1) {
             return;
         }
 
