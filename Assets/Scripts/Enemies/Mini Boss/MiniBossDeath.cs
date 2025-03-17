@@ -70,6 +70,9 @@ public class MiniBossDeath : MonoBehaviour
             platform.SetActive(false);
         }
 
+        // stop music
+        AudioManager.instance.StopBackgroundMusic();
+
         // new music after boss is defeated
         AudioManager.instance.PlayBossDefeatedMusic();
 
