@@ -98,8 +98,10 @@ public class GameManager : MonoBehaviour
             score = ScoreManager.instance.GetScore();
         }
 
-        playerMovement = player.GetComponent<PlayerMovement>();
-        playerRB = player.GetComponent<Rigidbody>();
+        if (player != null) {
+            playerMovement = player.GetComponent<PlayerMovement>();
+            playerRB = player.GetComponent<Rigidbody>();
+        }
 
         StartGame();
     }
@@ -317,7 +319,7 @@ public class GameManager : MonoBehaviour
         }
 
         // spawn player at current spawn point
-        if (player != null) {
+        if (player != null && spawnPoints.Count > 0) {
             // set position
             player.transform.position = spawnPoints[spawnPointIndex].transform.position;
 
