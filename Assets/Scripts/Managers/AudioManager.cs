@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -214,6 +215,21 @@ public class AudioManager : MonoBehaviour
 
     public void BossRoar(float volume=1f, float pitch=1f)
     {
+        if (bossRoar == null) return;
+        StartCoroutine(DuckBackgroundMusic(0.2f, bossRoar.length));  
         PlaySound(bossRoar, volume, minPitch: pitch, maxPitch: pitch);
+    }
+    IEnumerator DuckBackgroundMusic(float reducedVolume, float duration)
+    {
+        float originalVolume = backgroundMusicAudioSource.volume;
+        
+        // Reduce background music volume
+        backgroundMusicAudioSource.volume = Mathf.Clamp(reducedVolume, 0f, 1f);
+
+        // Wait for the duration of the roar
+        yield return new WaitForSeconds(duration);
+
+        // Restore background music volume
+        backgroundMusicAudioSource.volume = originalVolume;
     }
 }
