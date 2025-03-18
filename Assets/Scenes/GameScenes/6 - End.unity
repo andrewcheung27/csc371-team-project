@@ -924,7 +924,6 @@ GameObject:
   - component: {fileID: 329385134}
   - component: {fileID: 329385136}
   - component: {fileID: 329385135}
-  - component: {fileID: 329385137}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -1058,26 +1057,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329385133}
   m_CullTransparentMesh: 1
---- !u!114 &329385137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 329385133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c8a3d6c23db2469c9b7a12a82b9dcac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollSpeed: 25
-  controlAnimation: 1
-  player: {fileID: 2015829613}
-  animationSpeed: 3
-  stopAfter: 180
-  whenToPlayAnimation: 0.8
-  whenToShowEndMessage: 1.3
-  theEndCanvasGroup: {fileID: 1295301862}
 --- !u!1 &356415529
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,7 +1245,6 @@ GameObject:
   - component: {fileID: 413970610}
   - component: {fileID: 413970612}
   - component: {fileID: 413970611}
-  - component: {fileID: 413970613}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -1392,26 +1370,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413970609}
   m_CullTransparentMesh: 1
---- !u!114 &413970613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413970609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c8a3d6c23db2469c9b7a12a82b9dcac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollSpeed: 25
-  controlAnimation: 0
-  player: {fileID: 0}
-  animationSpeed: 3
-  stopAfter: 180
-  whenToPlayAnimation: 0.8
-  whenToShowEndMessage: 1.4
-  theEndCanvasGroup: {fileID: 0}
 --- !u!4 &437863002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5129890108916117061, guid: f24db80a15dc248e0b5485626534a5c5, type: 3}
@@ -5449,6 +5407,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5522283567862258127, guid: c9eecf76269530440a0d1c4ade2aeeb9, type: 3}
   m_PrefabInstance: {fileID: 1937756302}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1949022592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1949022593}
+  - component: {fileID: 1949022594}
+  m_Layer: 0
+  m_Name: Scrolling Credits Script
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1949022593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949022592}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2090066575}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1949022594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949022592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8a3d6c23db2469c9b7a12a82b9dcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 30
+  stopAfter: 180
+  titleRect: {fileID: 413970610}
+  credits: {fileID: 329385135}
+  theEndCanvasGroup: {fileID: 1295301862}
+  whenToShowEndMessage: 1.4
+  player: {fileID: 2015829613}
+  animationSpeed: 3
+  whenToPlayAnimation: 0.8
 --- !u!1 &1980741534
 GameObject:
   m_ObjectHideFlags: 0
@@ -5656,6 +5667,7 @@ Transform:
   m_Children:
   - {fileID: 1698904614}
   - {fileID: 143125289}
+  - {fileID: 1949022593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2095011377

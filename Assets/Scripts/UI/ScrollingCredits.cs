@@ -6,25 +6,37 @@ using UnityEngine;
 
 public class ScrollingCredits : MonoBehaviour
 {
+    [Header ("Scrolling")]
     public float scrollSpeed = 30f;
-    public bool controlAnimation = false;
-    public GameObject player;
-    public float animationSpeed = 3f;
     public float stopAfter = 60f * 3;
-    public float whenToPlayAnimation = 0.8f;
-    public float whenToShowEndMessage = 1.4f;
-    public CanvasGroup theEndCanvasGroup;
-    private RectTransform rectTransform;
+
+    [Header ("Title")]
+    public RectTransform titleRect;
+
+    [Header ("Credits")]
+    public TextMeshProUGUI credits;
+    RectTransform creditsRect;
     private float totalHeight;
-    private bool animationPlayed = false;
+
+    [Header ("End Message")]
+    public CanvasGroup theEndCanvasGroup;
+    public float whenToShowEndMessage = 1.4f;
     float fadeTimer = 0f;
     float fadeDuration = 3f;
     bool endTextFadingIn = false;
 
+    [Header ("Player Animation")]
+    public GameObject player;
+    public float animationSpeed = 3f;
+    public float whenToPlayAnimation = 0.8f;  // 0.8 means 80% through the credits
+    private bool animationPlayed = false;
+
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
-        totalHeight = GetComponent<TextMeshProUGUI>().preferredHeight;
+        creditsRect = credits.GetComponent<RectTransform>();
+
+        totalHeight = credits.preferredHeight;
+
         if (theEndCanvasGroup != null) {
             theEndCanvasGroup.alpha = 0; // Start hidden
             theEndCanvasGroup.gameObject.SetActive(true);
@@ -36,15 +48,12 @@ public class ScrollingCredits : MonoBehaviour
 
     void Update()
     {
-        // Move the credits
-        rectTransform.anchoredPosition += new Vector2(0, scrollSpeed * Time.deltaTime);
-
-        if (!controlAnimation) {
-            return;
-        }
+        // do scroll
+        titleRect.anchoredPosition += new Vector2(0, scrollSpeed * Time.deltaTime);
+        creditsRect.anchoredPosition += new Vector2(0, scrollSpeed * Time.deltaTime);
 
         // Calculate the scroll progress as a percentage
-        float scrollProgress = Mathf.Abs(rectTransform.anchoredPosition.y) / totalHeight;
+        float scrollProgress = Mathf.Abs(creditsRect.anchoredPosition.y) / totalHeight;
 
         // Trigger animation at 80% scroll
         if (scrollProgress >= whenToPlayAnimation && !animationPlayed)
