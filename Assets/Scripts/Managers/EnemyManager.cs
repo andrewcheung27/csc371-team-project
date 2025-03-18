@@ -81,4 +81,9 @@ public class EnemyManager : MonoBehaviour
     {
         return activeEnemies;
     }
+
+    public void SetHealthPackDropChance(float f)
+    {
+        healthPackDropChance = f;
+    }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class MiniBossPhaseManager : MonoBehaviour
@@ -6,6 +7,7 @@ public class MiniBossPhaseManager : MonoBehaviour
     MiniBossMovement movement;
     MiniBossShooting shooter;
     EnemyHealth health;
+    private Animator animator;
 
     [Header ("Boss Phases")]
     int phase = 1;
@@ -22,12 +24,13 @@ public class MiniBossPhaseManager : MonoBehaviour
     public List<float> intensitiesForEachPhase;
 
     [Header ("Background Music")]
-    public float bgmVolPhase1 = 0.6f;
-    public float bgmVolPhase2 = 0.9f;
-    public float bgmVolPhase3 = 1.3f;
+    public float bgmVolPhase1 = 0.3f;
+    public float bgmVolPhase2 = 0.4f;
+    public float bgmVolPhase3 = 0.5f;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         movement = GetComponent<MiniBossMovement>();
         shooter = GetComponent<MiniBossShooting>();
         health = GetComponent<EnemyHealth>();
@@ -56,34 +59,51 @@ public class MiniBossPhaseManager : MonoBehaviour
     void DoPhase2()
     {
         Debug.Log("Boss Phase 2");
-
-        movement.MultiplyOriginalNormalSpeed(1.2f);  // 20% faster than phase 1
-        shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
-        health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
-
-        AudioManager.instance.SetBackgroundMusicVolume(bgmVolPhase2);
-        AudioManager.instance.BossRoar(volume: 2f);
-        movement.Flinch();
-
-        StartCoroutine(SetGlowingEyes(delay: glowingEyesDelayAfterNewPhase, phase: 2));
+        StartCoroutine(PhaseTransition(phase: 2, attackCount: 1, roarVolume: .7f, moveMultiplier: 1.2f));
     }
 
     void DoPhase3()
     {
         Debug.Log("Boss Phase 3");
-
-        movement.MultiplyOriginalNormalSpeed(1.5f);  // 50% faster than phase 1
-        shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
-        health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
-
-        AudioManager.instance.SetBackgroundMusicVolume(bgmVolPhase3);
-        AudioManager.instance.BossRoar(volume: 4f);
-        movement.Flinch();
-
-        StartCoroutine(SetGlowingEyes(delay: glowingEyesDelayAfterNewPhase, phase: 3));
+        StartCoroutine(PhaseTransition(phase: 3, attackCount: 2, roarVolume: 1f, moveMultiplier: 1.8f, projectileSpeedIncrease: 5));
     }
 
-    IEnumerator<WaitForSeconds> SetGlowingEyes(float delay, int phase) {
+    IEnumerator PhaseTransition(int phase, int attackCount, float roarVolume, float moveMultiplier, int projectileSpeedIncrease = 0)
+    {
+        // Stop movement
+        movement.SetIsAttacking(true);
+        movement.agent.isStopped = true;
+        shooter.StopShooting();
+
+        // Perform attacks
+        AudioManager.instance.BossRoar(roarVolume);
+        for (int i = 0; i < attackCount; i++)
+        {
+            animator.SetTrigger("Attack");
+
+            // Wait for attack animation to finish before continuing
+            yield return new WaitForSeconds(2f);
+        }
+
+        // Resume movement and update stats
+        movement.SetIsAttacking(false);
+        movement.agent.isStopped = false;
+        movement.MultiplyOriginalNormalSpeed(moveMultiplier);
+        shooter.AddShotsPerLoad(1);
+        health.AddToBossHealthDropInterval(-2);
+
+        if (projectileSpeedIncrease > 0)
+        {
+            shooter.AddToProjectileSpeed(projectileSpeedIncrease);
+        }
+
+        AudioManager.instance.SetBackgroundMusicVolume(phase == 2 ? bgmVolPhase2 : bgmVolPhase3);
+        movement.Flinch();
+
+        StartCoroutine(SetGlowingEyes(glowingEyesDelayAfterNewPhase, phase));
+    }
+
+    IEnumerator SetGlowingEyes(float delay, int phase) {
         yield return new WaitForSeconds(delay);
 
         int p = phase - 1;  // because list indices start at 0
