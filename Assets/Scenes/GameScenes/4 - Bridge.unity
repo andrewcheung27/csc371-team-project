@@ -3116,6 +3116,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1453682620}
+  - {fileID: 1917608483}
   - {fileID: 150837747}
   - {fileID: 1527366618}
   - {fileID: 1337628318}
@@ -4530,7 +4531,6 @@ Transform:
   - {fileID: 850169948}
   - {fileID: 1448423394}
   - {fileID: 1382690363}
-  - {fileID: 1917608483}
   - {fileID: 1572280878}
   - {fileID: 1700673577}
   - {fileID: 1932618827}
@@ -9040,7 +9040,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 981101236}
+    m_TransformParent: {fileID: 754157620}
     m_Modifications:
     - target: {fileID: 6475309489128763885, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9048,11 +9048,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6475309489128763885, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 66
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6475309489128763885, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13
+      value: -33
       objectReference: {fileID: 0}
     - target: {fileID: 6475309489128763885, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9084,7 +9084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6666885369803411036, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: dialogue
-      value: Just a little farther, and I'll be off this ship!
+      value: Just a little farther, and I'll be off this damn ship!
       objectReference: {fileID: 0}
     - target: {fileID: 7260850250576056464, guid: 186730c14f5ed49c3b63449762486c7e, type: 3}
       propertyPath: m_Name
