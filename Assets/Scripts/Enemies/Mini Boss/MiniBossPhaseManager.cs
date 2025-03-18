@@ -72,8 +72,9 @@ public class MiniBossPhaseManager : MonoBehaviour
     {
         Debug.Log("Boss Phase 3");
 
-        movement.MultiplyOriginalNormalSpeed(1.5f);  // 50% faster than phase 1
+        movement.MultiplyOriginalNormalSpeed(1.8f);  // 80% faster than phase 1
         shooter.AddShotsPerLoad(1);  // add 1 more shot to the volley
+        shooter.AddToProjectileSpeed(5);  // make projectiles faster
         health.AddToBossHealthDropInterval(-2);  // make health drops appear more often
 
         AudioManager.instance.SetBackgroundMusicVolume(bgmVolPhase3);
