@@ -1,3 +1,5 @@
+// all the commented out code is for wall jumping, which didn't make it into the final game. sorry about the mess.
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,19 +53,19 @@ public class PlayerMovement : MonoBehaviour
     // Increase gravity when falling
     public float fallGravityScale = 2f;
     
-    [Header("Wall slide/Jump Control")]
-    public float wallSlideSpeed = 2f;
-    public float wallJumpForce = 15f;
-    public float wallJumpHorizontalBoost = 10f;
-    public LayerMask wallLayer;
-    public bool isWallSliding = false;
-    // Store the last wall touched
-    private Transform lastWall;
-    private bool isWallJumping = false;
-    // Duration in seconds to preserve wall jump velocity
-    private float wallJumpDuration = 0.4f;
-    private float wallJumpTimer = 0f;
-    private Vector3 lastWallNormal;
+    // [Header("Wall slide/Jump Control")]
+    // public float wallSlideSpeed = 2f;
+    // public float wallJumpForce = 15f;
+    // public float wallJumpHorizontalBoost = 10f;
+    // public LayerMask wallLayer;
+    // public bool isWallSliding = false;
+    // // Store the last wall touched
+    // private Transform lastWall;
+    // private bool isWallJumping = false;
+    // // Duration in seconds to preserve wall jump velocity
+    // private float wallJumpDuration = 0.4f;
+    // private float wallJumpTimer = 0f;
+    // private Vector3 lastWallNormal;
 
     [Header("Ground Check")]
     // Assign this in the Inspector (e.g. an empty GameObject at your feet)
@@ -166,9 +168,9 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = new Vector3(0, 0, 0);
                 dashCooldownTimer = DASHCOOLDOWN;
                 
-                if (isGrounded || isWallSliding) {
-                    numDashesUsed = 0;
-                }
+                // if (isGrounded || isWallSliding) {
+                //     numDashesUsed = 0;
+                // }
             }
         }
         // If the player is currently charging a dash...
@@ -189,16 +191,16 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Check if wallsliding.
-            DetectWallSlide();
+            // DetectWallSlide();
             // Update wall jump timer if a wall jump is in progress
-            if (isWallJumping)
-            {
-                wallJumpTimer -= Time.fixedDeltaTime;
-                if (wallJumpTimer <= 0)
-                {
-                    isWallJumping = false;
-                }
-            }
+            // if (isWallJumping)
+            // {
+            //     wallJumpTimer -= Time.fixedDeltaTime;
+            //     if (wallJumpTimer <= 0)
+            //     {
+            //         isWallJumping = false;
+            //     }
+            // }
 
             Vector2 moveInput = inputHandler.MoveInput;
             float moveZ = moveInput.x;
@@ -218,21 +220,21 @@ public class PlayerMovement : MonoBehaviour
                 newVelocity.y = 0f;
             }
 
-            if (isWallJumping)
-            {
-                newVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
-            }
-            else if (isWallSliding)
-            {
-                newVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
-            }
+            // if (isWallJumping)
+            // {
+            //     newVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
+            // }
+            // else if (isWallSliding)
+            // {
+            //     newVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
+            // }
 
             AdjustGravity();
 
-            if (!isGrounded && !isWallSliding)
-            {
-                AdjustMidAirVelocity();
-            }
+            // if (!isGrounded && !isWallSliding)
+            // {
+            //     AdjustMidAirVelocity();
+            // }
 
             rb.linearVelocity = newVelocity;
         }
@@ -295,21 +297,21 @@ public class PlayerMovement : MonoBehaviour
                 // Small threshold to prevent false positives
                 bool pushingAgainstWall = pushStrength > 0.5f;
 
-                if (
-                    !isGrounded && rb.linearVelocity.y < 0 &&
-                    pushingAgainstWall &&
-                    collision.gameObject.CompareTag("Wall")
-                ) {
-                    isWallSliding = true;
-                    lastWall = collision.transform;
-                    lastWallNormal = normal;
-                    return;
-                }
-                 else if (pushStrength <= 0.1f && isWallSliding)
-                {
-                    // Stop wall sliding when no longer pushing the wall
-                    isWallSliding = false;
-                }
+                // if (
+                //     !isGrounded && rb.linearVelocity.y < 0 &&
+                //     pushingAgainstWall &&
+                //     collision.gameObject.CompareTag("Wall")
+                // ) {
+                //     isWallSliding = true;
+                //     lastWall = collision.transform;
+                //     lastWallNormal = normal;
+                //     return;
+                // }
+                //  else if (pushStrength <= 0.1f && isWallSliding)
+                // {
+                //     // Stop wall sliding when no longer pushing the wall
+                //     isWallSliding = false;
+                // }
             }
         }
     }
@@ -323,11 +325,11 @@ public class PlayerMovement : MonoBehaviour
             transform.parent = null;       // Un-parent the player
         }
         
-        else if (collision.transform == lastWall)
-        {
-            isWallSliding = false;
-            lastWall = null;
-        }
+        // else if (collision.transform == lastWall)
+        // {
+        //     isWallSliding = false;
+        //     lastWall = null;
+        // }
     }
 
     void HandleMovementInputs() {
@@ -353,8 +355,8 @@ public class PlayerMovement : MonoBehaviour
                 // Debug.Log("Registered Dash Input");
                 isJumping = false;
                 hasDoubleJumped = false;
-                isWallSliding = false;
-                isWallJumping = false;
+                // isWallSliding = false;
+                // isWallJumping = false;
                 HandleDash();
             }
             // Check for Jump
@@ -394,8 +396,8 @@ public class PlayerMovement : MonoBehaviour
         // Disable any other movement
         isJumping = false;
         hasDoubleJumped = false;
-        isWallSliding = false;
-        isWallJumping = false;
+        // isWallSliding = false;
+        // isWallJumping = false;
 
         // Start the Charging Timer
         isDashCharging = true;
@@ -409,8 +411,8 @@ public class PlayerMovement : MonoBehaviour
         // Disable any other movement
         isJumping = false;
         hasDoubleJumped = false;
-        isWallSliding = false;
-        isWallJumping = false;
+        // isWallSliding = false;
+        // isWallJumping = false;
         
         // Start the dash movement 
         isDashing = true;
@@ -438,24 +440,24 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log($"Jump Velocity: {rb.linearVelocity}");
         }
         // Wall Jump
-        else if (isWallSliding) {
-            isWallSliding = false;
-            isJumping = true;
-            isWallJumping = true;
-            wallJumpTimer = wallJumpDuration;
-            doubleJumpCooldownTimer = DOUBLEJUMPCOOLDOWN;
+        // else if (isWallSliding) {
+        //     isWallSliding = false;
+        //     isJumping = true;
+        //     isWallJumping = true;
+        //     wallJumpTimer = wallJumpDuration;
+        //     doubleJumpCooldownTimer = DOUBLEJUMPCOOLDOWN;
 
-            // Calculate the jump components for a 45° jump:
-            float componentForce = wallJumpForce / Mathf.Sqrt(2f);
-            // The horizontal component should be the wall's normal
-            // (which is perpendicular to the wall)
-            Vector3 horizontalJump = lastWallNormal * componentForce;
-            // Vertical component is straight up.
-            Vector3 verticalJump = Vector3.up * componentForce;
+        //     // Calculate the jump components for a 45° jump:
+        //     float componentForce = wallJumpForce / Mathf.Sqrt(2f);
+        //     // The horizontal component should be the wall's normal
+        //     // (which is perpendicular to the wall)
+        //     Vector3 horizontalJump = lastWallNormal * componentForce;
+        //     // Vertical component is straight up.
+        //     Vector3 verticalJump = Vector3.up * componentForce;
 
-            // Combine to get a jump at 45° relative to the wall
-            rb.linearVelocity = horizontalJump + verticalJump;
-        }
+        //     // Combine to get a jump at 45° relative to the wall
+        //     rb.linearVelocity = horizontalJump + verticalJump;
+        // }
         // Double Jump
         else if (hasDoubleJump && !hasDoubleJumped && doubleJumpCooldownTimer <= 0) {
             isJumping = true;
@@ -480,40 +482,40 @@ public class PlayerMovement : MonoBehaviour
         if (rb.linearVelocity.y > 0 && !isGrounded) // Moving Up
         {
             // Handle early jump release or max jump height
-            if (isJumping && !isWallJumping)
-            {
-                // If Jump is released early and min height is reached, reduce velocity
-                if (
-                    jumpReleased && rb.position.y >= minJumpHeight + jumpY &&
-                    rb.linearVelocity.y > 0    
-                ) {
-                    rb.linearVelocity = new Vector3(0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
-                }
+            // if (isJumping && !isWallJumping)
+            // {
+            //     // If Jump is released early and min height is reached, reduce velocity
+            //     if (
+            //         jumpReleased && rb.position.y >= minJumpHeight + jumpY &&
+            //         rb.linearVelocity.y > 0    
+            //     ) {
+            //         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
+            //     }
 
-                // Stop upward movement if max height is reached
-                if (
-                    rb.position.y >= jumpY + maxJumpHeight &&
-                    rb.linearVelocity.y > 0
-                ) {
-                    rb.linearVelocity = new Vector3(
-                        0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z
-                    );
-                }
-            }
+            //     // Stop upward movement if max height is reached
+            //     if (
+            //         rb.position.y >= jumpY + maxJumpHeight &&
+            //         rb.linearVelocity.y > 0
+            //     ) {
+            //         rb.linearVelocity = new Vector3(
+            //             0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z
+            //         );
+            //     }
+            // }
         }
         // When the player is falling (and not wall sliding)
-        else if ((rb.linearVelocity.y < 0 && !isWallSliding)) // Falling
-        {
-            rb.linearVelocity += (
-                Vector3.up * Physics.gravity.y * fallGravityScale *
-                Time.deltaTime
-            );
-        }
-        else if (isWallSliding && rb.linearVelocity.y <= 0) {
-            rb.linearVelocity = new Vector3(
-                0, -wallSlideSpeed, rb.linearVelocity.z
-            );
-        }
+        // else if ((rb.linearVelocity.y < 0 && !isWallSliding)) // Falling
+        // {
+        //     rb.linearVelocity += (
+        //         Vector3.up * Physics.gravity.y * fallGravityScale *
+        //         Time.deltaTime
+        //     );
+        // }
+        // else if (isWallSliding && rb.linearVelocity.y <= 0) {
+        //     rb.linearVelocity = new Vector3(
+        //         0, -wallSlideSpeed, rb.linearVelocity.z
+        //     );
+        // }
 
         // Cap max fall speed
         if (rb.linearVelocity.y < maxFallSpeed)
@@ -584,53 +586,53 @@ public class PlayerMovement : MonoBehaviour
             float angle = Vector3.Angle(hit.normal, Vector3.up);
             if (angle <= slopeLimit)
             {
-                isWallSliding = false;
+                // isWallSliding = false;
                 return true;
             }
         }
         return false;
     }
 
-    void DetectWallSlide()
-    {
-        RaycastHit hit;
+    // void DetectWallSlide()
+    // {
+    //     RaycastHit hit;
 
-        // Get the radius of the player's capsule collider
-        CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
-        float capsuleRadius = capsuleCollider.radius * 0.9f; // Slightly smaller to avoid false positives
-        float capsuleHeight = capsuleCollider.height * 0.5f; // Half-height for proper positioning
+    //     // Get the radius of the player's capsule collider
+    //     CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+    //     float capsuleRadius = capsuleCollider.radius * 0.9f; // Slightly smaller to avoid false positives
+    //     float capsuleHeight = capsuleCollider.height * 0.5f; // Half-height for proper positioning
         
-        // The length of the spherecast (how far down to check)
-        float castDistance = 0.5f;
+    //     // The length of the spherecast (how far down to check)
+    //     float castDistance = 0.5f;
 
-        Vector3 start = transform.position + Vector3.up * capsuleRadius;  // Bottom of capsule
-        Vector3 end = transform.position + Vector3.up * (capsuleHeight - capsuleRadius); // Top of capsule
+    //     Vector3 start = transform.position + Vector3.up * capsuleRadius;  // Bottom of capsule
+    //     Vector3 end = transform.position + Vector3.up * (capsuleHeight - capsuleRadius); // Top of capsule
 
-        Transform detectedWall = null;
+    //     Transform detectedWall = null;
 
-        // Check in both directions
-        if (Physics.CapsuleCast(start, end, capsuleRadius, transform.right, out hit, castDistance, wallLayer))
-        {
-            detectedWall = hit.transform;
-        }
-        else if (Physics.CapsuleCast(start, end, capsuleRadius, -transform.right, out hit, castDistance, wallLayer))
-        {
-            detectedWall = hit.transform;
-        }
+    //     // Check in both directions
+    //     if (Physics.CapsuleCast(start, end, capsuleRadius, transform.right, out hit, castDistance, wallLayer))
+    //     {
+    //         detectedWall = hit.transform;
+    //     }
+    //     else if (Physics.CapsuleCast(start, end, capsuleRadius, -transform.right, out hit, castDistance, wallLayer))
+    //     {
+    //         detectedWall = hit.transform;
+    //     }
 
-        // If a wall was detected and the player is falling, enable wall sliding
-        if (detectedWall != null && !isGrounded && rb.linearVelocity.y < 0)
-        {
-            isWallSliding = true;
-            isJumping = false;
-            hasDoubleJumped = false;
-            lastWall = detectedWall;
-            numDashesUsed = 0;
-            return;
-        }
+    //     // If a wall was detected and the player is falling, enable wall sliding
+    //     if (detectedWall != null && !isGrounded && rb.linearVelocity.y < 0)
+    //     {
+    //         isWallSliding = true;
+    //         isJumping = false;
+    //         hasDoubleJumped = false;
+    //         lastWall = detectedWall;
+    //         numDashesUsed = 0;
+    //         return;
+    //     }
 
-        isWallSliding = false;
-    }
+    //     isWallSliding = false;
+    // }
 
     void HandleInteractions()
     {
