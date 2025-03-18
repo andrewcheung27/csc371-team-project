@@ -169,8 +169,9 @@ public class PlayerMovement : MonoBehaviour
                 dashCooldownTimer = DASHCOOLDOWN;
                 
                 // if (isGrounded || isWallSliding) {
-                //     numDashesUsed = 0;
-                // }
+                if (isGrounded) {
+                    numDashesUsed = 0;
+                }
             }
         }
         // If the player is currently charging a dash...
@@ -232,9 +233,10 @@ public class PlayerMovement : MonoBehaviour
             AdjustGravity();
 
             // if (!isGrounded && !isWallSliding)
-            // {
-            //     AdjustMidAirVelocity();
-            // }
+            if (!isGrounded)
+            {
+                AdjustMidAirVelocity();
+            }
 
             rb.linearVelocity = newVelocity;
         }
@@ -257,8 +259,10 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             hasDoubleJumped = false;
-            // Parent the player to the platform
-            transform.parent = collision.transform;
+            if (PlayerIsOnMovingPlatform(collision)) {
+                // Parent the player to the platform
+                transform.parent = collision.transform;
+            }
         }
         else if (isJumping && rb.linearVelocity.y <= 0 && isGrounded) {
             isJumping = false;
@@ -272,8 +276,10 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             hasDoubleJumped = false;
-            // Parent the player to the platform
-            transform.parent = collision.transform;
+            if (PlayerIsOnMovingPlatform(collision)) {
+                // Parent the player to the platform
+                transform.parent = collision.transform;
+            }
         }
         else if (isJumping && rb.linearVelocity.y <= 0 && isGrounded) {
             isJumping = false;
@@ -314,6 +320,13 @@ public class PlayerMovement : MonoBehaviour
                 // }
             }
         }
+    }
+
+    bool PlayerIsOnMovingPlatform(Collision collision)
+    {
+        return collision.gameObject.TryGetComponent(out Renderer rend) 
+            && rend.bounds.min.z <= transform.position.z 
+            && rend.bounds.max.z >= transform.position.z;
     }
 
     void OnCollisionExit(Collision collision)
@@ -483,34 +496,36 @@ public class PlayerMovement : MonoBehaviour
         {
             // Handle early jump release or max jump height
             // if (isJumping && !isWallJumping)
-            // {
-            //     // If Jump is released early and min height is reached, reduce velocity
-            //     if (
-            //         jumpReleased && rb.position.y >= minJumpHeight + jumpY &&
-            //         rb.linearVelocity.y > 0    
-            //     ) {
-            //         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
-            //     }
+            if (isJumping)
+            {
+                // If Jump is released early and min height is reached, reduce velocity
+                if (
+                    jumpReleased && rb.position.y >= minJumpHeight + jumpY &&
+                    rb.linearVelocity.y > 0    
+                ) {
+                    rb.linearVelocity = new Vector3(0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z);
+                }
 
-            //     // Stop upward movement if max height is reached
-            //     if (
-            //         rb.position.y >= jumpY + maxJumpHeight &&
-            //         rb.linearVelocity.y > 0
-            //     ) {
-            //         rb.linearVelocity = new Vector3(
-            //             0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z
-            //         );
-            //     }
-            // }
+                // Stop upward movement if max height is reached
+                if (
+                    rb.position.y >= jumpY + maxJumpHeight &&
+                    rb.linearVelocity.y > 0
+                ) {
+                    rb.linearVelocity = new Vector3(
+                        0, rb.linearVelocity.y * 0.5f, rb.linearVelocity.z
+                    );
+                }
+            }
         }
         // When the player is falling (and not wall sliding)
         // else if ((rb.linearVelocity.y < 0 && !isWallSliding)) // Falling
-        // {
-        //     rb.linearVelocity += (
-        //         Vector3.up * Physics.gravity.y * fallGravityScale *
-        //         Time.deltaTime
-        //     );
-        // }
+        else if (rb.linearVelocity.y < 0) // Falling
+        {
+            rb.linearVelocity += (
+                Vector3.up * Physics.gravity.y * fallGravityScale *
+                Time.deltaTime
+            );
+        }
         // else if (isWallSliding && rb.linearVelocity.y <= 0) {
         //     rb.linearVelocity = new Vector3(
         //         0, -wallSlideSpeed, rb.linearVelocity.z
