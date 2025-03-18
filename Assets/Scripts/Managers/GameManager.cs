@@ -270,7 +270,9 @@ public class GameManager : MonoBehaviour
         float healthFraction = (float)health / maxHealth;
         float adjustedDropChance = 1.06371f * Mathf.Pow(0.188022f, healthFraction);
         // Debug.Log("health fraction: " + healthFraction + ", new chance: " + adjustedDropChance);
-        EnemyManager.instance.SetHealthPackDropChance(adjustedDropChance);
+        if (EnemyManager.instance != null) {
+            EnemyManager.instance.SetHealthPackDropChance(adjustedDropChance);
+        }
     }
 
     public void SetPlayerDamageEnabled(bool b)
