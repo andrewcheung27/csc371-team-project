@@ -216,6 +216,9 @@ public class GameManager : MonoBehaviour
         // update health with min and max restrictions
         health = Mathf.Clamp(health + n, minHealth, easyMode ? easyModeMaxHealth : maxHealth);
 
+        // dynamic difficulty adjustment with health pack drop chance
+        UpdateHealthPackDropChance();
+
         // update health bar
         if (healthBar != null) {
             healthBar.SetHealth(health);
@@ -252,6 +255,22 @@ public class GameManager : MonoBehaviour
             KillPlayer();
             return;
         }
+    }
+
+    void UpdateHealthPackDropChance()
+    {
+        // don't bother on easy mode
+        if (easyMode) {
+            return;
+        }
+
+        // update chance for health pack drops using the equation: y=1.06371*0.188022^{x}
+        // we used Desmos to make this Exponential Regression equation.
+        // there will be an 90% chance to drop a health pack at 10% health, and a 20% chance to drop a health pack at full health.
+        float healthFraction = (float)health / maxHealth;
+        float adjustedDropChance = 1.06371f * Mathf.Pow(0.188022f, healthFraction);
+        // Debug.Log("health fraction: " + healthFraction + ", new chance: " + adjustedDropChance);
+        EnemyManager.instance.SetHealthPackDropChance(adjustedDropChance);
     }
 
     public void SetPlayerDamageEnabled(bool b)
@@ -297,6 +316,9 @@ public class GameManager : MonoBehaviour
 
         // reset health for respawning
         health = startingHealth;
+
+        // reset health drop chance
+        UpdateHealthPackDropChance();
 
         if (healthBar != null) {
             healthBar.SetMaxHealth(easyMode ? easyModeMaxHealth : maxHealth);
