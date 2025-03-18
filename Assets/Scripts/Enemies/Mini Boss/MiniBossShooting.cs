@@ -136,4 +136,9 @@ public class MiniBossShooting : MonoBehaviour
     {
         isShooting = false;
     }
+
+    public void AddToProjectileSpeed(int n)
+    {
+        projectileSpeed += n;
+    }
 }
