@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using UnityEngine.SceneManagement;  // Added for scene switching.
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;  // Added for scene switching.
 
 public class CutsceneController : MonoBehaviour {
     [Header("Effects & Panels")]
@@ -45,7 +46,15 @@ public class CutsceneController : MonoBehaviour {
         }
         StartCoroutine(RunCutscene());
     }
-    
+
+    void Update()
+    {
+        // skip cutscene by clicking mouse
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) {
+            GoToNextScene();
+        }
+    }
+
     IEnumerator RunCutscene() {
         // --- Screen Turn On ---
         scanlineEffect.SetActive(true);
@@ -137,7 +146,7 @@ public class CutsceneController : MonoBehaviour {
         infoBox.SetActive(false);
         
         // Automatically switch to the next scene.
-        SceneManager.LoadScene("1 - Freezer");
+        GoToNextScene();
     }
     
     // Wait actively: unpause audio, wait for duration, then pause.
@@ -277,5 +286,10 @@ public class CutsceneController : MonoBehaviour {
             yield return new WaitForSeconds(1.5f);
         }
         yield return null;
+    }
+
+    void GoToNextScene()
+    {
+        SceneManager.LoadScene("1 - Freezer");
     }
 }
