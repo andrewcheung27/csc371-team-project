@@ -554,13 +554,6 @@ MonoBehaviour:
   gravityScale: 1
   apexGravityScale: 0.75
   fallGravityScale: 2
-  wallSlideSpeed: 2
-  wallJumpForce: 10
-  wallJumpHorizontalBoost: 10
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  isWallSliding: 0
   groundCheck: {fileID: 9021636119267571449}
   groundCheckRadius: 0.5
   groundMask:
@@ -616,7 +609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHolder: {fileID: 3031459471144834301}
-  firePoint: {fileID: 0}
   shootingCooldown: 0.5
   alwaysAim: 1
 --- !u!108 &7397632124531114815
