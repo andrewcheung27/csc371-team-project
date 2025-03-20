@@ -971,13 +971,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Created By\nAndrew Cheung\nPeter Mazolewski\nDeja Dominguez\nDaniel Casares-Iglesias\n
-    \nParticle Effects\nGabriel Aguiar Prod.\n\nSound Effects\nArtninja\nFunWithSound\nJoelAudio\nMerrick079\nReincarnatedEchoes\nShangASDFGuy123\nYouTube
+    \nParticle Effects\nGabriel Aguiar Prod.\n\nSound Effects\nArtninja\nFunWithSound\nJoelAudio\nMellau\nMerrick079\nReincarnatedEchoes\nShangASDFGuy123\nYouTube
     Audio Library\nZapSplat\n\nMusic\nLevel 1 - \u201CApocalyptic Echoes\u201D by
     Jimena Contreras\nLevel 2 - \u201CImperial Forces\u201D by Aaron Kenny\nLevel
     3 - \u201CTaking Chances\u201D by The Soundings\nLevel 4 - \u201CKeep Climbing\u201D
     by The Soundings\nBoss - \u201CThe Challenger\u201D by the Soundings\nBoss -
     \u201CChallenge Accepted\u201D by The Soundings\nCredits - \u201CWelcome Home\u201D
-    by Nathan Moore\n\nSpecial Thanks\nProfessor Michael Haungs - Game Design Instruction\nskGameDev
+    by Nathan Moore\n\nSpecial Thanks\nMichael Haungs - Game Design Instruction\nskGameDev
     - Scrolling Credits Tutorial"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
