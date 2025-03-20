@@ -53,7 +53,6 @@ MonoBehaviour:
   maxHealth: 9
   easyModeMaxHealth: 1000000000
   healthBar: {fileID: 0}
-  score: 0
   deathPenalty: 100
   scorePopUpPrefab: {fileID: 0}
   scorePopUpDuration: 2
@@ -100,9 +99,11 @@ MonoBehaviour:
   volume: 0.75
   backgroundMusicAudioSource: {fileID: 4535120932897980232}
   backgroundMusicToPlayOnce: {fileID: 0}
+  backgroundMusicToPlayOnceEarlyCutoff: 0
   backgroundMusicToLoop: {fileID: 0}
   backgroundMusicAlternate: {fileID: 0}
   playerShoot: {fileID: 8300000, guid: b11438c0128434874aa91e9f37111c06, type: 3}
+  playerDash: {fileID: 8300000, guid: add06c9ab447e4b58ba8f53c3be6dcaf, type: 3}
   hunterAttack: {fileID: 8300000, guid: e9824a5bd73814829b947f7c014e1599, type: 3}
   hunterDeath: {fileID: 8300000, guid: afb3f59115d54497c964ef5511fd96dc, type: 3}
   spitterDeath: {fileID: 8300000, guid: 5ef258addb3e241c4b40f7a3771acdb6, type: 3}
@@ -129,7 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueImage: {fileID: 0}
   dialogueText: {fileID: 0}
-  dialogueTime: 3
 --- !u!114 &4748616117557485209
 MonoBehaviour:
   m_ObjectHideFlags: 0

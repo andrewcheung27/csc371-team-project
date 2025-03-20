@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
 
     [Header ("Player Audio Clips")]
     public AudioClip playerShoot;
+    public AudioClip playerDash;
     public AudioClip hunterAttack;
     public AudioClip hunterDeath;
     public AudioClip spitterDeath;
@@ -176,6 +177,11 @@ public class AudioManager : MonoBehaviour
     public void PlayerShoot()
     {
         PlaySound(playerShoot);
+    }
+
+    public void PlayerDash()
+    {
+        PlaySound(playerDash, 10f);
     }
 
     public void HunterAttack()
