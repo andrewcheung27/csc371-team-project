@@ -431,6 +431,9 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         dashTimer = DASHTIME;
         numDashesUsed += 1;
+
+        // play sound
+        AudioManager.instance.PlayerDash();
     }
 
     void HandleJump()
