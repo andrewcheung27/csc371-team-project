@@ -1,11 +1,12 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;  // Added for scene switching.
 
 public class CutsceneController : MonoBehaviour {
     [Header("Effects & Panels")]
     public GameObject scanlineEffect;    // Scanline effect panel.
-    public GameObject infoBox;           // Panel for captain (crew member) info.
+    public GameObject infoBox;           // Panel for crew info.
     
     [Header("Scrolling & Typewriter Text")]
     public TextMeshProUGUI scrollingText;   // Scrolling text element.
@@ -14,11 +15,16 @@ public class CutsceneController : MonoBehaviour {
     [Header("Warning Symbol")]
     public UnityEngine.UI.Image warningSymbol; // Warning symbol image.
     
-    [Header("Captain Info")]
+    [Header("Captain Info (Legacy)")]
+    // (Not used after switching to multi-crew info; do not change any code not related to the crew switching.)
     public UnityEngine.UI.Image captainImage;    // Captain’s profile image.
     public TextMeshProUGUI captainName;            // Captain’s name text.
-    public TextMeshProUGUI captainInfo;            // Additional crew info (smaller text).
     public TextMeshProUGUI statusText;             // Text for cycling statuses.
+    
+    [Header("Crew Member Info")]
+    // New arrays for unique crew member images and names (index 0 = Captain, 1 = Executive Officer, 2 = Chief Engineer, 3 = Chief Scientist).
+    public UnityEngine.UI.Image[] crewMemberImages;
+    public TextMeshProUGUI[] crewMemberNames;
     
     [Header("Typing Sound")]
     public AudioSource typingAudio; // AudioSource with your looping typing .wav.
@@ -86,35 +92,52 @@ public class CutsceneController : MonoBehaviour {
         
         // --- Flash Warning Symbol ---
         warningSymbol.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        warningSymbol.gameObject.SetActive(false);
+        // Get the parent GameObject of the warning symbol.
+        GameObject warningParent = warningSymbol.transform.parent.gameObject;
+
+        // Activate the parent so that its script runs.
+        warningParent.SetActive(true);
+
+        // Get the WarningFlasher component attached to the parent.
+        WarningFlasher flasher = warningParent.GetComponent<WarningFlasher>();
+        if (flasher != null) {
+            flasher.StartFlashing();
+        }
+        // yield return new WaitForSeconds(1f);
+        // warningSymbol.gameObject.SetActive(false);
         
         // --- Clear Ship Status Messages ---
         yield return StartCoroutine(ClearTextLineByLine());
         typewriterText.gameObject.SetActive(false);
-        scrollingText.gameObject.SetActive(false);
+        // scrollingText.gameObject.SetActive(false);
         
-        // --- Show Captain Info (Crew Member Details) ---
+        // --- Show Crew Member Info ---
         infoBox.SetActive(true);
-        captainName.gameObject.SetActive(true);
-        captainImage.gameObject.SetActive(true);
+        // Disable legacy captain info.
+        if (captainName != null) captainName.gameObject.SetActive(false);
+        if (captainImage != null) captainImage.gameObject.SetActive(false);
         statusText.gameObject.SetActive(true);
-        captainInfo.gameObject.SetActive(true);
         
-        captainName.text = "Captain Reynolds";
-        // Extra info in smaller text.
-        captainInfo.text = "<size=80%>A seasoned veteran with 20 years of interstellar command experience.</size>";
+        // Enable the first crew member info (Captain) from the new arrays.
+        if (crewMemberNames != null && crewMemberNames.Length > 0) {
+            crewMemberNames[0].gameObject.SetActive(true);
+        }
+        if (crewMemberImages != null && crewMemberImages.Length > 0) {
+            crewMemberImages[0].gameObject.SetActive(true);
+        }
         
         // --- Cycle Through Statuses (with caret indicator; no sound during dot cycles) ---
         yield return StartCoroutine(CycleStatus());
         
-        // --- Final Captain Status Message ---
+        // --- Final Crew Status Message ---
         yield return StartCoroutine(TypeTextOnStatus("Beginning defrosting... Success"));
         yield return new WaitForSeconds(2f);
         
         // --- End Cutscene ---
         infoBox.SetActive(false);
-        // (Transition to next scene or enable player controls.)
+        
+        // Automatically switch to the next scene.
+        SceneManager.LoadScene("1 - Freezer");
     }
     
     // Wait actively: unpause audio, wait for duration, then pause.
@@ -212,11 +235,29 @@ public class CutsceneController : MonoBehaviour {
         yield return null;
     }
     
-    // Cycles through crew roles, displaying a dot-loading effect with a caret.
-    // No sound is played during the dot-cycle.
+    // Cycles through crew roles, updating the displayed crew member image and name,
+    // and displaying a dot-loading effect with a caret (no sound during dot-cycle).
     IEnumerator CycleStatus() {
         string[] roles = { "Captain", "Executive Officer", "Chief Engineer", "Chief Scientist" };
         for (int i = 0; i < roles.Length; i++) {
+            // Update crew info to display the current crew member.
+            if (crewMemberImages != null) {
+                foreach (var img in crewMemberImages) {
+                    img.gameObject.SetActive(false);
+                }
+                if (i < crewMemberImages.Length) {
+                    crewMemberImages[i].gameObject.SetActive(true);
+                }
+            }
+            if (crewMemberNames != null) {
+                foreach (var txt in crewMemberNames) {
+                    txt.gameObject.SetActive(false);
+                }
+                if (i < crewMemberNames.Length) {
+                    crewMemberNames[i].gameObject.SetActive(true);
+                }
+            }
+            
             string baseText = roles[i] + " Status: ";
             float dotCycleDuration = 1.5f;
             float dotCycleInterval = 0.5f;
@@ -231,7 +272,7 @@ public class CutsceneController : MonoBehaviour {
                         break;
                 }
             }
-            string finalStatus = (roles[i] == "Chief Scientist") ? " Operational" : " Deceased";
+            string finalStatus = (roles[i] == "Chief Scientist") ? " Stable" : " Deceased";
             statusText.text = baseText + finalStatus;
             yield return new WaitForSeconds(1.5f);
         }
